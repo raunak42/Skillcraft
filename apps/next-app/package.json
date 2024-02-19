@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "db": "*",
     "ui": "*",
     "react": "^18",
     "react-dom": "^18",
