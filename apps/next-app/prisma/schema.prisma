@@ -11,21 +11,41 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
-  avatar           String
-  username         String
-  password         String
-  email            String?   @unique
-  purchasedCourses Course[]
+  id        String        @id
+  // avatar           String
+  username  String
+  // password         String
+  // email            String?       @unique
+  // purchasedCourses Course[]
+  sessions  userSession[]
+  github_id Int           @unique
+  // Course    Course[]
+}
+
+model userSession {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id]) //this has to be named `u`ser is it is to refernece `U`ser. If it were to reference `U`serAuth, it would have to be named `u`serAuth. Says the lucia docs, they also say it comes from prisma and they aren't gonna fix it bcoz they didn't do it. I personally don't see any problem.
 }
 
 model Admin {
-  id     Int    @id @default(autoincrement())
-  avatar String
-  username       String
-  password       String
-  email          String?   @unique
-  createdCourses Course[]
+  id        String         @id
+  // avatar         String
+  username  String
+  // password       String
+  // email          String?        @unique
+  // createdCourses Course[]
+  sessions  adminSession[]
+  github_id Int            @unique
+  // Course    Course[]
+}
+
+model adminSession {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  admin     Admin    @relation(fields: [userId], references: [id])
 }
 
 model Course {
@@ -35,8 +55,4 @@ model Course {
   imageLink   String?
   price       Decimal
   published   Boolean
-  User        User?   @relation(fields: [userId], references: [id])
-  userId      Int?
-  Admin       Admin?  @relation(fields: [adminId], references: [id])
-  adminId     Int?
 }
