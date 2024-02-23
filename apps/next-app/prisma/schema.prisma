@@ -10,16 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model OAuthAccount {
+  providerId     String
+  providerUserId Float  @unique
+  user           User   @relation(fields: [user_id], references: [id])
+  user_id        String
+
+  @@id([providerId, providerUserId])
+}
+
 model User {
-  id        String        @id
+  id           String         @id
   // avatar           String
-  username  String
+  username     String
   // password         String
   // email            String?       @unique
   // purchasedCourses Course[]
-  sessions  userSession[]
-  github_id Int           @unique
+  sessions     userSession[]
+  // github_id    Int            @unique
   // Course    Course[]
+  OAuthAccount OAuthAccount[]
 }
 
 model userSession {
@@ -30,14 +40,14 @@ model userSession {
 }
 
 model Admin {
-  id        String         @id
+  id       String         @id
   // avatar         String
-  username  String
+  username String
   // password       String
   // email          String?        @unique
   // createdCourses Course[]
-  sessions  adminSession[]
-  github_id Int            @unique
+  sessions adminSession[]
+  // github_id Int            @unique
   // Course    Course[]
 }
 

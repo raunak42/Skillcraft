@@ -2,44 +2,48 @@
 import { Lucia, User } from "lucia";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import prisma from "./lib/prisma";
-import { GitHub } from "arctic";
+import { GitHub, Google } from "arctic";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { Session } from "lucia";
 
+const redirectURI = "http://localhost:3000/login/google/callback";
+
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
+export const google = new Google(process.env.GOOGLE_CLIENT_ID!, process.env.GOOGLE_CLIENT_SECRET!, redirectURI)
+
 
 const adapter = new PrismaAdapter(prisma.userSession, prisma.user)  // your adapter
 
 export const lucia = new Lucia(adapter, {
-    sessionCookie: {
-        // this sets cookies with super long expiration
-        // since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
-        expires: false,
-        attributes: {
-            // set to `true` when using HTTPS
-            secure: process.env.NODE_ENV === "production"
-        }
-    },
-    getUserAttributes: (attributes) => {
-        return {
-            // attributes has the type of DatabaseUserAttributes
-            githubId: attributes.github_id,
-            username: attributes.username
-        };
-    }
+	sessionCookie: {
+		// this sets cookies with super long expiration
+		// since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
+		expires: false,
+		attributes: {
+			// set to `true` when using HTTPS
+			secure: process.env.NODE_ENV === "production"
+		}
+	},
+	getUserAttributes: (attributes) => {
+		return {
+			// attributes has the type of DatabaseUserAttributes
+			providerId: attributes.providerId,
+			username: attributes.username
+		};
+	}
 });
 
 // IMPORTANT!
 declare module "lucia" {
-    interface Register {
-        Lucia: typeof lucia;
-        DatabaseUserAttributes: DatabaseUserAttributes
-    }
-    interface DatabaseUserAttributes {
-        github_id: string;
-        username: string;
-    }
+	interface Register {
+		Lucia: typeof lucia;
+		DatabaseUserAttributes: DatabaseUserAttributes
+	}
+	interface DatabaseUserAttributes {
+		providerId: string;
+		username: string;
+	}
 }
 
 export const validateRequest = cache(
@@ -63,7 +67,7 @@ export const validateRequest = cache(
 				const sessionCookie = lucia.createBlankSessionCookie();
 				cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 			}
-		} catch(error) {
+		} catch (error) {
 			console.error(error)
 		}
 		return result;

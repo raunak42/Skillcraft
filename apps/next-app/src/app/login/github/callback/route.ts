@@ -10,6 +10,11 @@ export async function GET(request: Request): Promise<Response> {
     const code = url.searchParams.get("code");
     const state = url.searchParams.get("state");
     const storedState = cookies().get("github_oauth_state")?.value ?? null;
+
+    console.log({ url })
+    console.log({ code })
+    console.log({ state })
+    console.log({ storedState })
     if (!code || !state || !storedState || state !== storedState) {
         return new Response(null, {
             status: 400
@@ -23,18 +28,20 @@ export async function GET(request: Request): Promise<Response> {
                 Authorization: `Bearer ${tokens.accessToken}`
             }
         });
+
         const githubUser: GitHubUser = await githubUserResponse.json();
-        console.log("githubUser ", githubUser)
+        // console.log("githubUser ", githubUser)
 
         // Replace this with your own DB client.
-        const existingUser = await prisma.user.findUnique({
+        const existingUser = await prisma.oAuthAccount.findUnique({
             where: {
-                github_id: githubUser.id
+                providerId: "github",
+                providerUserId: githubUser.id
             }
         })
 
         if (existingUser) {
-            const session = await lucia.createSession(existingUser.id, {});
+            const session = await lucia.createSession(existingUser.user_id, {});
             const sessionCookie = lucia.createSessionCookie(session.id);
             cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
             return new Response(null, {
@@ -47,21 +54,20 @@ export async function GET(request: Request): Promise<Response> {
 
         const userId = generateId(15);
 
-        // Replace this with your own DB client.
-        // await db.table("user").insert({
-        //     id: userId
-        //     github_id: githubUser.id,
-        //     username: githubUser.login
-        // });
-
         await prisma.user.create({
             data: {
                 id: userId,
-                github_id: githubUser.id,
                 username: githubUser.login,
             }
         });
 
+        await prisma.oAuthAccount.create({
+            data: {
+                providerId: "github",
+                providerUserId: githubUser.id,
+                user_id: userId
+            }
+        })
 
         const session = await lucia.createSession(userId, {});
         console.log("Session: ", session)
