@@ -20,16 +20,16 @@ model OAuthAccount {
 }
 
 model User {
-  id           String         @id
+  id              String         @id
   // avatar           String
-  username     String
-  // password         String
+  username        String
+  hashed_password String         @default("")
   // email            String?       @unique
   // purchasedCourses Course[]
-  sessions     userSession[]
+  sessions        userSession[]
   // github_id    Int            @unique
   // Course    Course[]
-  OAuthAccount OAuthAccount[]
+  OAuthAccount    OAuthAccount[]
 }
 
 model userSession {
@@ -40,13 +40,13 @@ model userSession {
 }
 
 model Admin {
-  id       String         @id
+  id              String         @id
   // avatar         String
-  username String
-  // password       String
+  username        String
+  hashed_password String         @default("")
   // email          String?        @unique
   // createdCourses Course[]
-  sessions adminSession[]
+  sessions        adminSession[]
   // github_id Int            @unique
   // Course    Course[]
 }
