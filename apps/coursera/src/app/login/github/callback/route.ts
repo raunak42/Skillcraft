@@ -1,10 +1,12 @@
 // app/login/github/callback/route.ts
-import { github, lucia } from "@/auth";
+// import { github, lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
-import prisma from "@/lib/prisma";
+import { prisma } from "db"
 import randomUsername from "@/helpers/randomWord";
+import { github, lucia } from "@/auth"
+
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);

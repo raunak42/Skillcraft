@@ -39,25 +39,6 @@ model userSession {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) //this has to be named `u`ser if it is to refernece `U`ser. If it were to reference `U`serAuth, it would have to be named `u`serAuth. Says the lucia docs, they also say it comes from prisma and they aren't gonna fix it bcoz they didn't do it. I personally don't see any problem.
 }
 
-model Admin {
-  id              String         @id
-  // avatar         String
-  username        String         @unique
-  hashed_password String         @default("")
-  email           String?        @unique
-  // createdCourses Course[]
-  sessions        adminSession[]
-  // github_id Int            @unique
-  // Course    Course[]
-}
-
-model adminSession {
-  id        String   @id
-  userId    String
-  expiresAt DateTime
-  admin     Admin    @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Course {
   id          Int     @id @default(autoincrement())
   title       String

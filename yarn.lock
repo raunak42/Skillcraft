@@ -373,6 +373,11 @@
   resolved "https://registry.yarnpkg.com/@lucia-auth/adapter-prisma/-/adapter-prisma-4.0.0.tgz#fe7d9b9e71a812c73103c92bc08fe98534dcc365"
   integrity sha512-TJg4/U1K1slS4A/OzDYCgmHTrIArntIynue14zGIEaMDu+OD+tGyq9WwQWqOabpx2Gm9xtDsoK+tTokAY3Up7A==
 
+"@lucia-auth/oauth@^3.5.3":
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/@lucia-auth/oauth/-/oauth-3.5.3.tgz#bd42117ba74fa3db570fef920254b0ba620bf6f1"
+  integrity sha512-3blBldenf2zXsSJTZUwzB+NxI+0KJljfMHT0WR7hyLNwi4Ijss7F2cQqk2xW1lGH3lzdmsV93ZsY9Yv8ekBRUw==
+
 "@microsoft/tsdoc-config@0.16.2":
   version "0.16.2"
   resolved "https://registry.npmjs.org/@microsoft/tsdoc-config/-/tsdoc-config-0.16.2.tgz"
@@ -994,10 +999,25 @@
     "@types/estree" "*"
     "@types/json-schema" "*"
 
+"@types/eslint@^8.56.3":
+  version "8.56.3"
+  resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.56.3.tgz#d1f6b2303ac5ed53cb2cf59e0ab680cde1698f5f"
+  integrity sha512-PvSf1wfv2wJpVIFUMSb+i4PvqNYkB9Rkp9ZDO3oaWzq4SKhsQk4mrMBr3ZH06I0hKrVGLBacmgl8JM4WVjb9dg==
+  dependencies:
+    "@types/estree" "*"
+    "@types/json-schema" "*"
+
 "@types/estree@*":
   version "1.0.5"
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.5.tgz"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
+
+"@types/faker@^6.6.9":
+  version "6.6.9"
+  resolved "https://registry.yarnpkg.com/@types/faker/-/faker-6.6.9.tgz#1064e7c46be58388fa326e2f918a4f02ab740a7a"
+  integrity sha512-Y9YYm5L//8ooiiknO++4Gr539zzdI0j3aXnOBjo1Vk+kTvffY10GuE2wn78AFPECwZ5MYGTjiDVw1naLLdDimw==
+  dependencies:
+    faker "*"
 
 "@types/glob@^7.1.1":
   version "7.2.0"
@@ -1072,6 +1092,11 @@
   version "7.5.7"
   resolved "https://registry.npmjs.org/@types/semver/-/semver-7.5.7.tgz"
   integrity sha512-/wdoPq1QqkSj9/QOeKkFquEuPzQbHTWAMPH/PaUMB+JuR31lXhlWXRZ52IpfDYVlDOUBvX09uBrPwxGT1hjNBg==
+
+"@types/store@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@types/store/-/store-2.0.5.tgz#451b8ce723b287c34525df79065b4cdd17b43abf"
+  integrity sha512-5NmTKe3GWdOaykzq7no+Ahf6mafJu0oLc9JNhJ3E26+0oFvd6GnksnZQpMXcH526mfG4xDYjFiKzyDL51PzeWQ==
 
 "@types/through@*":
   version "0.0.33"
@@ -2500,6 +2525,11 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
+faker@*, faker@^6.6.6:
+  version "6.6.6"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-6.6.6.tgz#e9529da0109dca4c7c5dbfeaadbd9234af943033"
+  integrity sha512-9tCqYEDHI5RYFQigXFwF1hnCwcWCOJl/hmll0lr5D2Ljjb0o4wphb69wikeJDz5qCEzXCoPvG6ss5SDP6IfOdg==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
@@ -3532,6 +3562,11 @@ lru-cache@^7.14.1:
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz"
   integrity sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==
 
+lucia-auth@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/lucia-auth/-/lucia-auth-1.8.0.tgz#075c01d4b4c4eee1622f2b6534100cdde983a5d0"
+  integrity sha512-zI8gT2AOpxTPIxYzToEdgoht+GOflrduZiHPsOEmg4/2pThOyCW3o3lXh+Uwh20tJ9QoXwQe9/Omn6PlUG6efw==
+
 lucia@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lucia/-/lucia-3.0.1.tgz#28d283275cf1e8867e9f29d5c8f7cfd053424abf"
@@ -3666,7 +3701,7 @@ netmask@^2.0.2:
   resolved "https://registry.npmjs.org/netmask/-/netmask-2.0.2.tgz"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-next@14.1.0, next@^14.0.4:
+next@14.1.0, next@^14.0.4, next@^14.1.0:
   version "14.1.0"
   resolved "https://registry.npmjs.org/next/-/next-14.1.0.tgz"
   integrity sha512-wlzrsbfeSU48YQBjZhDzOwhWhGsy+uQycR8bHAOt1LY1bn3zZEcDyHQOEoN3aWzQ8LHCAJ1nqrWCc9XF2+O45Q==
@@ -4173,6 +4208,18 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+random-word-slugs@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/random-word-slugs/-/random-word-slugs-0.1.7.tgz#2d5b6e9a5c4269b4da9115a69999d2334b2179ea"
+  integrity sha512-8cyzxOIDeLFvwSPTgCItMXHGT5ZPkjhuFKUTww06Xg1dNMXuGxIKlARvS7upk6JXIm41ZKXmtlKR1iCRWklKmg==
+
+random-words@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/random-words/-/random-words-2.0.1.tgz#cc4564385d040c9fad2b817621a0041a1ecc90f6"
+  integrity sha512-nZNJAmgcFmtJMTDDIUCm/iK4R6RydC6NvALvWhYItXQrgYGk1F7Gww416LpVROFQtfVd5TaLEf4WuSsko03N7w==
+  dependencies:
+    seedrandom "^3.0.5"
+
 rc@^1.0.1, rc@^1.1.6:
   version "1.2.8"
   resolved "https://registry.npmjs.org/rc/-/rc-1.2.8.tgz"
@@ -4417,6 +4464,11 @@ scheduler@^0.23.0:
   integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
   dependencies:
     loose-envify "^1.1.0"
+
+seedrandom@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-3.0.5.tgz#54edc85c95222525b0c7a6f6b3543d8e0b3aa0a7"
+  integrity sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==
 
 "semver@2 || 3 || 4 || 5":
   version "5.7.2"

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["ui", "db", "store"],
+  transpilePackages: ["ui", "db", "store", "auth"],
   webpack: (config) => {
     config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");
     return config;
