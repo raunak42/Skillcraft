@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import prisma from "@/lib/prisma";
+import randomUsername from "@/helpers/randomWord";
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -30,13 +31,12 @@ export async function GET(request: Request): Promise<Response> {
         });
 
         const githubUser: GitHubUser = await githubUserResponse.json();
-        // console.log("githubUser ", githubUser)
+        console.log("githubUser ", githubUser)
 
-        // Replace this with your own DB client.
         const existingUser = await prisma.oAuthAccount.findUnique({
             where: {
                 providerId: "github",
-                providerUserId: githubUser.id
+                providerUserId: githubUser.id,
             }
         })
 
@@ -57,7 +57,7 @@ export async function GET(request: Request): Promise<Response> {
         await prisma.user.create({
             data: {
                 id: userId,
-                username: githubUser.login,
+                username: randomUsername,
             }
         });
 

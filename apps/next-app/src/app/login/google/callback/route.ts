@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import prisma from "@/lib/prisma";
+import randomWord from "@/helpers/randomWord";
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -63,7 +64,8 @@ export async function GET(request: Request): Promise<Response> {
         await prisma.user.create({
             data: {
                 id: userId,
-                username: googleUser.name,
+                username: randomWord,
+                email: googleUser.email
             }
         });
 
@@ -104,7 +106,8 @@ interface GoogleUser {
     id: string;
     sub: string;
     login: string;
-    name: string
+    name: string;
+    email: string;
 }
 
 
