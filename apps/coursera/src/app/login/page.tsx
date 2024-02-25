@@ -2,7 +2,7 @@ import { lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
-import { prisma } from "db";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   return (

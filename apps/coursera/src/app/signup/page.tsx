@@ -3,7 +3,7 @@ import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   return (

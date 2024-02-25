@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
-import { prisma } from "db"
+import { prisma } from "@/lib/prisma"
 import randomUsername from "@/helpers/randomWord";
 import { github, lucia } from "@/auth"
 

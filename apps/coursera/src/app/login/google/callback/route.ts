@@ -3,7 +3,7 @@ import { google, lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
-import {prisma} from "db"
+import { prisma } from "@/lib/prisma"
 import randomWord from "@/helpers/randomWord";
 
 export async function GET(request: Request): Promise<Response> {
