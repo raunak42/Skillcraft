@@ -3,7 +3,7 @@ import { google, lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
-import prisma from "@/lib/prisma";
+import {prisma} from "db"
 import randomWord from "@/helpers/randomWord";
 
 export async function GET(request: Request): Promise<Response> {
@@ -111,10 +111,3 @@ interface GoogleUser {
 }
 
 
-"https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=1080959343984-dvnipj09v9oaeiuek4g80g9t85ed01ub.apps.googleusercontent.com&state=WSmUpbzGy_MS9s8F3CIQxgi5YGvuQK-f39ePgLBGyuA&scope=openid&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&code_challenge_method=S256&code_challenge=lK_sN0R1ZRhp8rg_yPxddSyi9WL3S5_KRQliPBLJG2w&nonce=_&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow"
-
-"https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=1080959343984-dvnipj09v9oaeiuek4g80g9t85ed01ub.apps.googleusercontent.com&state=JLVEfJFROOevoAhJ7XgUbdrU1SMqRyab5SjeCu-R8Z8&scope=openid&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&code_challenge_method=S256&code_challenge=HyjLmm2nG0y7GJiPe7zV0SpH1ti3E8x_diqkWAky_n8&nonce=_&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow"
-
-"http://localhost:3000/login?state=JLVEfJFROOevoAhJ7XgUbdrU1SMqRyab5SjeCu-R8Z8&code=4%2F0AeaYSHBo4lWba-kha0zxwJDMH2N1Om-c68Ety36Rl9LGaRy56M8y_Nd6GRl28tAp0IDgCw&scope=openid&authuser=3&prompt=consent"
-
-"http://localhost:3000/login?state=WSmUpbzGy_MS9s8F3CIQxgi5YGvuQK-f39ePgLBGyuA&code=4%2F0AeaYSHBS_hdssvR3b9jZIdQHz73Yl5wzaGRgUOvrjmZLLZ99zgvH08i72AuG0cLcm1GK8w&scope=openid&authuser=0&prompt=consent"

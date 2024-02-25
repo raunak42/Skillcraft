@@ -2,7 +2,9 @@
 import { generateState, generateCodeVerifier } from "arctic";
 import { google } from "@/auth";
 import { cookies } from "next/headers";
+import * as dotenv from "dotenv";
 
+dotenv.config();
 export async function GET(): Promise<Response> {
     const state = generateState();
     const codeVerifier = generateCodeVerifier();

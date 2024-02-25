@@ -3,9 +3,10 @@ import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { prisma } from "db"
 import { Lucia, User, Session } from "lucia";
 import { cookies } from "next/headers"
-import { cache } from "react"
+import { cache } from "react";
+import * as dotenv from "dotenv";
 
-
+dotenv.config();
 const redirectURI = "http://localhost:3000/login/google/callback";
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
