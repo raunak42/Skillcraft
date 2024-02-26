@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
 }
 
 model OAuthAccount {
@@ -19,17 +19,24 @@ model OAuthAccount {
   @@id([providerId, providerUserId])
 }
 
+model AdminOAuthAccount {
+  providerId     String
+  providerUserId Float  @unique
+  admin          Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  admin_id       String
+
+  @@id([providerId, providerUserId])
+}
+
 model User {
-  id              String         @id
-  // avatar           String
-  username        String         @unique
-  hashed_password String         @default("")
-  email           String?        @unique
-  // purchasedCourses Course[]
-  sessions        userSession[]
-  // github_id    Int            @unique
-  // Course    Course[]
-  OAuthAccount    OAuthAccount[]
+  id               String         @id
+  avatar           String?
+  username         String         @unique
+  hashed_password  String         @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
+  email            String?        @unique
+  purchasedCourses Course[]
+  sessions         userSession[]
+  OAuthAccount     OAuthAccount[]
 }
 
 model userSession {
@@ -39,6 +46,24 @@ model userSession {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) //this has to be named `u`ser if it is to refernece `U`ser. If it were to reference `U`serAuth, it would have to be named `u`serAuth. Says the lucia docs, they also say it comes from prisma and they aren't gonna fix it bcoz they didn't do it. I personally don't see any problem.
 }
 
+model Admin {
+  id              String              @id
+  avatar          String?
+  username        String              @unique
+  hashed_password String              @default("")
+  email           String?             @unique
+  createdCourses  Course[]
+  sessions        AdminSession[]
+  OAuthAccount    AdminOAuthAccount[]
+}
+
+model AdminSession {
+  id        String   @id
+  adminId   String
+  expiresAt DateTime
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade) //this has to be named `a`dmin if it is to refernece `A`dmin.
+}
+
 model Course {
   id          Int     @id @default(autoincrement())
   title       String
@@ -46,4 +71,8 @@ model Course {
   imageLink   String?
   price       Decimal
   published   Boolean
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
+  Admin       Admin?  @relation(fields: [adminId], references: [id])
+  adminId     String?
 }
