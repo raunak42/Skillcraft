@@ -14,13 +14,10 @@ async function logout(): Promise<ActionResult> {
   "use server";
   const { session } = await validateRequest();
   if (!session) {
-    console.log("No ongoing session.");
     return {
       error: "Unauthorized",
     };
   }
-
-  console.log(session.userId);
 
   await lucia.invalidateSession(session.id);
 

@@ -16,6 +16,5 @@ export async function GET(): Promise<Response> {
 		maxAge: 60 * 10,
 		sameSite: "lax"
 	});
-	console.log("URL: ", url)
 	return Response.redirect(url);
 }

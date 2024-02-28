@@ -14,10 +14,6 @@ export async function GET(request: Request): Promise<Response> {
     const state = url.searchParams.get("state");
     const storedState = cookies().get("github_oauth_state")?.value ?? null;
 
-    console.log({ url })
-    console.log({ code })
-    console.log({ state })
-    console.log({ storedState })
     if (!code || !state || !storedState || state !== storedState) {
         return new Response(null, {
             status: 400
@@ -33,7 +29,6 @@ export async function GET(request: Request): Promise<Response> {
         });
 
         const githubUser: GitHubUser = await githubUserResponse.json();
-        console.log("githubUser ", githubUser)
 
         const existingUser = await prisma.oAuthAccount.findUnique({
             where: {
@@ -72,7 +67,6 @@ export async function GET(request: Request): Promise<Response> {
         })
 
         const session = await lucia.createSession(userId, {});
-        console.log("Session: ", session)
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         return new Response(null, {

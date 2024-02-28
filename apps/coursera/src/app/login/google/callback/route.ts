@@ -16,28 +16,21 @@ export async function GET(request: Request): Promise<Response> {
     const storedState = cookies().get("google_oauth_state")?.value ?? null;
     const codeVerifier = cookies().get("google_oauth_codeVerifier")?.value ?? null;
 
-    console.log({ url })
-
     if (!code || !state || !scope || !authuser || !prompt || !storedState || !codeVerifier || state !== storedState) {
-        console.log(0.2)
         return new Response(null, {
             status: 400
         });
     }
 
     try {
-        console.log(1)
         const tokens = await google.validateAuthorizationCode(code, codeVerifier);
-        console.log(2)
         const googleUserResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
             headers: {
                 Authorization: `Bearer ${tokens.accessToken}`
             }
         });
-        console.log(3)
 
         const googleUser: GoogleUser = await googleUserResponse.json();
-        console.log("googleUser ", googleUser)
 
         // Replace this with your own DB client.
         const existingUser = await prisma.oAuthAccount.findUnique({
@@ -78,7 +71,6 @@ export async function GET(request: Request): Promise<Response> {
         })
 
         const session = await lucia.createSession(userId, {});
-        console.log("Session: ", session)
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         return new Response(null, {

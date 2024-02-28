@@ -1,5 +1,13 @@
-import Image from "next/image";
+"use client";
 
 export default function Home() {
-  return <div></div>
+  const makeApiCall = async () => {
+    await fetch("/api/getCourses", {
+      method: "POST",
+      body: JSON.stringify({ "hello": "world" }),
+    });
+
+  };
+
+  return<button onClick={makeApiCall}>make call</button>
 }

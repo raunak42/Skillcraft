@@ -14,8 +14,6 @@ export async function GET(): Promise<Response> {
     ]
 
     const url = await google.createAuthorizationURL(state, codeVerifier, { scopes })
-    console.log(url)
-    console.log(codeVerifier)
 
     cookies().set("google_oauth_state", state, {
         path: "/",
