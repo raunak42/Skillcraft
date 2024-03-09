@@ -1,5 +1,3 @@
-import { validateRequest } from "@/auth";
-import { middleware } from "@/middleware";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
