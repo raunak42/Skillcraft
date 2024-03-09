@@ -10,11 +10,9 @@ export async function middleware(request: NextRequest, response: NextResponse): 
 
 	const { session, user } = await validateRequest();
 	if (session) {
-		console.log("session exists")
 		const response = NextResponse.next();
 		response.headers.set("session-data", JSON.stringify({ session, user }))
 		if (request.method === "GET") {
-			console.log("get request")
 			return NextResponse.next();
 		}
 		const originHeader = request.headers.get("Origin");

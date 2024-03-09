@@ -6,8 +6,8 @@ export default async function testApiRoutes() {
   //   const details = await validateRequest();
   //   console.log(details);
   const makeApiCall = async () => {
-    await fetch("/api/getCourses", {
-      method: "GET",
+    await fetch("/api/buyCourse/1", {
+      method: "POST",
       // body: JSON.stringify({ userId: "world" }),
     });
   };

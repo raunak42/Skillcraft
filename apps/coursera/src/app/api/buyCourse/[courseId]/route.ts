@@ -1,31 +1,51 @@
 import { prisma } from "@/lib/prisma";
-import { NextRequest } from "next/server";
+import { Session, User } from "lucia";
 
-export async function POST(req: NextRequest, { params }: { params: { courseId: string } }) {
-    const courseId = parseInt(params.courseId);
-    const sessionDataHeader = req.headers.get("session-data") as string;
-    const { session, user } = JSON.parse(sessionDataHeader)
-    if (session) {
-        console.log(session)
-        const loggedInUser = await prisma.user.findUnique({
+export async function POST(req: Request, { params }: { params: { courseId: string } }): Promise<Response> {
+    try {
+        const courseId = parseInt(params.courseId);
+        const sessionDataHeader = req.headers.get("session-data");
+        if (!sessionDataHeader) {
+            return Response.json({ message: "sessionDataHeader not found" }, { status: 400 })
+        }
+        const { session, user }: { session: Session, user: User } = JSON.parse(sessionDataHeader)
+        const userInDb = await prisma.user.findUnique({
             where: {
                 id: session.userId
             },
             include: {
-                courses: {}
+                courses: true
             }
         });
-
-        if (loggedInUser) {
-            const purchasedCourses = loggedInUser.courses
-            const alreadyPurchasedCourse = purchasedCourses.find((t) => t.id === courseId);
-            if (alreadyPurchasedCourse) {
-                return Response.json({ alreadyPurchasedCourse }, { status: 200 })
-            }
-            const courses = purchasedCourses
-            return Response.json({ courses });
-
+        if (!userInDb) {
+            return Response.json({ message: "user does not exist" }, { status: 404 })
         }
+        const purchasedCourses = userInDb.courses
+        const courseAlreadyPurchased = purchasedCourses.find((t) => t.id === courseId);
+        if (courseAlreadyPurchased) {
+            return Response.json({ message: "already purchased the course" }, { status: 409 })
+        }
+        const updateUserCourses = await prisma.user.update({
+            where: {
+                id: session.userId
+            },
+            data: {
+                courses: {
+                    connect: {
+                        id: courseId
+                    }
+                }
+            },
+            include: { //courses will be returned in the updateUserCourses object
+                courses: true
+            }
+        });
+        return Response.json({
+            message: "course purchased successfully",
+            yourCourses: updateUserCourses.courses
+        }, { status: 200 })
+    } catch (error) {
+        console.error(error);
+        return Response.json({ error: "failed" }, { status: 500 })
     }
-    return Response.json({ session })
 }   
