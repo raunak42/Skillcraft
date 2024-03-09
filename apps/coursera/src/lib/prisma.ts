@@ -1,7 +1,7 @@
 import { PrismaClient } from "db";
 import { withAccelerate } from "db"
 
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
 // dotenv.config();
 
 // declare global {
