@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -e ./../../.env  -- next dev --port 3000",
-    "build": "prisma generate && next build",
+    "build": "npx prisma generate --no-engine && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -12,6 +12,7 @@
     "@lucia-auth/adapter-prisma": "^4.0.0",
     "@lucia-auth/oauth": "^3.5.3",
     "@prisma/client": "^5.10.2",
+    "@prisma/extension-accelerate": "^1.0.0",
     "arctic": "^1.2.0",
     "auth": "*",
     "db": "*",
@@ -26,7 +27,9 @@
     "react": "^18",
     "react-dom": "^18",
     "store": "*",
-    "ui": "*"
+    "swr": "^2.2.5",
+    "ui": "*",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.3",

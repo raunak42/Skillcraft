@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model OAuthAccount {
@@ -29,14 +30,14 @@ model AdminOAuthAccount {
 }
 
 model User {
-  id               String         @id
-  avatar           String?
-  username         String         @unique
-  hashed_password  String         @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
-  email            String?        @unique
-  purchasedCourses Course[]
-  sessions         userSession[]
-  OAuthAccount     OAuthAccount[]
+  id              String         @id
+  avatar          String?
+  username        String         @unique
+  hashed_password String         @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
+  email           String?        @unique
+  courses         Course[]
+  sessions        userSession[]
+  OAuthAccount    OAuthAccount[]
 }
 
 model userSession {
@@ -52,7 +53,7 @@ model Admin {
   username        String              @unique
   hashed_password String              @default("")
   email           String?             @unique
-  createdCourses  Course[]
+  createdCourses  Course[] //One-to-many relationship with course
   sessions        AdminSession[]
   OAuthAccount    AdminOAuthAccount[]
 }
@@ -71,8 +72,7 @@ model Course {
   imageLink   String?
   price       Decimal
   published   Boolean
-  User        User?   @relation(fields: [userId], references: [id])
-  userId      String?
-  Admin       Admin?  @relation(fields: [adminId], references: [id])
+  admin       Admin?  @relation(fields: [adminId], references: [id])
   adminId     String?
+  users       User[]
 }

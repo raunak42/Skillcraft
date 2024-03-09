@@ -9,5 +9,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "@prisma/extension-accelerate": "^1.0.0",
+    "prisma": "^5.10.2"
+  }
 }
