@@ -3,10 +3,10 @@ import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { prisma } from "@/lib/prisma"
 import { Lucia, User, Session } from "lucia";
 import { cookies } from "next/headers"
-import { cache } from "react";
 import * as dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
+
 const redirectURI = "http://localhost:3000/login/google/callback";
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
@@ -46,7 +46,23 @@ declare module "lucia" {
     }
 }
 
-export const validateRequest = cache(
+// Memoization object for caching
+const memoizedFunctions: Record<string, any> = {};
+
+// Function to memoize other functions
+function memoize<T extends (...args: any[]) => any>(fn: T): T {
+    const memoizedFn = (...args: Parameters<T>) => {
+        const key = JSON.stringify(args);
+        if (!memoizedFunctions[key]) {
+            memoizedFunctions[key] = fn(...args);
+        }
+        return memoizedFunctions[key];
+    };
+    return memoizedFn as T;
+}
+
+// Function to validate request with memoization
+export const validateRequest = memoize(
     async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
         const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
         if (!sessionId) {
@@ -74,7 +90,8 @@ export const validateRequest = cache(
     }
 );
 
-export const getUser = cache(async () => {
+// Function to get user with memoization
+export const getUser = memoize(async () => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) return null;
     const { user, session } = await lucia.validateSession(sessionId);

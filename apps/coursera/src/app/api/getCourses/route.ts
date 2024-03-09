@@ -1,10 +1,26 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
+//for ssr use
+export async function GET(req: NextRequest) {
 
-export async function POST(req: Request) {
-    const data = await prisma.course.findMany();
-
-    return new Response("OK")
-}
+    const data = await prisma.course.findMany({
+        include: {
+            admin: {
+                select: {
+                    id: true,
+                    username: true,
+                    email: true
+                }
+            },
+            users: {
+                select: {
+                    id: true,
+                    username: true,
+                    email: true
+                }
+            }
+        }
+    });
+    return new Response(JSON.stringify(data))
+}   

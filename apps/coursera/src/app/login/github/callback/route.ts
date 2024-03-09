@@ -5,7 +5,7 @@ import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { prisma } from "@/lib/prisma"
 import randomUsername from "@/helpers/randomWord";
-import { github, lucia } from "@/auth"
+import { getUser, github, lucia, validateRequest } from "@/auth"
 
 
 export async function GET(request: Request): Promise<Response> {
@@ -19,6 +19,7 @@ export async function GET(request: Request): Promise<Response> {
             status: 400
         });
     }
+    console.log(await validateRequest());
 
     try {
         const tokens = await github.validateAuthorizationCode(code);
@@ -69,6 +70,7 @@ export async function GET(request: Request): Promise<Response> {
         const session = await lucia.createSession(userId, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+
         return new Response(null, {
             status: 302,
             headers: {
