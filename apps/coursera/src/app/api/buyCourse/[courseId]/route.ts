@@ -46,6 +46,6 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
         }, { status: 200 })
     } catch (error) {
         console.error(error);
-        return Response.json({ error: "failed" }, { status: 500 })
+        return Response.json({ error: "internal server error" }, { status: 500 })
     }
 }   
