@@ -33,7 +33,7 @@ export async function GET(request: Request): Promise<Response> {
         const googleUser: GoogleUser = await googleUserResponse.json();
 
         // Replace this with your own DB client.
-        const existingUser = await prisma.oAuthAccount.findUnique({
+        const existingUser = await prisma.userOAuthAccount.findUnique({
             where: {
                 providerId: "google",
                 providerUserId: parseFloat(googleUser.id)
@@ -62,7 +62,7 @@ export async function GET(request: Request): Promise<Response> {
             }
         });
 
-        await prisma.oAuthAccount.create({
+        await prisma.userOAuthAccount.create({
             data: {
                 providerId: "google",
                 providerUserId: parseFloat(googleUser.id),
