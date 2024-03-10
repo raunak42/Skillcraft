@@ -70,7 +70,7 @@ model Course {
   title       String
   description String?
   imageLink   String?
-  price       Decimal
+  price       Float
   published   Boolean
   admin       Admin?  @relation(fields: [adminId], references: [id])
   adminId     String?
