@@ -1,42 +1,42 @@
-// app/login/github/callback/route.ts
-// import { github, lucia } from "@/auth";
+// app/login/google/callback/route.ts
+import { google, lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
-import { generateId, Session } from "lucia";
+import { generateId } from "lucia";
 import { prisma } from "@/lib/prisma"
-import randomUsername from "@/helpers/randomWord";
-import { getUser, github, lucia, validateRequest } from "@/auth"
+import randomWord from "@/helpers/randomWord";
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
     const code = url.searchParams.get("code");
     const state = url.searchParams.get("state");
-    const storedState = cookies().get("github_oauth_state")?.value ?? null;
+    const scope = url.searchParams.get("scope");
+    const authuser = url.searchParams.get("authuser");
+    const prompt = url.searchParams.get("prompt");
+    const storedState = cookies().get("google_oauth_state")?.value ?? null;
+    const codeVerifier = cookies().get("google_oauth_codeVerifier")?.value ?? null;
 
-    console.log({ url, code, state, storedState })
-
-
-    if (!code || !state || !storedState || state !== storedState) {
+    if (!code || !state || !scope || !authuser || !prompt || !storedState || !codeVerifier || state !== storedState) {
         return new Response(null, {
             status: 400
         });
     }
-    console.log(await validateRequest());
 
     try {
-        const tokens = await github.validateAuthorizationCode(code);
-        const githubAccountDetails = await fetch("https://api.github.com/user", {
+        const tokens = await google.validateAuthorizationCode(code, codeVerifier);
+        const googleAccountDetails = await fetch("https://www.googleapis.com/userinfo/v2/me", {
             headers: {
                 Authorization: `Bearer ${tokens.accessToken}`
             }
         });
 
-        const githubAccount: GitHubAccount = await githubAccountDetails.json();
+        const googleAccount: GoogleAccount = await googleAccountDetails.json();
 
+        // Replace this with your own DB client.
         const existingAdmin = await prisma.adminOAuthAccount.findUnique({
             where: {
-                providerId: "github",
-                providerUserId: githubAccount.id,
+                providerId: "google",
+                providerUserId: parseFloat(googleAccount.id)
             }
         })
 
@@ -57,14 +57,15 @@ export async function GET(request: Request): Promise<Response> {
         await prisma.admin.create({
             data: {
                 id: adminId,
-                adminname: randomUsername,
+                adminname: randomWord,
+                email: googleAccount.email
             }
         });
 
         await prisma.adminOAuthAccount.create({
             data: {
-                providerId: "github",
-                providerUserId: githubAccount.id,
+                providerId: "google",
+                providerUserId: parseFloat(googleAccount.id),
                 admin_id: adminId
             }
         })
@@ -72,7 +73,6 @@ export async function GET(request: Request): Promise<Response> {
         const session = await lucia.createSession(adminId, {}); //first argument will be interpreted as userId:adminId because lucia.
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-
         return new Response(null, {
             status: 302,
             headers: {
@@ -80,10 +80,8 @@ export async function GET(request: Request): Promise<Response> {
             }
         });
     } catch (e) {
-        // the specific error message depends on the provider
         console.error(e)
         if (e instanceof OAuth2RequestError) {
-            // invalid code
             return new Response(null, {
                 status: 400
             });
@@ -94,7 +92,12 @@ export async function GET(request: Request): Promise<Response> {
     }
 }
 
-interface GitHubAccount {
-    id: number;
+interface GoogleAccount {
+    id: string;
+    sub: string;
     login: string;
+    name: string;
+    email: string;
 }
+
+
