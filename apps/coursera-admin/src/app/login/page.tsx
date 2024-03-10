@@ -55,9 +55,9 @@ async function login(formData: FormData): Promise<ActionResult> {
     };
   }
 
-  const existingUser = await prisma.user.findUnique({
+  const existingUser = await prisma.admin.findUnique({
     where: {
-      username: username,
+      adminname: username,
     },
   });
 
