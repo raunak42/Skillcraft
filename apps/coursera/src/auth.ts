@@ -104,7 +104,8 @@ export const getUser = memoize(async () => {
             const sessionCookie = lucia.createBlankSessionCookie();
             cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         }
-    } catch {
+    } catch (error) {
+        console.error(error)
         // Next.js throws error when attempting to set cookies when rendering page
     }
     return user;

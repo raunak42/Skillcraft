@@ -31,7 +31,7 @@ export async function GET(request: Request): Promise<Response> {
 
         const githubUser: GitHubUser = await githubUserResponse.json();
 
-        const existingUser = await prisma.oAuthAccount.findUnique({
+        const existingUser = await prisma.userOAuthAccount.findUnique({
             where: {
                 providerId: "github",
                 providerUserId: githubUser.id,
@@ -59,7 +59,7 @@ export async function GET(request: Request): Promise<Response> {
             }
         });
 
-        await prisma.oAuthAccount.create({
+        await prisma.userOAuthAccount.create({
             data: {
                 providerId: "github",
                 providerUserId: githubUser.id,
