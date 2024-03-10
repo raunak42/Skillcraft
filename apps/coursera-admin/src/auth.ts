@@ -7,7 +7,8 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const redirectURI = "http://localhost:3000/login/google/callback";
+/*Important*/
+const redirectURI = "http://localhost:3001/login/google/callback"; 
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID_ADMIN!, process.env.GITHUB_CLIENT_SECRET_ADMIN!);
 export const google = new Google(process.env.GOOGLE_CLIENT_ID!, process.env.GOOGLE_CLIENT_SECRET!, redirectURI)
