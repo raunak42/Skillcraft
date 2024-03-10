@@ -1,6 +1,7 @@
 // middleware.ts   
 //the below code first checks if the user is logged in or not
 //then it tries to configure csrf prevention//
+//to send requests from postman, set a header called "origin" to the value of "http://localhost:3000"
 import { verifyRequestOrigin } from "lucia";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";

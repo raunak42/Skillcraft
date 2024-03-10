@@ -1,26 +1,22 @@
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
 
 //for ssr use
-export async function GET(req: NextRequest) {
-
-    const data = await prisma.course.findMany({
-        include: {
-            admin: {
-                select: {
-                    id: true,
-                    username: true,
-                    email: true
-                }
-            },
-            users: {
-                select: {
-                    id: true,
-                    username: true,
-                    email: true
-                }
+export async function GET(req: Request): Promise<Response> {
+    try {
+        const data = await prisma.course.findMany({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                imageLink: true,
+                price: true,
+                published: true,
+                adminId: false
             }
-        }
-    });
-    return new Response(JSON.stringify(data))
+        });
+        return Response.json(data, { status: 200 })
+    } catch (error) {
+        console.error(error)
+        return new Response("internal server error", { status: 500 })
+    }
 }   

@@ -15,6 +15,7 @@
     "@prisma/extension-accelerate": "^1.0.0",
     "arctic": "^1.2.0",
     "auth": "*",
+    "axios": "^1.6.7",
     "db": "*",
     "faker": "^6.6.6",
     "lucia": "^3.0.1",
