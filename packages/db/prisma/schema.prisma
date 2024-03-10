@@ -8,10 +8,28 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
-  directUrl = env("DIRECT_DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL") //---||---
 }
 
-model OAuthAccount {
+model User {
+  id              String             @id
+  avatar          String?
+  username        String             @unique
+  hashed_password String             @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
+  email           String?            @unique
+  courses         Course[]
+  sessions        userSession[]
+  OAuthAccount    UserOAuthAccount[]
+}
+
+model userSession {
+  id        String   @id
+  userId    String //this field has to be named userId, look at the comment below for explanation
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) //this has to be named `u`ser if it is to refernece `U`ser. If it were to reference `U`serAuth, it would have to be named `u`serAuth. Says the lucia docs, they also say it comes from prisma and they aren't gonna fix it bcoz they didn't do it. I personally don't see any problem.
+}
+
+model UserOAuthAccount {
   providerId     String
   providerUserId Float  @unique
   user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -20,37 +38,10 @@ model OAuthAccount {
   @@id([providerId, providerUserId])
 }
 
-model AdminOAuthAccount {
-  providerId     String
-  providerUserId Float  @unique
-  admin          Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
-  admin_id       String
-
-  @@id([providerId, providerUserId])
-}
-
-model User {
-  id              String         @id
-  avatar          String?
-  username        String         @unique
-  hashed_password String         @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
-  email           String?        @unique
-  courses         Course[]
-  sessions        userSession[]
-  OAuthAccount    OAuthAccount[]
-}
-
-model userSession {
-  id        String   @id
-  userId    String
-  expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) //this has to be named `u`ser if it is to refernece `U`ser. If it were to reference `U`serAuth, it would have to be named `u`serAuth. Says the lucia docs, they also say it comes from prisma and they aren't gonna fix it bcoz they didn't do it. I personally don't see any problem.
-}
-
 model Admin {
   id              String              @id
   avatar          String?
-  username        String              @unique
+  adminname       String              @unique
   hashed_password String              @default("")
   email           String?             @unique
   createdCourses  Course[] //One-to-many relationship with course
@@ -60,9 +51,27 @@ model Admin {
 
 model AdminSession {
   id        String   @id
-  adminId   String
+  userId    String //this field has to be named "userId". Because look below the model...
   expiresAt DateTime
-  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade) //this has to be named `a`dmin if it is to refernece `A`dmin.
+  admin     Admin    @relation(fields: [userId], references: [id], onDelete: Cascade) //this has to be named `a`dmin if it is to refernece `A`dmin.
+}
+
+//Because lucia's lucia.createSession tries to create a session with the following data - 
+//data: {
+//     id: "7t3f56d60zx1y00fc0p05h07a160iit9hcmbaq9p",
+//     userId: "snun6we2ow9xhry", //this is hardcoded as userId
+//     expiresAt: new Date("2024-04-09T07:13:56.635Z"),
+//     admin: {}
+//   }
+//The attribute "userId" is hardcoded, so if you have a session table (here adminSession) with "adminId" instead of "userId", lucia.createSession will still try to put data for "userId" in a table that does not have a field for "userId" and has a field for "adminId" instead. 
+
+model AdminOAuthAccount {
+  providerId     String
+  providerUserId Float  @unique
+  admin          Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  admin_id       String
+
+  @@id([providerId, providerUserId])
 }
 
 model Course {
