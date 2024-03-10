@@ -13,15 +13,11 @@ export async function GET(request: Request): Promise<Response> {
     const state = url.searchParams.get("state");
     const storedState = cookies().get("github_oauth_state")?.value ?? null;
 
-    console.log({ url, code, state, storedState })
-
-
     if (!code || !state || !storedState || state !== storedState) {
         return new Response(null, {
             status: 400
         });
     }
-    console.log(await validateRequest());
 
     try {
         const tokens = await github.validateAuthorizationCode(code);

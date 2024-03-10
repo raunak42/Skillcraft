@@ -5,7 +5,7 @@ import { Lucia, User, Session } from "lucia";
 import { cookies } from "next/headers"
 import * as dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
 /*Important*/
 const redirectURI = "http://localhost:3001/login/google/callback"; 

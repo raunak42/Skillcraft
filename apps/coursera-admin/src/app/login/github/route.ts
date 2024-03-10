@@ -4,7 +4,7 @@ import { github } from "@/auth";
 import { cookies } from "next/headers";
 import * as dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 export async function GET(): Promise<Response> {
 	const state = generateState();
 	const url = await github.createAuthorizationURL(state);
