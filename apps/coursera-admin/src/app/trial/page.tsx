@@ -17,15 +17,16 @@ export default async function testApiRoutes() {
   const newCourse: CourseAttributes = {
     title: "Physics of the impossible",
     description: "Theory will take you only so far.",
-    imageLink: "https://www.science.org.au/curious/sites/default/files/images/space-and-time/gravity/warping-spacetime-ligo.jpg",
+    imageLink:
+      "https://www.science.org.au/curious/sites/default/files/images/space-and-time/gravity/warping-spacetime-ligo.jpg",
     price: 11199,
     published: true,
   };
 
   const makeApiCall = async () => {
-    await fetch("/api/editCourse/9813", {
-      method: "PUT",
-      body: JSON.stringify(newCourse),
+    await fetch("/api/me", {
+      method: "GET",
+      // body: JSON.stringify(newCourse),
     });
   };
 
