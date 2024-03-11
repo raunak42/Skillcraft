@@ -27,7 +27,7 @@ export async function PUT(req: Request, { params }: CourseIdParams): Promise<Res
 
         });
         if (!adminInDb) {
-            return Response.json({ message: "admin doesn't exist" }, { status: 400 })
+            return Response.json({ message: "admin doesn't exist" }, { status: 404 })
         }
         const {createdCourses} = adminInDb
         const courseToUpdate = createdCourses.find((t) => t.id === courseId);
