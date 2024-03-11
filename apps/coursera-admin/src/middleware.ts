@@ -10,8 +10,10 @@ import { validateRequest } from "./auth";
 const unprotectedRoutes = ["/api/getCourses"] //for ssr //could have gone with the matcher approach for ssr routes but mathcer blocks the entire middleware for the path that is not included, that means session verification would have stopped but on top of that csrf prevention would also have stopped.
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+
     const { session, user } = await validateRequest();
     const unprotectedRoute = unprotectedRoutes.find((t) => t === request.nextUrl.pathname)
+
     if (!unprotectedRoute && !session) {
         return NextResponse.json({ message: "Sign in first." }, {
             status: 403

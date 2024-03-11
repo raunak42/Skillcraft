@@ -15,16 +15,16 @@ export default async function testApiRoutes() {
   //   console.log(details);
 
   const newCourse: CourseAttributes = {
-    title: "Black Holes",
-    description: "Are you ready to get spaghettified?",
-    imageLink: "oifnoie",
-    price: 3999,
-    published: false,
+    title: "Physics of the impossible",
+    description: "Theory will take you only so far.",
+    imageLink: "https://www.science.org.au/curious/sites/default/files/images/space-and-time/gravity/warping-spacetime-ligo.jpg",
+    price: 11199,
+    published: true,
   };
 
   const makeApiCall = async () => {
-    await fetch("/api/createCourse", {
-      method: "POST",
+    await fetch("/api/editCourse/9813", {
+      method: "PUT",
       body: JSON.stringify(newCourse),
     });
   };

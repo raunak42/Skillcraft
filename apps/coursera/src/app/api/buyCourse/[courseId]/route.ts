@@ -40,6 +40,9 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
                 courses: true
             }
         });
+        if (!updateUserCourses) {
+            return new Response("An error occured. Couldn't reach the databse.")
+        }
         return Response.json({
             message: "course purchased successfully",
             yourCourses: updateUserCourses.courses

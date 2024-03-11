@@ -14,4 +14,6 @@ import { withAccelerate } from "db"
 
 // if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
-export const prisma = new PrismaClient().$extends(withAccelerate())
+export const prisma = new PrismaClient({
+    // log:['info', 'warn']
+}).$extends(withAccelerate())
