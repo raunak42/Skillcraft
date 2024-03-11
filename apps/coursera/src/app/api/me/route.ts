@@ -20,7 +20,10 @@ export async function GET(req: Request): Promise<Response> {
                 email: true,
                 courses: true
             }
-        })
+        });
+        if (!me) {
+            return Response.json({ message: "user doesn't exsit" }, { status: 404 })
+        }
         return Response.json(me, { status: 200 })
     } catch (error) {
         console.error(error)
