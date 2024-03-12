@@ -14,7 +14,9 @@
     "next": "14.1.0",
     "db": "*",
     "store": "*",
-    "ui": "*"
+    "ui": "*",
+    "zod-validation": "*",
+    "types": "*"
   },
   "devDependencies": {
     "typescript": "^5",

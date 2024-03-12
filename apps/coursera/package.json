@@ -30,7 +30,9 @@
     "store": "*",
     "swr": "^2.2.5",
     "ui": "*",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zod-validation": "*",
+    "types": "*"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.3",
