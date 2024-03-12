@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma"
-import { CourseAttributes } from "@/app/trial/page"
-import { SessionAttributes } from "../../createCourse/route"
-
-interface CourseIdParams {
-    params: { courseId: string }
-}
+import {
+    SessionAttributes,
+    CourseIdParams,
+    CourseAttributes
+} from "types"
 
 export async function PUT(req: Request, { params }: CourseIdParams): Promise<Response> {
     try {
@@ -29,7 +28,7 @@ export async function PUT(req: Request, { params }: CourseIdParams): Promise<Res
         if (!adminInDb) {
             return Response.json({ message: "admin doesn't exist" }, { status: 404 })
         }
-        const {createdCourses} = adminInDb
+        const { createdCourses } = adminInDb
         const courseToUpdate = createdCourses.find((t) => t.id === courseId);
         if (!courseToUpdate) {
             return Response.json({ message: "you are not the admin of this course" }, { status: 403 })

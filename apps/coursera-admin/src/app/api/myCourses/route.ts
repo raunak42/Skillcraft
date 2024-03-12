@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { SessionAttributes } from "../createCourse/route";
+import { SessionAttributes } from "types";
 
 export async function GET(req: Request): Promise<Response> {
     try {

@@ -1,11 +1,8 @@
-import { CourseAttributes } from "@/app/trial/page";
 import { prisma } from "@/lib/prisma";
-import { Session, User } from "lucia"
-
-export interface SessionAttributes {
-    session: Session,
-    user: User
-}
+import {
+    SessionAttributes,
+    CourseAttributes
+} from "types";
 
 export async function POST(req: Request): Promise<Response> {
     try {
@@ -18,7 +15,7 @@ export async function POST(req: Request): Promise<Response> {
 
         const body = await req.json();//giving it a type is important or else the prisma call below won't recognize the data while using a spred operator.
         const course: CourseAttributes = body
-        
+
         const newCourse = await prisma.course.create({
             data: {
                 ...course,
