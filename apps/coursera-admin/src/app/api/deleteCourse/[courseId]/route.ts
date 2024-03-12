@@ -1,11 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { SessionAttributes } from "../../createCourse/route";
-
-interface CourseIdParams {
-    params: {
-        courseId: string
-    }
-}
+import {
+    CourseIdParams,
+    SessionAttributes
+} from "types";
 
 export async function DELETE(req: Request, { params }: CourseIdParams): Promise<Response> {
     try {
