@@ -4,6 +4,7 @@ import {
     CourseIdParams,
     CourseAttributes
 } from "types"
+import { courseInput } from "zod-validation"
 
 export async function PUT(req: Request, { params }: CourseIdParams): Promise<Response> {
     try {
@@ -35,11 +36,13 @@ export async function PUT(req: Request, { params }: CourseIdParams): Promise<Res
         }
 
         const body = await req.json();
-        const updatedCourse: CourseAttributes = body
+        const course: CourseAttributes = body;
+        const validatedCourse = courseInput.parse(course)
+
 
         const updateCourseInDb = await prisma.course.update({
             where: { id: courseId },
-            data: updatedCourse //rest of the data like admin and users will remains unchanged
+            data: validatedCourse //rest of the data like admin and users will remains unchanged
         });
         if (!updateCourseInDb) {
             return Response.json({ message: "couldn't update the course, database didn't respond" }, { status: 500 })
