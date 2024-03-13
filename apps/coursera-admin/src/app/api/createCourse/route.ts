@@ -3,6 +3,7 @@ import {
     SessionAttributes,
     CourseAttributes
 } from "types";
+import { courseInput } from "zod-validation";
 
 export async function POST(req: Request): Promise<Response> {
     try {
@@ -14,11 +15,12 @@ export async function POST(req: Request): Promise<Response> {
         const adminId = session.userId  //this data comes directly from the db. hence you do not need a prisma call to test if it exists in db.
 
         const body = await req.json();//giving it a type is important or else the prisma call below won't recognize the data while using a spred operator.
-        const course: CourseAttributes = body
+        const course: CourseAttributes = body;
+        const validatedCourse = courseInput.parse(course)
 
         const newCourse = await prisma.course.create({
             data: {
-                ...course,
+                ...validatedCourse,
                 admin: {
                     connect: {
                         id: adminId
