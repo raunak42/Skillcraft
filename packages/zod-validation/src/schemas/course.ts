@@ -2,13 +2,15 @@ import { z } from "zod";
 
 export const courseInput = z.object({
     title: z.string()
-        .min(1, { message: "Title cannot be empty" })
-        .max(50, { message: "Title cannnot exceed 50 characters." }),
+        .min(1)
+        .max(50),
     description: z.string()
-        .max(200, { message: "Description cannot exceed 200 characters." }),
+        .max(200)
+        .nullable(), //this is to match the return type of course from prisma calls.
     price: z.number(),
     imageLink: z.string()
-        .url({ message: "Enter a valid url." }),
+        .url()
+        .nullable(),
     published: z.boolean()
 });
 
