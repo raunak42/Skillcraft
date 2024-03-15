@@ -1,43 +1,62 @@
+import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
 import { prisma } from "@/lib/prisma";
-import {
-    SessionAttributes,
-    CourseAttributes
-} from "types";
+import { CourseAttributes } from "types";
+import { ZodError } from "zod";
 import { courseInput } from "zod-validation";
+
+interface createCourseReturnType extends CourseAttributes {
+    adminId: string | null
+    id: number
+}
 
 export async function POST(req: Request): Promise<Response> {
     try {
-        const sessionDataHeader = req.headers.get('session-data')
-        if (!sessionDataHeader) {
-            return Response.json({ message: "sessionDataHeader not found" }, { status: 500 });//500 internal server error because middleware not working
+        const sessionData = getSessionDataFromMiddleware(req);
+        if (sessionData instanceof Response) {
+            return sessionData;
         }
-        const { session, user }: SessionAttributes = JSON.parse(sessionDataHeader);
-        const adminId = session.userId  //this data comes directly from the db. hence you do not need a prisma call to test if it exists in db.
+        const adminId = sessionData.session.userId
+        const validatedCourse = await validateBody(req)
 
-        const body = await req.json();//giving it a type is important or else the prisma call below won't recognize the data while using a spred operator.
-        const course: CourseAttributes = body;
-        const validatedCourse = courseInput.parse(course)
-
-        const newCourse = await prisma.course.create({
-            data: {
-                ...validatedCourse,
-                admin: {
-                    connect: {
-                        id: adminId
-                    }
-                }
-            },
-        });
-        if (!newCourse) {
-            return Response.json({ message: "couldn't create course, database didn't respond" })
+        const newCourse = await createCourse({ validatedCourse, adminId })
+        if (newCourse instanceof Response) {
+            return newCourse;
         }
-
         return Response.json({ message: "course created successfully", newCourse }, { status: 200 })
-        //you shouldn't return a message if a course with the same details alreay exists, you cannnot stop people from creating similar courses.
-        //ofcourse these courses would have one differing attribute, the id.
 
     } catch (error) {
-        console.error(error)
-        return Response.json({ message: "internal server error" }, { status: 500 })
+        console.error(error);
+        if (error instanceof ZodError) {
+            const errorMessage = error.issues.map((t) => { return `${t.message} at ${t.path}` })
+            return Response.json(errorMessage, { status: 400 })
+
+        }
+        return Response.json({ error }, { status: 500 })
     }
 }
+
+async function validateBody(req: Request): Promise<CourseAttributes> {
+    const body = await req.json();//giving it a type is important or else the prisma call below won't recognize the data while using a spred operator.
+    const course: CourseAttributes = body;
+    const validatedCourse = courseInput.parse(course);
+
+    return validatedCourse;
+}
+
+const createCourse = async ({ validatedCourse, adminId }: { validatedCourse: CourseAttributes, adminId: string }): Promise<Response | createCourseReturnType> => {
+    const newCourse = await prisma.course.create({
+        data: {
+            ...validatedCourse,
+            admin: {
+                connect: {
+                    id: adminId
+                }
+            }
+        },
+    });
+    if (!newCourse) {
+        return Response.json({ message: "couldn't create course, database didn't respond" })
+    }
+
+    return newCourse;
+};
