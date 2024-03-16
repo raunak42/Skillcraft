@@ -1,10 +1,8 @@
-import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
 import { prisma } from "@/lib/prisma"
 import { CourseIdParams, CourseAttributes } from "types"
-import { courseInput } from "zod-validation"
 import { ZodError } from "zod";
-import { courseFromDb } from "@/app/native-types/types";
-import { validateBody } from "@/app/utils/validateBody";
+import { getSessionDataFromMiddleware, validateBody } from "helpers";
+import { courseFromDb } from "@/native-types/types";
 
 export async function PUT(req: Request, { params }: CourseIdParams): Promise<Response> {
     try {

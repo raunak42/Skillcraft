@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { prisma } from "@/lib/prisma"
-import randomUsername from "@/helpers/randomWord";
+import { preparedWord as randomUsername } from "helpers";
 import { getUser, github, lucia, validateRequest } from "@/auth"
 
 

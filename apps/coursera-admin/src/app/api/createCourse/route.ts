@@ -1,7 +1,6 @@
-import { courseFromDb } from "@/app/native-types/types";
-import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
-import { validateBody } from "@/app/utils/validateBody";
 import { prisma } from "@/lib/prisma";
+import { validateBody, getSessionDataFromMiddleware } from "helpers";
+import { courseFromDb } from "@/native-types/types";
 import { CourseAttributes } from "types";
 import { ZodError } from "zod";
 

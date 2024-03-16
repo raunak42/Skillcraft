@@ -1,5 +1,5 @@
-import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
 import { prisma } from "@/lib/prisma";
+import { getSessionDataFromMiddleware } from "helpers";
 
 export async function GET(req: Request): Promise<Response> {
     try {

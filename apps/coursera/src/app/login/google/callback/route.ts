@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { prisma } from "@/lib/prisma"
-import randomWord from "@/helpers/randomWord";
+import { preparedWord as randomWord } from "helpers";
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
