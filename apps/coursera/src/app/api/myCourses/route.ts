@@ -1,17 +1,19 @@
 import { prisma } from "@/lib/prisma";
+import { getSessionDataFromMiddleware } from "helpers";
 import { Session, User } from "lucia";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest): Promise<Response> {
     try {
-        const sessionDataHeader = req.headers.get("session-data");
-        if (!sessionDataHeader) {
-            return Response.json({ message: "sessionDataHeader not found" }, { status: 400 })
+        const sessionData = getSessionDataFromMiddleware(req)
+        if (sessionData instanceof Response) {
+            const response = sessionData;
+            return response;
         }
-        const { session, user }: { session: Session, user: User } = JSON.parse(sessionDataHeader)
+        const { userId } = sessionData.session
         const userInDb = await prisma.user.findUnique({
             where: {
-                id: session.userId
+                id: userId
             },
             include: {
                 courses: true

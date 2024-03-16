@@ -1,14 +1,15 @@
 import { prisma } from "@/lib/prisma"
+import { getSessionDataFromMiddleware } from "helpers";
 import { Session, User } from "lucia"
 
 export async function GET(req: Request): Promise<Response> {
     try {
-        const sessionDataHeader = req.headers.get('session-data')
-        if (!sessionDataHeader) {
-            return Response.json({ message: "sessionDataHeader not found" }, { status: 400 })
+        const sessionData = getSessionDataFromMiddleware(req);
+        if (sessionData instanceof Response) {
+            const response = sessionData;
+            return response;
         }
-        const { session, user }: { session: Session, user: User } = JSON.parse(sessionDataHeader)
-        const userId = session.userId
+        const { userId } = sessionData.session
         const me = await prisma.user.findUnique({
             where: {
                 id: userId
