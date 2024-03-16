@@ -1,4 +1,4 @@
-import { generateSlug, RandomWordOptions, totalUniqueSlugs } from "random-word-slugs";
+import { generateSlug, RandomWordOptions } from "random-word-slugs";
 
 const options: RandomWordOptions<3> = {
     format: "camel",
@@ -16,8 +16,7 @@ const randomNumber = Math.floor(Math.random() * 10000);
 const randomNumberString = JSON.stringify(randomNumber);
 const slug = generateSlug(3, options);
 
-const preparedWord = slug + randomNumber;
+export const preparedWord = slug + randomNumberString;
 
-export default preparedWord;
 
 
