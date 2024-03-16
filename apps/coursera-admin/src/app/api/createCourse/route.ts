@@ -1,28 +1,27 @@
+import { courseFromDb } from "@/app/native-types/types";
 import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
+import { validateBody } from "@/app/utils/validateBody";
 import { prisma } from "@/lib/prisma";
 import { CourseAttributes } from "types";
 import { ZodError } from "zod";
-import { courseInput } from "zod-validation";
 
-interface createCourseReturnType extends CourseAttributes {
-    adminId: string | null
-    id: number
-}
 
 export async function POST(req: Request): Promise<Response> {
     try {
         const sessionData = getSessionDataFromMiddleware(req);
         if (sessionData instanceof Response) {
-            return sessionData;
+            const response = sessionData
+            return response;
         }
         const adminId = sessionData.session.userId
-        const validatedCourse = await validateBody(req)
+        const validatedCourse = await validateBody(req);
 
-        const newCourse = await createCourse({ validatedCourse, adminId })
-        if (newCourse instanceof Response) {
-            return newCourse;
+        const createdCourse = await createCourseInDb({ validatedCourse, adminId })
+        if (createdCourse instanceof Response) {
+            const response = createdCourse
+            return response;
         }
-        return Response.json({ message: "course created successfully", newCourse }, { status: 200 })
+        return Response.json({ message: "course created successfully", createdCourse }, { status: 200 })
 
     } catch (error) {
         console.error(error);
@@ -31,19 +30,14 @@ export async function POST(req: Request): Promise<Response> {
             return Response.json(errorMessage, { status: 400 })
 
         }
-        return Response.json({ error }, { status: 500 })
+        if (error instanceof Error) { //one of the triggers of this if statement is when the client doesn't send a body
+            return Response.json(error.message, { status: 500 })
+        }
+        return Response.json(error, { status: 500 })
     }
 }
 
-async function validateBody(req: Request): Promise<CourseAttributes> {
-    const body = await req.json();//giving it a type is important or else the prisma call below won't recognize the data while using a spred operator.
-    const course: CourseAttributes = body;
-    const validatedCourse = courseInput.parse(course);
-
-    return validatedCourse;
-}
-
-const createCourse = async ({ validatedCourse, adminId }: { validatedCourse: CourseAttributes, adminId: string }): Promise<Response | createCourseReturnType> => {
+const createCourseInDb = async ({ validatedCourse, adminId }: { validatedCourse: CourseAttributes, adminId: string }): Promise<Response | courseFromDb> => {
     const newCourse = await prisma.course.create({
         data: {
             ...validatedCourse,
@@ -51,7 +45,7 @@ const createCourse = async ({ validatedCourse, adminId }: { validatedCourse: Cou
                 connect: {
                     id: adminId
                 }
-            }
+            },
         },
     });
     if (!newCourse) {
