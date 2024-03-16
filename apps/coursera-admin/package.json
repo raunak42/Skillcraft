@@ -16,7 +16,8 @@
     "store": "*",
     "ui": "*",
     "zod-validation": "*",
-    "types": "*"
+    "types": "*",
+    "helpers": "*"
   },
   "devDependencies": {
     "typescript": "^5",

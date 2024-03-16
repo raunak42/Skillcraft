@@ -32,7 +32,8 @@
     "ui": "*",
     "zod": "^3.22.4",
     "zod-validation": "*",
-    "types": "*"
+    "types": "*",
+    "helpers": "*"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.3",
