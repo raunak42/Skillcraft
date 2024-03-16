@@ -1,14 +1,15 @@
+import { getSessionDataFromMiddleware } from "@/app/utils/getSessionDataFromMiddleware";
 import { prisma } from "@/lib/prisma";
 import { SessionAttributes } from "types";
 
 export async function GET(req: Request): Promise<Response> {
     try {
-        const sessionDataHeader = req.headers.get('session-data');
-        if (!sessionDataHeader) {
-            return Response.json({ message: "sessionDataHeader not found" }, { status: 500 })
-        };
-        const { session, user }: SessionAttributes = JSON.parse(sessionDataHeader);
-        const adminId = session.userId;
+        const sessionData = getSessionDataFromMiddleware(req);
+        if (sessionData instanceof Response) {
+            const response = sessionData;
+            return response;
+        }
+        const adminId = sessionData.session.userId;
 
         const admin = await prisma.admin.findUnique({
             where: {
