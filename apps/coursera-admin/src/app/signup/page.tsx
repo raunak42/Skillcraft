@@ -1,15 +1,20 @@
-import { lucia } from "@/auth";
-import { generateId } from "lucia";
-import { cookies } from "next/headers";
+import { lucia, validateRequest } from "@/auth";
 import { redirect } from "next/navigation";
-import { Argon2id } from "oslo/password";
-import { prisma } from "@/lib/prisma";
+import { SIGNUP_SUCCESS_MESSAGE } from "@/lib/constants";
+import { cookies } from "next/headers";
+import { generateId, Session } from "lucia";
 
 export default async function Page() {
+  const sessionDetails = await validateRequest();
+  const existingSession = sessionDetails.session;
+  if (existingSession) {
+    return redirect("/");
+  }
+
   return (
     <>
       <h1>Create an account</h1>
-      <form action={signup}>
+      <form action={signupAndStartSession}>
         <label htmlFor="username">Username</label>
         <input name="username" id="username" style={{ color: "black" }} />
         <br />
@@ -27,53 +32,34 @@ export default async function Page() {
   );
 }
 
-async function signup(formData: FormData): Promise<ActionResult> {
+async function signupAndStartSession(
+  formData: FormData
+): Promise<string | string[] > {
   "use server";
-  const username = formData.get("username");
-  // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
-  // keep in mind some database (e.g. mysql) are case insensitive
-  if (
-    typeof username !== "string" ||
-    username.length < 3 ||
-    username.length > 31 ||
-    !/^[a-z0-9_-]+$/.test(username)
-  ) {
-    return {
-      error: "Invalid username",
-    };
-  }
-  const password = formData.get("password");
-  if (
-    typeof password !== "string" ||
-    password.length < 6 ||
-    password.length > 255
-  ) {
-    return {
-      error: "Invalid password",
-    };
-  }
-
-  const hashedPassword = await new Argon2id().hash(password);
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
   const adminId = generateId(15);
 
-  await prisma.admin.create({
-    data: {
-      id: adminId,
-      adminname: username,
-      hashed_password: hashedPassword,
-    },
+  const response = await fetch("http://localhost:3001/api/signup", {
+    method: "POST",
+    body: JSON.stringify({ username, password, adminId }),
   });
 
-  const session = await lucia.createSession(adminId, {});
+  const data: string | string[]  = await response.json();
+
+  if (data === SIGNUP_SUCCESS_MESSAGE) {
+    const session = await lucia.createSession(adminId, {}); //createSession will succeed only if there is an admin already created in the db, this function creates sesssion and references userId field of the existing admin.
+    startSession(session);
+    return redirect("/");
+  }
+  return data;
+}
+
+const startSession = (session: Session) => {
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
-}
-
-interface ActionResult {
-  error: string;
-}
+};
