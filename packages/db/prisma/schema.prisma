@@ -41,13 +41,25 @@ model UserOAuthAccount {
 model Admin {
   id              String              @id
   avatar          String?
-  adminname       String              @unique
+  username        String              @unique //this field has to be named 'username' because...look below the model
   hashed_password String              @default("")
   email           String?             @unique
   createdCourses  Course[] //One-to-many relationship with course
   sessions        AdminSession[]
   OAuthAccount    AdminOAuthAccount[]
 }
+
+//Because lucia's lucia.validateSession used in validateRequest returns this object-
+//  const result: {
+//      user: User;
+//      session: Session;
+//  } | {
+//      user: null;
+//      session: null;
+//      }
+//and the User type is of the type - 
+//{ providerId: strign, username: string, id: '324550gtuz448kp' }
+//ie, it tries to fetch the username property of your Admin/User model from the db, hence the username property must exist. 
 
 model AdminSession {
   id        String   @id
