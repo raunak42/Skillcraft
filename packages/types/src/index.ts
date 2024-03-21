@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { courseInput } from "zod-validation";
+import { courseInput, userInput, adminInput } from "zod-validation";
 import { Session, User } from "lucia"
 
 export type CourseAttributes = z.infer<typeof courseInput>;
@@ -14,3 +14,6 @@ export interface CourseIdParams {
         courseId: string
     }
 }
+
+export type UserInputAttributes = z.infer<typeof userInput>
+export type AdminInputAttributes = z.infer<typeof adminInput>
