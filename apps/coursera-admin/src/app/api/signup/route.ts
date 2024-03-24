@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { ActionResult } from "next/dist/server/app-render/types";
 import { ZodError } from "zod";
 import { SIGNUP_SUCCESS_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@/lib/constants";
 import { userInput } from "zod-validation";
-import { Argon2id } from "oslo/password"
+import { Argon2id } from "oslo/password";
 
 interface UserValidation {
     username: string,
@@ -11,7 +10,7 @@ interface UserValidation {
     adminId: string
 }
 
-export async function POST(req: Request): Promise<Response | ActionResult> {
+export async function POST(req: Request): Promise<Response> {
     try {
         const { parsedUsername, parsedPassword, adminId } = await getAndValidateBody(req)
         const hashedPassword = await new Argon2id().hash(parsedPassword)
