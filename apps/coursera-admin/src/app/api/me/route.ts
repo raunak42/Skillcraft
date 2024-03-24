@@ -1,12 +1,12 @@
+import { ADMIN_NOT_FOUND_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
-import { getSessionDataFromMiddleware } from "helpers";
+import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
 export async function GET(req: Request): Promise<Response> {
     try {
-        const sessionData = getSessionDataFromMiddleware(req);
-        if (sessionData instanceof Response) {
-            const response = sessionData;
-            return response;
+        const sessionData = getSessionDataFromMiddleware(req)
+        if (!sessionData) {
+            return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 401);//500 internal server error because middleware not working
         }
         const adminId = sessionData.session.userId;
 
@@ -17,18 +17,18 @@ export async function GET(req: Request): Promise<Response> {
             select: {
                 id: true,
                 avatar: true,
-                adminname: true,
+                username: true,
                 email: true,
                 createdCourses: true
-            }
+            },
         });
+
         if (!admin) {
-            return Response.json({ message: "admin doesn't exist" }, { status: 404 })
+            return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE }, 404)
         }
-        return Response.json(admin)
+        return apiResponse({ data: { admin } }, 200)
     } catch (error) {
-        console.error(error);
-        return Response.json({ message: "internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 
 

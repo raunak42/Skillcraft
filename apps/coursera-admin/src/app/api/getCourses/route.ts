@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { apiResponse, handleApiError } from "helpers";
 
-//
 export async function GET(req: Request): Promise<Response> {
     try {
         const courses = await prisma.course.findMany({
@@ -14,9 +14,8 @@ export async function GET(req: Request): Promise<Response> {
                 adminId: false
             }
         });
-        return Response.json(courses, { status: 200 })
+        return apiResponse({ data: { courses } }, 200)
     } catch (error) {
-        console.error(error);
-        return Response.json({ message: "internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 }

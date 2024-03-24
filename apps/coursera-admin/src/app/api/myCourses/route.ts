@@ -1,12 +1,12 @@
+import { SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
-import { getSessionDataFromMiddleware } from "helpers";
+import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
 export async function GET(req: Request): Promise<Response> {
     try {
-        const sessionData = getSessionDataFromMiddleware(req);
-        if (sessionData instanceof Response) {
-            const response = sessionData;
-            return response;
+        const sessionData = getSessionDataFromMiddleware(req)
+        if (!sessionData) {
+            return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 401);//500 internal server error because middleware not working
         }
         const adminId = sessionData.session.userId;
 
@@ -19,12 +19,11 @@ export async function GET(req: Request): Promise<Response> {
             }
         });
         if (!admininDb) {
-            return Response.json({ message: "admin doesn't exist" }, { status: 404 })
+            return apiResponse({ message: "admin doesn't exist" }, 404)
         }
         const myCourses = admininDb.createdCourses;
-        return Response.json(myCourses, { status: 200 })
+        return apiResponse({ data: { courses: myCourses } }, 200)
     } catch (error) {
-        console.error(error);
-        return Response.json({ message: "internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 }

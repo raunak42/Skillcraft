@@ -1,42 +1,30 @@
+import { COURSE_CREATE_SUCCESS_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
-import { validateBody, getSessionDataFromMiddleware } from "helpers";
-import { courseFromDb } from "@/native-types/types";
-import { CourseAttributes } from "types";
-import { ZodError } from "zod";
+import { apiResponse, getSessionDataFromMiddleware, handleApiError, validateCourseBody } from "helpers";
+import { PrismaCourseInput } from "types";
 
 
 export async function POST(req: Request): Promise<Response> {
     try {
+        const body: PrismaCourseInput = await req.json()
         const sessionData = getSessionDataFromMiddleware(req);
-        if (sessionData instanceof Response) {
-            const response = sessionData
-            return response;
+        if (!sessionData) {
+            return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 500);//500 internal server error because middleware not working
         }
         const adminId = sessionData.session.userId
-        const validatedCourse = await validateBody(req);
+        const validatedCourse = await validateCourseBody(body);
+        await createCourseInDb({ validatedCourse, adminId })
 
-        const createdCourse = await createCourseInDb({ validatedCourse, adminId })
-        if (createdCourse instanceof Response) {
-            const response = createdCourse
-            return response;
-        }
-        return Response.json({ message: "course created successfully", createdCourse }, { status: 200 })
-
+        return apiResponse({ message: COURSE_CREATE_SUCCESS_MESSAGE }, 200)
     } catch (error) {
-        console.error(error);
-        if (error instanceof ZodError) {
-            const errorMessage = error.issues.map((t) => { return `${t.message} at ${t.path}` })
-            return Response.json(errorMessage, { status: 400 })
-
-        }
-        if (error instanceof Error) { //one of the triggers of this if statement is when the client doesn't send a body
-            return Response.json(error.message, { status: 500 })
-        }
-        return Response.json(error, { status: 500 })
+        return handleApiError(error)
     }
 }
 
-const createCourseInDb = async ({ validatedCourse, adminId }: { validatedCourse: CourseAttributes, adminId: string }): Promise<Response | courseFromDb> => {
+const createCourseInDb = async (
+    { validatedCourse, adminId }: { validatedCourse: PrismaCourseInput, adminId: string }
+):
+    Promise<PrismaCourseInput> => {
     const newCourse = await prisma.course.create({
         data: {
             ...validatedCourse,
@@ -47,9 +35,5 @@ const createCourseInDb = async ({ validatedCourse, adminId }: { validatedCourse:
             },
         },
     });
-    if (!newCourse) {
-        return Response.json({ message: "couldn't create course, database didn't respond" })
-    }
-
     return newCourse;
 };
