@@ -4,23 +4,24 @@ import { Argon2id } from "oslo/password";
 import { INVALID_USRNM_PSWRD_MESSAGE, LOGIN_SUCCESS_MESSAGE } from "@/lib/constants";
 import { apiResponse, handleApiError } from "helpers";
 import { PrismaAdminOutput } from "types";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request): Promise<Response | undefined> {
+export async function POST(req: Request, res: NextResponse): Promise<Response> {
     try {
         const body: { username: string, password: string } = await req.json();
         const { username, password } = await validateBody(body);
 
-        const adminInDb = await checkAdminInDb(username)
+        const adminInDb = await findAdminInDb(username)
         if (!adminInDb) {
             return apiResponse({ message: INVALID_USRNM_PSWRD_MESSAGE }, 404)
         }
 
-        const { hashed_password } = adminInDb;
+        const hashed_password = adminInDb.hashed_password as string;
         const validPassword = await verifyPassword(hashed_password, password);
         if (!validPassword) {
             return apiResponse({ message: INVALID_USRNM_PSWRD_MESSAGE }, 404)
         }
-        return apiResponse({ message: LOGIN_SUCCESS_MESSAGE, data: { admin: adminInDb } }, 200)
+        return apiResponse({ message: LOGIN_SUCCESS_MESSAGE, data: { admin: adminInDb } }, 200)//If this response is returned, the frontend must start a new session by setting up cookies.
 
     } catch (error) {
         return handleApiError(error)
@@ -32,7 +33,7 @@ const validateBody = async (body: { username: string, password: string }): Promi
     return parsedData;
 }
 
-export const checkAdminInDb = async (username: string): Promise<PrismaAdminOutput<{
+export const findAdminInDb = async (username: string): Promise<PrismaAdminOutput<{
     select: {
         id: true,
         hashed_password: true,
@@ -63,4 +64,3 @@ const verifyPassword = async (hashed_password: string, password: string): Promis
 
     return validPassword;
 }
-
