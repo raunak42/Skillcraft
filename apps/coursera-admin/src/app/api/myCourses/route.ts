@@ -1,4 +1,4 @@
-import { SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
+import { ADMIN_NOT_FOUND_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
@@ -19,7 +19,7 @@ export async function GET(req: Request): Promise<Response> {
             }
         });
         if (!admininDb) {
-            return apiResponse({ message: "admin doesn't exist" }, 404)
+            return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE}, 404)
         }
         const myCourses = admininDb.createdCourses;
         return apiResponse({ data: { courses: myCourses } }, 200)
