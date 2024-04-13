@@ -1,4 +1,4 @@
-import { getUser, validateRequest } from "@/auth";
+import { validateRequest } from "@/auth";
 import { AuthRequiredError } from "@/lib/exceptions";
 
 export default async function Home() {
