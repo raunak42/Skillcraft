@@ -1,9 +1,17 @@
-import { lucia } from "@/auth";
+import { lucia, validateRequest } from "@/auth";
 import { cookies } from "next/headers";
 import { Session } from "lucia";
 import { ApiResponseAttributes } from "types";
+import { NextResponse } from "next/server";
+import { LOGIN_SUCCESS_MESSAGE } from "@/lib/constants";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function Page(res: NextResponse) {
+  const sessionDetails = await validateRequest();
+  const existingSession = sessionDetails.session;
+  if (existingSession) {
+    return redirect("/");
+  }
   return (
     <div>
       <h1>Sign in</h1>
@@ -48,17 +56,16 @@ async function login(formData: FormData) {
   const admin = data.admin;
   const adminId = admin.id as string;
   const session = await lucia.createSession(adminId, {});
-  startSession(session);
+
+  if (message === LOGIN_SUCCESS_MESSAGE) {
+    startSession(session);
+  }
 
   if (error) {
     ("use server");
     console.error(error);
   }
-  if (message) {
-    //
-  }
 
-  // return redirect("/");
   // return data;
 }
 
