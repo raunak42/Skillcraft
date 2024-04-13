@@ -8,41 +8,46 @@ export interface SessionAttributes {
 
 // User types
 export type PrismaUserInput = Prisma.UserCreateInput;
-export type PrismaUserOutput<T extends Prisma.UserDefaultArgs> = Prisma.UserGetPayload<T>;
+export type PrismaUserOutput<T extends Prisma.UserDefaultArgs> = Partial<Prisma.UserGetPayload<T>>;
 
 // userSession types
 export type PrismaUserSessionInput = Prisma.userSessionCreateInput;
-export type PrismaUserSessionOutput<T extends Prisma.userSessionDefaultArgs> = Prisma.userSessionGetPayload<T>;
+export type PrismaUserSessionOutput<T extends Prisma.userSessionDefaultArgs> = Partial<Prisma.userSessionGetPayload<T>>;
 
 // UserOAuthAccount types
 export type PrismaUserOAuthAccountInput = Prisma.UserOAuthAccountCreateInput;
-export type PrismaUserOAuthAccountOutput<T extends Prisma.UserOAuthAccountDefaultArgs> = Prisma.UserOAuthAccountGetPayload<T>;
+export type PrismaUserOAuthAccountOutput<T extends Prisma.UserOAuthAccountDefaultArgs> = Partial<Prisma.UserOAuthAccountGetPayload<T>>;
 
 // Admin types
 export type PrismaAdminInput = Prisma.AdminCreateInput;
-export type PrismaAdminOutput<T extends Prisma.AdminDefaultArgs> = Prisma.AdminGetPayload<T>;
+export type PrismaAdminOutput<T extends Prisma.AdminDefaultArgs> = Partial<Prisma.AdminGetPayload<T>>;
 
 // AdminSession types
 export type PrismaAdminSessionInput = Prisma.AdminSessionCreateInput;
-export type PrismaAdminSessionOutput<T extends Prisma.AdminSessionDefaultArgs> = Prisma.AdminSessionGetPayload<T>;
+export type PrismaAdminSessionOutput<T extends Prisma.AdminSessionDefaultArgs> = Partial<Prisma.AdminSessionGetPayload<T>>;
 
 // AdminOAuthAccount types
 export type PrismaAdminOAuthAccountInput = Prisma.AdminOAuthAccountCreateInput;
-export type PrismaAdminOAuthAccountOutput<T extends Prisma.AdminOAuthAccountDefaultArgs> = Prisma.AdminOAuthAccountGetPayload<T>;
+export type PrismaAdminOAuthAccountOutput<T extends Prisma.AdminOAuthAccountDefaultArgs> = Partial<Prisma.AdminOAuthAccountGetPayload<T>>;
 
 // Course types
 export type PrismaCourseInput = Prisma.CourseCreateInput;
-export type PrismaCourseOutput<T extends Prisma.CourseDefaultArgs> = Prisma.CourseGetPayload<T>;
+export type PrismaCourseOutput<T extends Prisma.CourseDefaultArgs> = Partial<Prisma.CourseGetPayload<T>>;
 
 //ApiResponse schema for infering same types on both backend and frontend.
 export interface ApiResponseAttributes {
     data?: {
-        admin?: Partial<PrismaAdminOutput<{ select: {}, include: {} }>>,
-        user?: Partial<PrismaUserOutput<{ select: {}, include: {} }>>,
-        course?: Partial<PrismaCourseOutput<{ select: {}, include: {} }>>,
-        courses?: Partial<PrismaCourseOutput<{ select: {}, include: {} }>>[]
+        admin?: PrismaAdminOutput<{ select: {}, include: {} }>,
+        user?: PrismaUserOutput<{ select: {}, include: {} }>,
+        course?: PrismaCourseOutput<{ select: {}, include: {} }>,
+        courses?: PrismaCourseOutput<{ select: {}, include: {} }>[],
+        featuredCourses?: featuredCourses[]
     },
     message?: string | string[],
     error?: string | unknown,
 }
 
+export interface featuredCourses {
+    category: String,
+    courses: PrismaCourseOutput<{ select: {}, include: {} }>[]
+}
