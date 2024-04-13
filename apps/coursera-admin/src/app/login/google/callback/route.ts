@@ -57,7 +57,7 @@ export async function GET(request: Request): Promise<Response> {
         await prisma.admin.create({
             data: {
                 id: adminId,
-                adminname: randomWord,
+                username: randomWord,
                 email: googleAccount.email
             }
         });
