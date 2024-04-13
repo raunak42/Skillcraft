@@ -12,8 +12,8 @@ export async function POST(req: Request): Promise<Response> {
             return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 500);//500 internal server error because middleware not working
         }
         const adminId = sessionData.session.userId
-        const validatedCourse = await validateCourseBody(body);
-        await createCourseInDb({ validatedCourse, adminId })
+        const course = await validateCourseBody(body);
+        await createCourseInDb({ course, adminId })
 
         return apiResponse({ message: COURSE_CREATE_SUCCESS_MESSAGE }, 200)
     } catch (error) {
@@ -22,12 +22,12 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 const createCourseInDb = async (
-    { validatedCourse, adminId }: { validatedCourse: PrismaCourseInput, adminId: string }
+    { course, adminId }: { course: PrismaCourseInput, adminId: string }
 ):
     Promise<PrismaCourseInput> => {
     const newCourse = await prisma.course.create({
         data: {
-            ...validatedCourse,
+            ...course,
             admin: {
                 connect: {
                     id: adminId
