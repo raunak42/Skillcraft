@@ -26,13 +26,18 @@ export async function DELETE(req: Request, { params }: CourseIdParams): Promise<
         if (!deleteCourse) {
             return apiResponse({ message: PERMISSION_DENIED_MESSAGE }, 403)
         }
-        return apiResponse({ message: COURSE_DELETE_SUCCESS_MESSAGE}, 200)
+        return apiResponse({ message: COURSE_DELETE_SUCCESS_MESSAGE }, 200)
     } catch (error) {
         return handleApiError(error)
     }
 }
 
-const findAdminInDb = async (adminId: string): Promise<PrismaAdminOutput<{ include: { createdCourses: true } }> | null> => {
+const findAdminInDb = async (adminId: string): Promise<
+    PrismaAdminOutput<{
+        include: {
+            createdCourses: true
+        }
+    }> | null> => {
     const adminInDb = await prisma.admin.findUnique({
         where: {
             id: adminId
@@ -47,10 +52,10 @@ const findAdminInDb = async (adminId: string): Promise<PrismaAdminOutput<{ inclu
     return adminInDb
 }
 
-const findAndDeleteCourse = async (adminInDb: Awaited<ReturnType<typeof findAdminInDb>>, courseId: number): Promise<Boolean> => {
-    if (!adminInDb) {
-        return false;
-    }
+const findAndDeleteCourse = async (
+    adminInDb: NonNullable<Awaited<ReturnType<typeof findAdminInDb>>>,
+    courseId: number
+): Promise<Boolean> => {
     const { createdCourses } = adminInDb;
     if (!createdCourses) {
         return false;
