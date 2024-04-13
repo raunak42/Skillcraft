@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -93,6 +94,7 @@ model Course {
   imageLink   String?
   price       Float
   published   Boolean
+  category    String?
   admin       Admin?  @relation(fields: [adminId], references: [id])
   adminId     String?
   users       User[]
