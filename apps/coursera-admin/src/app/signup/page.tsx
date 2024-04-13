@@ -1,10 +1,13 @@
 import { lucia, validateRequest } from "@/auth";
 import { redirect } from "next/navigation";
 import { SIGNUP_SUCCESS_MESSAGE } from "@/lib/constants";
+import { generateId } from "lucia";
+import { ApiResponseAttributes } from "types";
 import { cookies } from "next/headers";
-import { generateId, Session } from "lucia";
+import { NextRequest, NextResponse } from "next/server";
+import { Session } from "lucia";
 
-export default async function Page() {
+export default async function Page(req: NextRequest, res: NextResponse) {
   const sessionDetails = await validateRequest();
   const existingSession = sessionDetails.session;
   if (existingSession) {
@@ -32,27 +35,23 @@ export default async function Page() {
   );
 }
 
-async function signupAndStartSession(
-  formData: FormData
-): Promise<string | string[] > {
+async function signupAndStartSession(formData: FormData): Promise<any> {
   "use server";
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
   const adminId = generateId(15);
 
-  const response = await fetch("http://localhost:3001/api/signup", {
+  const variable = await fetch("http://localhost:3001/api/signup", {
     method: "POST",
     body: JSON.stringify({ username, password, adminId }),
   });
 
-  const data: string | string[]  = await response.json();
-
-  if (data === SIGNUP_SUCCESS_MESSAGE) {
+  const response: ApiResponseAttributes = await variable.json();
+  if (response.message === SIGNUP_SUCCESS_MESSAGE) {
     const session = await lucia.createSession(adminId, {}); //createSession will succeed only if there is an admin already created in the db, this function creates sesssion and references userId field of the existing admin.
     startSession(session);
-    return redirect("/");
   }
-  return data;
+  return response.message;
 }
 
 const startSession = (session: Session) => {
@@ -62,4 +61,5 @@ const startSession = (session: Session) => {
     sessionCookie.value,
     sessionCookie.attributes
   );
+  return redirect("/");
 };
