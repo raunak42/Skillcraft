@@ -1,3 +1,5 @@
+export const BASE_URL_DEV = "http://localhost:3001"
+
 export const SIGNUP_SUCCESS_MESSAGE = "Signed up successfully.";
 export const USERNAME_TAKEN_MESSAGE = "Username taken."
 
@@ -12,5 +14,5 @@ export const COURSE_DELETE_SUCCESS_MESSAGE = "Course deleted successfully."
 export const COURSE_UPDATE_SUCCESS_MESSAGE = "Course updated successfully."
 
 export const PERMISSION_DENIED_MESSAGE = "Permission denied."
-export const ADMIN_NOT_FOUND_MESSAGE = "Admin not found." 
+export const ADMIN_NOT_FOUND_MESSAGE = "Admin not found."
 
