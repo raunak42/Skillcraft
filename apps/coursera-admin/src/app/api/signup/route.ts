@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { ZodError } from "zod";
 import { SIGNUP_SUCCESS_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@/lib/constants";
 import { userInput } from "zod-validation";
 import { Argon2id } from "oslo/password";
+import { apiResponse, handleApiError } from "helpers";
+import { NextRequest } from "next/server";
 
 interface UserValidation {
     username: string,
@@ -10,34 +11,20 @@ interface UserValidation {
     adminId: string
 }
 
-export async function POST(req: Request): Promise<Response> {
+export async function POST(req: NextRequest): Promise<Response> {
     try {
         const { parsedUsername, parsedPassword, adminId } = await getAndValidateBody(req)
         const hashedPassword = await new Argon2id().hash(parsedPassword)
 
         const usernameTaken = await checkUsernameInDb(parsedUsername);
         if (usernameTaken) {
-            return Response.json(USERNAME_TAKEN_MESSAGE, { status: 409 })
+            return apiResponse({ message: USERNAME_TAKEN_MESSAGE }, 409)
         }
 
-        const newAdmin = await createNewAdmin(parsedUsername, adminId, hashedPassword);
-        if (newAdmin instanceof Response) {
-            const response = newAdmin;
-            return response;
-        }
-        return Response.json(SIGNUP_SUCCESS_MESSAGE, { status: 200 })
-
+        await createNewAdmin(parsedUsername, adminId, hashedPassword);
+        return apiResponse({ message: SIGNUP_SUCCESS_MESSAGE }, 200)
     } catch (error) {
-        console.error(error);
-        if (error instanceof ZodError) {
-            const errorMessage = error.issues.map((t) => { return `${t.message} at ${t.path}` })
-            return Response.json(errorMessage, { status: 400 })
-
-        }
-        if (error instanceof Error) { //one of the triggers of this if statement is when the client doesn't send a body
-            return Response.json(error.message, { status: 500 })
-        }
-        return Response.json(error, { status: 500 })
+        return handleApiError(error)
     }
 }
 
@@ -69,7 +56,7 @@ const checkUsernameInDb = async (username: string): Promise<boolean> => {
     return false;
 }
 
-const createNewAdmin = async (parsedUsername: string, adminId: string, hashedPassword: string): Promise<{ id: string } | Response> => {
+const createNewAdmin = async (parsedUsername: string, adminId: string, hashedPassword: string): Promise<{ id: string }> => {
     const newAdmin = await prisma.admin.create({
         data: {
             id: adminId,
@@ -80,9 +67,6 @@ const createNewAdmin = async (parsedUsername: string, adminId: string, hashedPas
             id: true
         }
     });
-    if (!newAdmin) {
-        return Response.json("couldn't reach the database", { status: 500 })
-    }
 
     return newAdmin;
 }
