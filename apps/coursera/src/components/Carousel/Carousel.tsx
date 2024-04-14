@@ -41,7 +41,7 @@ const Carousel: React.FC = () => {
         onScroll={handleScroll} // Attach onScroll directly
         className="relative w-[900px] border rounded-2xl overflow-hidden overflow-x-auto no-scrollbar snap-x snap-mandatory"
       >
-        <div className="flex w-auto">
+        <div className="flex w-auto hover:cursor-pointer">
           {topCourses.map((course) => {
             return (
               <div className="relative w-[900px] h-[570px] shrink-0 snap-center">
@@ -58,11 +58,13 @@ const Carousel: React.FC = () => {
           })}
         </div>
       </div>
-      <div className="flex flex-row mt-2">
+      <div className="flex flex-row  ">
         {[...Array(10)].map((_, i) => (
-          <div className="size-6">
+          <div className="w-24">
             {focus === i + 1 ? (
-              <img className="" key={i} src="lineH.svg" />
+              <div className="w-24 h-[30px] overflow-hidden">
+                <img className="" key={i} src="lineH.svg" />
+              </div>
             ) : null}
           </div>
         ))}
