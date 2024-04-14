@@ -23,15 +23,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={amiko.className} custom-scrollbar>
+      <body className={amiko.className}>
+        <div className="relative">
           <Sidebar />
-        <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
-          {!session && <NoSessionNavbar />}
-          {session && <SessionNavbar />}
-        </div>
-        <div className="pt-[60px] pl-20">{children}</div>
-        <div>
-          <Footer />
+          <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
+            {!session && <NoSessionNavbar />}
+            {session && <SessionNavbar />}
+          </div>
+          <div className="pt-[60px] pl-20 pb-[60px]">{children}</div>
+            <Footer />
         </div>
       </body>
     </html>
