@@ -23,7 +23,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={amiko.className} custom-scrollbar>
+      <body className={amiko.className}>
           {/* <Sidebar /> */}
         <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
           {/* {!session && <NoSessionNavbar />} */}
