@@ -27,22 +27,23 @@ input:focus {
   background-color: red; 
 }
 
+/* Webkit-based browsers (Chrome, Safari, Opera) */
 ::-webkit-scrollbar {
   width: 3px;
-}
 
+}
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
-
 ::-webkit-scrollbar-thumb {
   background-color: #EA3A36;
   border-radius: 6px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+
 /* .snap-x {
   scroll-snap-type: x mandatory;
 }
