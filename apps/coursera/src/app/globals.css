@@ -29,19 +29,26 @@ input:focus {
 
 /* Webkit-based browsers (Chrome, Safari, Opera) */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 2px;
+  height: 2px;
 
 }
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: #ffffff;
+  width: 70%;
+  height: 70%;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #EA3A36;
-  border-radius: 6px;
+  background-color: #000000;
+  border-radius: 2px;
+  height: 20%;
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+
+
 
 
 /* .snap-x {
