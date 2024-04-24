@@ -1,35 +1,32 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "db";
+import { redis } from "@/lib/redis";
 import { apiResponse, handleApiError } from "helpers";
+import { PrismaCourseOutput, featuredCourses } from "types";
 
 export async function GET(req: Request): Promise<Response> {
-    const categories = ['Computer Science','Physics', 'Art','Writing','Health', 'Music']
+    const categories = ['Computer Science', 'Physics', 'Art', 'Health', 'Music'];
+
     try {
-        //this will return 'n' courses arrays, where n = length of categories-array above.
+
+        const cachedFeaturedCourses: featuredCourses[] = JSON.parse(await redis.get("featuredCourses") as string)
+        if (cachedFeaturedCourses) {
+            return apiResponse({ data: { featuredCourses: cachedFeaturedCourses } }, 200)
+        }
+
         const promises = categories.map(async (category) => {
-            const case1 = ` ${category} `
-            const case2 = `${category},`
-            const case3 = ` ${category}`
-            const case4 = ` ${category},`
+            const searchTerm = category.split(' ').map((word) => `${word}:*`).join(' & ');
+            const unique = category.split(' ').toString();
 
             return await prisma.course.findMany({
                 where: {
                     OR: [
-                        { title: { contains: case1, mode: "insensitive" } },
-                        { title: { contains: case2, mode: "insensitive" } },
-                        { title: { contains: case3, mode: "insensitive" } },
-                        { title: { contains: case4, mode: "insensitive" } },
-                        { description: { contains: case1, mode: "insensitive" } },
-                        { description: { contains: case2, mode: "insensitive" } },
-                        { description: { contains: case3, mode: "insensitive" } },
-                        { description: { contains: case4, mode: "insensitive" } },
-                        { category: { contains: case1, mode: "insensitive" } },
-                        { category: { contains: case2, mode: "insensitive" } },
-                        { category: { contains: case3, mode: "insensitive" } },
-                        { category: { contains: case4, mode: "insensitive" } }
+                        { title: { search: searchTerm, mode: "insensitive" } },
+                        { description: { search: searchTerm, mode: "insensitive" } },
+                        { category: { hasSome: [category.toLowerCase(), unique.toLowerCase()] } },
                     ],
                 },
                 take: 18,
+                // distinct: "title",
             });
         });
 
@@ -39,17 +36,18 @@ export async function GET(req: Request): Promise<Response> {
         for (let i = 0; i < categories.length; i++) {
             featuredCourses.push({
                 category: categories[i],
-                courses: coursesArrays[i]
-            })
-        };
+                courses: coursesArrays[i],
+            });
+        }
+
+        await redis.set("featuredCourses", JSON.stringify(featuredCourses))
 
         return apiResponse({
             data: {
-                featuredCourses: featuredCourses
-            }
+                featuredCourses: featuredCourses,
+            },
         }, 200);
     } catch (error) {
-        return handleApiError(error)
+        return handleApiError(error);
     }
 }
-
