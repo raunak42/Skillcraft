@@ -1,76 +1,62 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { ApiResponseAttributes, PrismaCourseOutput } from "types";
+import React from "react";
+import { ApiResponseAttributes } from "types";
+import { BASE_URL_DEV } from "@/lib/constants";
 
-const Carousel: React.FC = () => {
-  const [focus, setFocus] = useState(1);
+export const Carousel: React.FC = async () => {
+  const res = await fetch(`${BASE_URL_DEV}/api/getTopCourses`, {
+    cache: "default"
+  });
+  const response: ApiResponseAttributes = await res.json();
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const carouselWidth = e.currentTarget.offsetWidth;
-    const scrollLeft = e.currentTarget.scrollLeft;
-    const focusedIndex = Math.round(scrollLeft / carouselWidth) + 1;
-    setFocus(focusedIndex);
-  };
-
-  const [topCourses, setTopCourses] = useState<PrismaCourseOutput<{}>[] | null>(
-    null
-  );
-
-  async function fetchData() {
-    const res = await fetch("/api/getTopCourses", { cache: "no-store" });
-    const response: ApiResponseAttributes = await res.json();
-
-    if (!response.data || !response.data.courses) {
-      return;
-    }
-    const courses = response.data.courses;
-    setTopCourses(courses);
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+  const topCourses = response.data?.courses;
   if (!topCourses) {
-    return <div>NO COURSES</div>;
+    return<div>No courses available.</div>
   }
 
   return (
-    <div>
-      <div
-        onScroll={handleScroll} // Attach onScroll directly
-        className="relative w-[900px] border rounded-2xl overflow-hidden overflow-x-auto no-scrollbar snap-x snap-mandatory"
-      >
-        <div className="flex w-auto hover:cursor-pointer">
+    <div className="relative w-full h-full border-2 lg:px-2 rounded-xl ">
+      <div className="w-full h-full rounded-xl overflow-x-auto snap-x snap-mandatory flex flex-col items-center justify-center">
+        <div className="flex w-[100%] h-[99%] hover:cursor-pointer space-x-4 ">
           {topCourses.map((course) => {
             return (
-              <div className="relative w-[900px] h-[570px] shrink-0 snap-center">
+              <div
+                key={course.id}
+                className="relative w-full h-full shrink-0 snap-center rounded-xl overflow-hidden"
+              >
                 <img
                   className="w-full h-full object-cover"
                   src={course.imageLink as string}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                <h1 className="absolute bottom-10 left-10 text-white font-bold text-4xl">
-                  {course.title}
-                </h1>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="absolute xl:bottom-2 xl:left-4 xl:right-4 bottom-2 left-2 right-2 text-white flex flex-row justify-between items-center">
+                  <div className="font-bold text-2xl sm:text-3xl">
+                    {course.title}
+                  </div>
+                  <div className="text-xl sm:font-semibold sm:text-2xl mt-2 flex flex-col justify-end">
+                    ₹{course.price}/-
+                  </div>
+                </div>
               </div>
             );
           })}
         </div>
       </div>
-      <div className="flex flex-row  ">
-        {[...Array(10)].map((_, i) => (
-          <div className="w-24">
-            {focus === i + 1 ? (
-              <div className="w-24 h-[30px] overflow-hidden">
-                <img className="" key={i} src="lineH.svg" />
-              </div>
-            ) : null}
-          </div>
-        ))}
+
+      {/*arrows*/}
+      <div className="absolute bottom-[46%]">
+        <img
+          src="arrowPrev.svg"
+          className=" size-6 sm:size-9 xl:size-11 hover:cursor-default"
+        ></img>
+      </div>
+      <div className="absolute bottom-[45%] right-[0%] animate-bounce">
+        <img
+          src="arrowNext.svg"
+          className=" size-6 sm:size-9 xl:size-11 hover:cursor-default"
+        ></img>
       </div>
     </div>
   );
 };
 
-export default Carousel;
+// export default Carousel;
