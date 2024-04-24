@@ -1,5 +1,5 @@
 {
-  "name": "store",
+  "name": "state-store",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
