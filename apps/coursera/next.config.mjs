@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // experimental:{
+  //   serverActions:true
+  // },
   transpilePackages: [
     "ui",
     "db",
-    "store",
+    "state-store",
     "auth",
     "zod-validation",
     "types",
