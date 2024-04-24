@@ -1,31 +1,29 @@
+import { ADMIN_NOT_FOUND_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
-import { getSessionDataFromMiddleware } from "helpers";
-import { Session, User } from "lucia";
-import { NextRequest, NextResponse } from "next/server";
+import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
-export async function GET(req: NextRequest): Promise<Response> {
+export async function GET(req: Request): Promise<Response> {
     try {
         const sessionData = getSessionDataFromMiddleware(req)
-        if (sessionData instanceof Response) {
-            const response = sessionData;
-            return response;
+        if (!sessionData) {
+            return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 401);//500 internal server error because middleware not working
         }
-        const { userId } = sessionData.session
-        const userInDb = await prisma.user.findUnique({
+        const adminId = sessionData.session.userId;
+
+        const admininDb = await prisma.admin.findUnique({
             where: {
-                id: userId
+                id: adminId
             },
             include: {
-                courses: true
+                createdCourses: true
             }
         });
-        if (!userInDb) {
-            return Response.json({ message: "user does not exist" }, { status: 404 })
+        if (!admininDb) {
+            return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE}, 404)
         }
-        const myCourses = userInDb.courses;
-        return Response.json({ myCourses }, { status: 200 })
+        const myCourses = admininDb.createdCourses;
+        return apiResponse({ data: { courses: myCourses } }, 200)
     } catch (error) {
-        console.error(error);
-        return Response.json({ error: "internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 }
