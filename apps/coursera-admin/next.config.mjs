@@ -3,7 +3,7 @@ const nextConfig = {
   transpilePackages: [
     "ui",
     "db",
-    "store",
+    "state-store",
     "auth",
     "zod-validation",
     "types",
