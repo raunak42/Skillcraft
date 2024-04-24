@@ -6,6 +6,7 @@ import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
 import { validateRequest } from "@/auth";
 import SessionNavbar from "../../../coursera/src/components/navbar/SessionNavbar";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
+import RecoilWrapper from "./recoilWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 const germaniaOne = Germania_One({ subsets: ["latin"], weight: "400" });
@@ -23,17 +24,24 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <RecoilWrapper>
       <body className={amiko.className}>
         <div className="relative">
-          <Sidebar />
+          <div className="h-full fixed left-0 z-20 bg-gray-200  border-r-2 border-r-black">
+            <Sidebar />
+          </div>
           <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
             {!session && <NoSessionNavbar />}
             {session && <SessionNavbar />}
           </div>
-          <div className="pt-[60px] pl-20 pb-[60px]">{children}</div>
+          <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2">{children}</div>
+          <div className="mt-16 border-t">
             <Footer />
+          </div>
         </div>
       </body>
+      </RecoilWrapper>
+      
     </html>
   );
 }
