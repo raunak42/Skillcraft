@@ -41,6 +41,7 @@ export interface ApiResponseAttributes {
         user?: PrismaUserOutput<{ select: {}, include: {} }>,
         course?: PrismaCourseOutput<{ select: {}, include: {} }>,
         courses?: PrismaCourseOutput<{ select: {}, include: {} }>[],
+        totalResults?: number
         featuredCourses?: featuredCourses[]
     },
     message?: string | string[],
