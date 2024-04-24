@@ -16,7 +16,7 @@ export const handleApiError = (error: unknown): Response => {
         error instanceof Prisma.PrismaClientValidationError ||
         error instanceof Prisma.PrismaClientRustPanicError ||
         error instanceof Prisma.PrismaClientInitializationError ||
-        error instanceof Prisma.PrismaClientKnownRequestError
+        error instanceof Prisma.PrismaClientUnknownRequestError
     ) {
         return apiResponse({ error: error.message }, 500)
     }
