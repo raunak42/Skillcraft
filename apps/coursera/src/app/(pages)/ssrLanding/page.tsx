@@ -1,33 +1,27 @@
-import Carousel from "@/components/Carousel/Carousel";
+import { Carousel } from "@/components/Carousel/Carousel";
 import { FeaturedCourses } from "@/components/FeaturedCourses/FeaturedCourses";
 import { VCarousel } from "@/components/VCarousel/VCarousel";
 
 export default async function Page() {
   return (
     <div>
-      <div className="mt-4 flex flex-row items-center space-x-2">
-        <img src="line.svg" className="h-12"></img>
-        <div className="flex flex-row items-center">
-          <h1 className="text-2xl font-bold">Top</h1>
-          <h1 className="text-2xl font-bold text-[#EA3A36]">10</h1>
-        </div>
-        <h1 className="text-2xl font-bold">Bestsellers</h1>
-      </div>
-      <div className="grid grid-cols-3">
-        <div className="col-span-2">
-          <Carousel />
-        </div>
-        <div className="col-span-1 mt-[-23px]">
-          <div className="text-s flex flex-row ml-4">
-            <div className=" text-[#EA3A36] font-semibold">#</div>
-            <div className=" text-black font-semibold">Top</div>
-            <div className=" text-[#EA3A36] font-semibold">10</div>
+      <div className="w-full h-full grid lg:grid-cols-3 grid-cols-1  ">
+        <div className="relative lg:col-span-2 flex flex-col items-center justify-center lg:pr-2">
+          <div className="lg:w-full w-full h-[260px] sm:h-[380px] md:h-[486px]  xl:h-[608px] transition-all duration-300 ease-in-out">
+            <Carousel />
           </div>
-          <VCarousel />
         </div>
-        <div className="col-span-3">
-          <FeaturedCourses />
+        <div className="lg:col-span-1 flex flex-col items-center justify-center">
+          <div
+            className="xl:h-[600px] lg:w-[100%] lg:h-[486px] w-[100%] h-[500px] transition-all duration-300 ease-in-out bg-gray-200
+           rounded-xl mt-2 lg:mt-0 "
+          >
+            <VCarousel />
+          </div>
         </div>
+      </div>
+      <div className="">
+        <FeaturedCourses />
       </div>
     </div>
   );
