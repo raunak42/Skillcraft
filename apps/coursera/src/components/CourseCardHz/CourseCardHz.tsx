@@ -1,17 +1,30 @@
 interface CourseCardHzProps {
   imageLink: string;
   title: string;
+  description: string;
+  price: number;
 }
 
 export const CourseCardHz: React.FC<CourseCardHzProps> = ({
   imageLink,
   title,
+  description,
+  price,
 }) => {
   return (
-    <div className="relative border rounded-2xl overflow-hidden w-[97%] hover:w-full hover:cursor-pointer  transition-all duration-300 ease-in-out mx-auto">
-  <img className="w-full h-[116px] object-cover" src={imageLink} />
-  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-  <h2 className="absolute bottom-2 left-2 text-white font-bold text-xl">{title}</h2>
-</div>
+    <div className="bg-[#ffffff] border-[1.5px] rounded-2xl overflow-hidden w-[96%] hover:w-[99%] hover:cursor-pointer  transition-all duration-300 ease-in-out mx-auto flex flex-row border-black">
+      <div className="relative w-[55%] sm:w-[40%] md:w-[30%] lg:w-[55%]">
+        <img className=" object-cover h-[110px] w-full" src={imageLink} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      </div>
+      <div className="flex flex-col w-full px-2 pt-[4px]">
+        <h2 className="text-black font-semibold">{title}</h2>
+        <h4 className="text-black text-xs line-clamp-2">{description}</h4>
+        <div className="flex flex-row justify-between mt-auto">
+          <h1 className="font-semibold">View more</h1>
+          <h1>₹{price}/-</h1>
+        </div>
+      </div>
+    </div>
   );
 };
