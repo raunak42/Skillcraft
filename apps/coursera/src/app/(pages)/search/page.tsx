@@ -1,0 +1,67 @@
+"use client";
+import { ApiResponseAttributes } from "types";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { SearchResults } from "@/components/SearchResults/SearchResults";
+import Loading from "./loading";
+
+export default function Page() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q");
+  const pageNo = Number(searchParams.get("p"));
+  const [response, setResponse] = useState<ApiResponseAttributes>();
+  const toGet = 10;
+
+  const fetchData = async () => {
+    const res = await fetch(`/api/search/${query}`, {
+      method: "POST",
+      body: JSON.stringify({ toGet, pageNo }),
+    });
+    const response: ApiResponseAttributes = await res.json();
+    setResponse(response);
+    if (!response.data?.courses) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!response) {
+    return (
+      <div className="">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (response.error) {
+    return <div className="mt-20 ml-10">An error occured</div>;
+  }
+
+  if (response.message) {
+    return <div className="mt-20 ml-10">{response.message}</div>;
+  }
+
+  if (!response.data?.courses) {
+    return new Error();
+  }
+
+  const { courses } = response.data;
+  const totalResults = response.data.totalResults as number;
+
+  return (
+    <div className="lg:px-6 flex flex-col lg:space-y-10 space-y-4 ">
+      <div className="text-black text-2xl font-bold">
+        {totalResults} results for "{query}"
+      </div>
+
+      {courses.map((course, index) => (
+        <div key={index} className="w-full h-full ">
+          <SearchResults course={course} />
+        </div>
+      ))}
+    </div>
+  );
+}
