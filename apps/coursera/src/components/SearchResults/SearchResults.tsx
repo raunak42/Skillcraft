@@ -4,11 +4,10 @@ interface SRProps {
   course: PrismaCourseOutput<{ select: {}; include: {} }>;
 }
 
-const cursor = -1;
 
 const handleClickLink = (query: string) => {
   window.location.assign(
-    `/search?q=${encodeURIComponent(query)}&cursor=${cursor}`
+    `/search?q=${encodeURIComponent(query)}&p=${1}`
   );
 };
 
