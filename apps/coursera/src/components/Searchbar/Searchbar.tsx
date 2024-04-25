@@ -33,7 +33,7 @@ export const Searchbar: React.FC<SearchbarProps> = () => {
   };
 
   return (
-    <div className="border-[1.5px] border-black shadow-sm rounded-full w-full md:w-[90%] lg:w-[280px] xl:w-[520px] flex items-center h-10 bg-gray-100 pl-4 flex-row gap-3 ">
+    <div className="border-[1.5px] border-black shadow-sm rounded-full w-full lg:w-[90%] flex items-center h-10 bg-gray-100 pl-4 flex-row gap-3 ">
       <img src="search.svg" className="size-5 "></img>
       <input
         // autoFocus={true}
