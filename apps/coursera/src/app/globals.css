@@ -76,6 +76,10 @@ summary {
 summary::-webkit-details-marker {
   display: none;
 }
+body.no-scroll {
+  overflow: hidden;
+}
+
 /* .snap-x {
   scroll-snap-type: x mandatory;
 }
