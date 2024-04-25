@@ -27,14 +27,14 @@ export default async function RootLayout({
       <RecoilWrapper>
       <body className={amiko.className}>
         <div className="relative">
-          <div className="h-full fixed left-0 z-20 bg-gray-200  border-r-2 border-r-black">
+          <div className="h-full fixed left-0 top-0 bottom-0 z-20 bg-white  border-r-2 border-r-black md:hidden">
             <Sidebar />
           </div>
           <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
             {!session && <NoSessionNavbar />}
             {session && <SessionNavbar />}
           </div>
-          <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2">{children}</div>
+          <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2 ">{children}</div>
           <div className="mt-16 border-t">
             <Footer />
           </div>
