@@ -49,7 +49,6 @@ const checkAndSendCachedData = async (query: string, pageNo: number) => {
   const searchResult: PrismaCourseOutput<{ select: {}, include: {} }>[] = JSON.parse(await redis.get(`coursesFor${query}${pageNo}`) as string)
   const totalResults: number = JSON.parse(await redis.get(`totalResultsFor${query}`) as string)
    
-  console.log(searchResult,totalResults)
   if (searchResult && totalResults) {
     return apiResponse({data: { courses: searchResult, totalResults: totalResults }});
   }
@@ -82,6 +81,7 @@ const getSearchResults = async (query: string, toSkip: number, toGet: number) =>
     orderBy: {
       id: "asc"
     },
+    include:{admin:true},
     take: toGet,
     skip: toSkip,
   });
