@@ -79,7 +79,14 @@ summary::-webkit-details-marker {
 body.no-scroll {
   overflow: hidden;
 }
-
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 550;
+  font-style: normal;
+  color: #1F1F1F;
+  font-size: 13px;
+  /* line-height: 28px; */
+}
 /* .snap-x {
   scroll-snap-type: x mandatory;
 }
