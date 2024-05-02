@@ -1,7 +1,7 @@
 import { BASE_URL_DEV } from "@/lib/constants";
 import { ApiResponseAttributes, featuredCourses } from "types";
 import { CourseCard } from "../Coursecard/CourseCard";
-  
+
 export const FeaturedCourses = async () => {
   const res = await fetch(`${BASE_URL_DEV}/api/getFeaturedCourses`, {
     cache: "no-store",
@@ -11,8 +11,9 @@ export const FeaturedCourses = async () => {
     ?.featuredCourses as featuredCourses[];
 
   if (!featuredCourses || featuredCourses.length === 0) {
-    return <div>No courses available</div>
+    return <div>No courses available</div>;
   }
+
   return (
     <div className="mt-[18px] sm:space-y-12 space-y-8 lg:px-[8px]">
       {featuredCourses.map((object, index) => (
@@ -30,18 +31,21 @@ export const FeaturedCourses = async () => {
             </button>
           </div>
 
-          <div
-            key={index}
-            className="flex flex-row overflow-x-auto no-scrollbar space-x-4 mt-2"
-          >
+          <div className="flex flex-row overflow-x-auto no-scrollbar space-x-4 mt-2">
             {object.courses.map((course) => (
-              <CourseCard
+              <div
                 key={course.id}
-                title={course.title}
-                imageLink={course.imageLink as string}
-                description={course.description as string}
-                price={course.price}
-              />
+              >
+                <CourseCard
+                  key={course.id}
+                  title={course.title}
+                  imageLink={course.imageLink as string}
+                  description={course.description as string}
+                  price={course.price}
+                  adminUsername={course.admin?.username as string}
+                  courseId={course.id as number}
+                />
+              </div>
             ))}
           </div>
         </div>
