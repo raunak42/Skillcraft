@@ -5,7 +5,7 @@ import Footer from "../../../coursera/src/components/footer/Footer";
 import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
 import { validateRequest } from "@/auth";
 import SessionNavbar from "../../../coursera/src/components/navbar/SessionNavbar";
-import { Sidebar } from "@/components/Sidebar/Sidebar";
+import { NoSessionSidebar } from "@/components/Sidebar/Sidebar";
 import RecoilWrapper from "./recoilWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,7 +28,7 @@ export default async function RootLayout({
       <body className={amiko.className}>
         <div className="relative">
           <div className="h-full fixed left-0 top-0 bottom-0 z-20 bg-white  border-r-2 border-r-black md:hidden">
-            <Sidebar />
+            <NoSessionSidebar />
           </div>
           <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
             {!session && <NoSessionNavbar />}
