@@ -95,6 +95,7 @@ model Course {
   price       Float
   published   Boolean
   category    String[]
+  chapters    String[]
   admin       Admin?  @relation(fields: [adminId], references: [id])
   adminId     String?
   users       User[]
