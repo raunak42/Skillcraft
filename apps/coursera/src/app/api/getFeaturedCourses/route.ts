@@ -25,6 +25,9 @@ export async function GET(req: Request): Promise<Response> {
                         { category: { hasSome: [category.toLowerCase(), unique.toLowerCase()] } },
                     ],
                 },
+                include:{
+                    admin:true
+                },
                 take: 18,
                 // distinct: "title",
             });
