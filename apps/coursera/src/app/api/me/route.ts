@@ -9,7 +9,7 @@ export async function GET(req: Request): Promise<Response> {
             const response = sessionData;
             return response;
         }
-        const { userId } = sessionData.session
+        const  userId  = sessionData?.session.userId
         const me = await prisma.user.findUnique({
             where: {
                 id: userId
