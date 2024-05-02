@@ -37,10 +37,11 @@ export type PrismaCourseOutput<T extends Prisma.CourseDefaultArgs> = Partial<Pri
 //ApiResponse schema for infering same types on both backend and frontend.
 export interface ApiResponseAttributes {
     data?: {
-        admin?: PrismaAdminOutput<{ select: {}, include: {} }>,
-        user?: PrismaUserOutput<{ select: {}, include: {} }>,
-        course?: PrismaCourseOutput<{ select: {}, include: {} }>,
-        courses?: PrismaCourseOutput<{ select: {}, include: {} }>[],
+        admin?: PrismaAdminOutput<{ select: {}, include: { createdCourses: true } }>,
+        user?: PrismaUserOutput<{ select: {}, include: { courses: true } }>,
+        course?: PrismaCourseOutput<{ select: {}, include: { admin: true, users: true } }>,
+        courses?: PrismaCourseOutput<{ select: {}, include: { admin: true, users: true } }>[],
+        courseIds?: number[]
         totalResults?: number
         featuredCourses?: featuredCourses[]
     },
@@ -50,5 +51,9 @@ export interface ApiResponseAttributes {
 
 export interface featuredCourses {
     category: String,
-    courses: PrismaCourseOutput<{ select: {}, include: {} }>[]
+    courses: PrismaCourseOutput<{ select: {}, include: { admin: true, users: true } }>[]
+}
+
+export interface courseId {
+    id: number
 }
