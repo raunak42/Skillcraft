@@ -4,9 +4,8 @@ import { Argon2id } from "oslo/password";
 import { INVALID_USRNM_PSWRD_MESSAGE, LOGIN_SUCCESS_MESSAGE } from "@/lib/constants";
 import { apiResponse, handleApiError } from "helpers";
 import { PrismaAdminOutput } from "types";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request, res: NextResponse): Promise<Response> {
+export async function POST(req: Request): Promise<Response> {
     try {
         const body: { username: string, password: string } = await req.json();
         const { username, password } = await validateBody(body);
