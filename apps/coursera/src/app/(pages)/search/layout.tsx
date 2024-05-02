@@ -15,7 +15,7 @@ const landingLayout = (params: landingLayoutParams) => {
     <div>
       {params.children}
       <div className="flex flex-row items-center justify-center mt-6">
-        <TogglePageButton query={query as string} pageNo={pageNo} />
+        {/* <TogglePageButton query={query as string} pageNo={pageNo} /> */}
       </div>
     </div>
   );

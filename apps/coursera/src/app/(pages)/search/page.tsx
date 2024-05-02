@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchResults } from "@/components/SearchResults/SearchResults";
 import Loading from "./loading";
+import { TogglePageButton } from "@/components/togglePageButton/togglePageButton";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -50,6 +51,7 @@ export default function Page() {
 
   const { courses } = response.data;
   const totalResults = response.data.totalResults as number;
+  const totalPages = Math.ceil(totalResults/toGet)
 
   return (
     <div className="lg:px-6 flex flex-col lg:space-y-10 space-y-4 ">
@@ -62,6 +64,9 @@ export default function Page() {
           <SearchResults course={course} />
         </div>
       ))}
+      <div className="flex flex-row items-center justify-center mt-6">
+        <TogglePageButton finalPage={totalPages} query={query as string} pageNo={pageNo} />
+      </div>
     </div>
   );
 }
