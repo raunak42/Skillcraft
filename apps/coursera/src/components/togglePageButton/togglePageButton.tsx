@@ -1,28 +1,35 @@
 interface ToggleParams {
   query: string;
   pageNo: number;
+  finalPage: number;
 }
 
 export const TogglePageButton: React.FC<ToggleParams> = ({
   query,
   pageNo,
+  finalPage,
 }: ToggleParams) => {
+  const toGet = 10;
   const handleNextClick = () => {
-    window.location.assign(
-      `/search?q=${encodeURIComponent(query as string)}&p=${pageNo + 1}`
-    );
+    if (pageNo !== finalPage) {
+      window.location.assign(
+        `/search?q=${encodeURIComponent(query as string)}&p=${pageNo + 1}`
+      );
+    }
   };
   const handlePrevClick = () => {
-    window.location.assign(
-      `/search?q=${encodeURIComponent(query as string)}&p=${pageNo + -1}`
-    );
+    if (pageNo !== 1) {
+      window.location.assign(
+        `/search?q=${encodeURIComponent(query as string)}&p=${pageNo - 1}`
+      );
+    }
   };
 
   return (
     <div className="overflow-hidden flex flex-row items-center justify-center border  text-black w-[300px] h-[40px] rounded-full">
       <button
         onClick={handlePrevClick}
-        className="size-full bg-black flex flex-row items-center justify-center w-[20%] h-full"
+        className={`size-full ${pageNo !== 1 && "bg-black"} ${pageNo === 1 && "bg-gray-400 hover:cursor-not-allowed"} flex flex-row items-center justify-center w-[20%] h-full`}
       >
         <img src="arrowPrev.svg" className="size-[28px]"></img>
       </button>{" "}
@@ -31,7 +38,7 @@ export const TogglePageButton: React.FC<ToggleParams> = ({
       </div>
       <button
         onClick={handleNextClick}
-        className="size-full bg-black flex flex-row items-center justify-center w-[20%] h-full"
+        className={`size-full ${pageNo !== finalPage && "bg-black"} ${pageNo === finalPage && "hover:cursor-not-allowed bg-gray-400 "} flex flex-row items-center justify-center w-[20%] h-full`}
       >
         <img src="arrowNext.svg" className="size-[28px]"></img>
       </button>
