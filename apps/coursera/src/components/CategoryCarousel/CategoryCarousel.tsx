@@ -21,9 +21,9 @@ export const CategoryCarousel: React.FC<ccProps> = () => {
 
 
   return (
-    <div className="flex flex-col py-2  ">
-      {categories.map((category) => (
-        <h1
+    <div className="flex flex-col">
+      {categories.map((category,index) => (
+        <h1 key={index}
           onClick={() => {
             window.location.assign(
               `/search?q=${encodeURIComponent(category)}&p=${1}`
