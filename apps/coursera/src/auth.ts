@@ -62,36 +62,34 @@ function memoize<T extends (...args: any[]) => any>(fn: T): T {
 }
 
 // Function to validate request with memoization
-export const validateRequest = memoize(
-    async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
-        const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
-        if (!sessionId) {
-            return {
-                user: null,
-                session: null
-            };
-        }
-
-        const result = await lucia.validateSession(sessionId);
-        // next.js throws when you attempt to set cookie when rendering page
-        try {
-            if (result.session && result.session.fresh) {
-                const sessionCookie = lucia.createSessionCookie(result.session.id);
-                cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-            }
-            if (!result.session) {
-                const sessionCookie = lucia.createBlankSessionCookie();
-                cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-            }
-        } catch (error) {
-            console.error(error)
-        }
-        return result;
+export const validateRequest = async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
+    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+    if (!sessionId) {
+        return {
+            user: null,
+            session: null
+        };
     }
-);
+
+    const result = await lucia.validateSession(sessionId);
+    // next.js throws when you attempt to set cookie when rendering page
+    try {
+        if (result.session && result.session.fresh) {
+            const sessionCookie = lucia.createSessionCookie(result.session.id);
+            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+        }
+        if (!result.session) {
+            const sessionCookie = lucia.createBlankSessionCookie();
+            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+        }
+    } catch (error) {
+        console.error(error)
+    }
+    return result;
+}
 
 // Function to get user with memoization
-export const getUser = memoize(async () => {
+export const getUser = async () => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) return null;
     const { user, session } = await lucia.validateSession(sessionId);
@@ -109,4 +107,4 @@ export const getUser = memoize(async () => {
         // Next.js throws error when attempting to set cookies when rendering page
     }
     return user;
-});
+}
