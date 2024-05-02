@@ -5,7 +5,7 @@ import { lucia, validateRequest } from "@/auth";
 export default async function Page() {
   return (
     <form action={logout}>
-      <button>Sign out</button>
+      <button className="p-4 bg-black rounded-full text-white font-semibold">Sign out</button>
     </form>
   );
 }
@@ -27,6 +27,7 @@ async function logout(): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
+  
   return redirect("/login");
 }
 
