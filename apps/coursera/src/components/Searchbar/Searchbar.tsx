@@ -34,7 +34,7 @@ export const Searchbar: React.FC<SearchbarProps> = () => {
 
   return (
     <div className="border-[1.5px] border-black shadow-sm rounded-full w-full lg:w-[90%] flex items-center h-10 bg-gray-100 pl-4 flex-row gap-3 ">
-      <img src="search.svg" className="size-5 "></img>
+      <img src="/search.svg" className="size-5 "></img>
       <input
         // autoFocus={true}
         defaultValue={query as string}
@@ -53,7 +53,7 @@ export const Searchbar: React.FC<SearchbarProps> = () => {
         onClick={handleCLick}
         className="bg-gray-300 hover:bg-gray-200/95 h-full w-[30%] xl:w-[20%] rounded-r-full flex flex-row items-center justify-center"
       >
-        <img src="search.svg" className="size-6 "></img>
+        <img src="/search.svg" className="size-6 "></img>
       </button>
     </div>
   );

@@ -33,14 +33,14 @@ const NoSessionNavbar = () => {
             >
               <img
                 className="size-4 hover:cursor-pointer"
-                src="emptyAvatar.svg"
+                src="/emptyAvatar.svg"
               ></img>
             </div>
 
             <Link href={"/ssrLanding"}>
               <img
                 className="w-[150px] md:w-[180px] lg:w-[210px] ml-4 hover:cursor-pointer"
-                src="skillcraftLogo.svg"
+                src="/skillcraftLogo.svg"
               ></img>
             </Link>
 
@@ -52,7 +52,7 @@ const NoSessionNavbar = () => {
                 onClick={() => {
                   setSearchIconClicked(true);
                 }}
-                src="search.svg"
+                src="/search.svg"
                 className="size-6"
               ></img>
             </div>
@@ -64,7 +64,7 @@ const NoSessionNavbar = () => {
               <Searchbar />
               <img
                 onClick={() => [setSearchIconClicked(false)]}
-                src="cross.svg"
+                src="/cross.svg"
                 className="size-12 hover:cursor-pointer hover:bg-gray-200 rounded-full p-2"
               ></img>
             </div>
@@ -81,12 +81,12 @@ const NoSessionNavbar = () => {
             </div>
           </div>
 
-          <button className=" rounded-3xl bg-black text-white font-bold w-32 py-2 ml-12 hover:rounded-xl transition-all duration-200">
+          <Link href={"/login"} className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 py-2 ml-12 hover:rounded-xl transition-all duration-200">
             Login
-          </button>
-          <button className="rounded-3xl py-2 w-32 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200">
+          </Link>
+          <Link href={"/signup"} className="flex flex-row items-center justify-center rounded-3xl py-2 w-32 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200">
             Signup
-          </button>
+          </Link>     
         </div>
       </div>
       {categoriesRef.current && (
