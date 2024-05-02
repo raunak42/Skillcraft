@@ -1,8 +1,10 @@
+"use client";
 interface CourseCardHzProps {
   imageLink: string;
   title: string;
   description: string;
   price: number;
+  id: number;
 }
 
 export const CourseCardHz: React.FC<CourseCardHzProps> = ({
@@ -10,9 +12,15 @@ export const CourseCardHz: React.FC<CourseCardHzProps> = ({
   title,
   description,
   price,
+  id,
 }) => {
   return (
-    <div className="bg-[#ffffff] border-[1.5px] rounded-2xl overflow-hidden w-[96%] hover:w-[99%] hover:cursor-pointer  transition-all duration-300 ease-in-out mx-auto flex flex-row border-black">
+    <div
+      onClick={() => {
+        window.location.assign(`/course/${id}`);
+      }}
+      className="bg-[#ffffff] border-[1.5px] rounded-2xl overflow-hidden w-[96%] hover:w-[99%] hover:cursor-pointer  transition-all duration-300 ease-in-out mx-auto flex flex-row border-black"
+    >
       <div className="relative w-[55%] sm:w-[40%] md:w-[30%] lg:w-[55%]">
         <img className=" object-cover h-[110px] w-full" src={imageLink} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

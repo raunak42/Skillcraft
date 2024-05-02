@@ -49,6 +49,7 @@ export const VCarousel: React.FC<VCarouselProps> = async () => {
             imageLink={course.imageLink as string}
             description={course.description as string}
             price={course.price as number}
+            id={course.id as number}
           />
         );
       })}
