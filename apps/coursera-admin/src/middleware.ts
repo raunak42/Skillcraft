@@ -14,8 +14,15 @@ const noMiddlewareRoutes = ["/api/signup", "/api/login"]
 export async function middleware(request: NextRequest): Promise<Response | NextResponse | undefined> {
 
     const { session, user } = await validateRequest();
-    const unprotectedRoute = unprotectedRoutes.find((t) => t === request.nextUrl.pathname)
     const noMiddlewareRoute = noMiddlewareRoutes.find((t) => t === request.nextUrl.pathname)
+    const unprotectedRoute = unprotectedRoutes.find((t) => {
+		const path = request.nextUrl.pathname
+		if (path.startsWith(t)) {
+			return true
+		} else {
+			return false
+		}
+	})
 
     if (noMiddlewareRoute) {
         return;
