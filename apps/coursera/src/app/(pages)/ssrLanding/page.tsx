@@ -13,7 +13,7 @@ export default async function Page() {
         </div>
         <div className="lg:col-span-1 flex flex-col items-center justify-center">
           <div
-            className="xl:h-[600px] lg:w-[100%] lg:h-[486px] w-[100%] h-[500px] transition-all duration-300 ease-in-out bg-gray-200
+            className="xl:h-[596px] lg:w-[100%] lg:h-[486px] w-[100%] h-[500px] transition-all duration-300 ease-in-out bg-gray-200
            rounded-xl mt-2 lg:mt-0 "
           >
             <VCarousel />
