@@ -91,7 +91,7 @@ export const validateRequest = async (): Promise<{ user: User; session: Session 
     ;
 
 // Function to get user with memoization
-export const getUser = memoize(async () => {
+export const getUser = async () => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) return null;
     const { user, session } = await lucia.validateSession(sessionId);
@@ -109,4 +109,4 @@ export const getUser = memoize(async () => {
         // Next.js throws error when attempting to set cookies when rendering page
     }
     return user;
-});
+}
