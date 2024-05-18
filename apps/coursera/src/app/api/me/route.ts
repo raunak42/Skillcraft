@@ -1,33 +1,35 @@
 import { prisma } from "@/lib/prisma"
-import { getSessionDataFromMiddleware } from "helpers";
+import { apiResponse, getSessionDataFromMiddleware } from "helpers";
 import { Session, User } from "lucia"
 
-export async function GET(req: Request): Promise<Response> {
+export async function POST(req: Request): Promise<Response> {
     try {
+        console.log("Route reached.")
         const sessionData = getSessionDataFromMiddleware(req);
         if (sessionData instanceof Response) {
             const response = sessionData;
             return response;
         }
-        const  userId  = sessionData?.session.userId
-        const me = await prisma.user.findUnique({
-            where: {
-                id: userId
-            },
+        
+        const userId = sessionData?.session.userId
+        const user = await prisma.user.findUnique({
             select: {
                 id: true,
                 avatar: true,
                 username: true,
                 email: true,
                 courses: true
+            },
+            where: {
+                id: userId
             }
         });
-        if (!me) {
-            return Response.json({ message: "user doesn't exsit" }, { status: 404 })
+        if (!user) {
+            return apiResponse({ message: "user doesn't exsit" }, 404)
         }
-        return Response.json(me, { status: 200 })
+        return apiResponse({ data: { user } }, 200)
     } catch (error) {
         console.error(error)
-        return Response.json({ error: "internal server error" }, { status: 500 })
+        return apiResponse({ error: "internal server error" }, 500)
     }
 }
