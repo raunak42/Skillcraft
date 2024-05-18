@@ -1,9 +1,8 @@
-import { GitHub, Google } from "arctic"
+import { GitHub, Google } from "arctic";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
 import { Lucia, User, Session } from "lucia";
-import { cookies } from "next/headers"
-import * as dotenv from "dotenv";
+import { cookies } from "next/headers";
 
 // dotenv.config();
 
