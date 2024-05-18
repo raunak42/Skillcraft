@@ -8,10 +8,10 @@ export async function GET(req: Request): Promise<Response> {
 
     try {
 
-        const cachedFeaturedCourses: featuredCourses[] = JSON.parse(await redis.get("featuredCourses") as string)
-        if (cachedFeaturedCourses) {
-            return apiResponse({ data: { featuredCourses: cachedFeaturedCourses } }, 200)
-        }
+        // const cachedFeaturedCourses: featuredCourses[] = JSON.parse(await redis.get("featuredCourses") as string)
+        // if (cachedFeaturedCourses) {
+        //     return apiResponse({ data: { featuredCourses: cachedFeaturedCourses } }, 200)
+        // }
 
         const promises = categories.map(async (category) => {
             const searchTerm = category.split(' ').map((word) => `${word}:*`).join(' & ');
@@ -43,7 +43,7 @@ export async function GET(req: Request): Promise<Response> {
             });
         }
 
-        await redis.set("featuredCourses", JSON.stringify(featuredCourses))
+        // await redis.set("featuredCourses", JSON.stringify(featuredCourses))
 
         return apiResponse({
             data: {
