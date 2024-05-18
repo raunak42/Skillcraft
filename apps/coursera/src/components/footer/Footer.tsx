@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className=" w-full h-full bg-gray-300 flex flex-row py-10">
+    <div className=" w-full h-full bg-gray-300 flex flex-row pt-10 pb-2">
       <div className="w-full flex flex-col items-center">
         <h1 className="text-center text-4xl font-bold text-[#000000]">
           Find me on
@@ -22,11 +22,11 @@ const Footer = () => {
           </a>
         </div>
         <div className="flex flex-col items-center mt-20 space-y-2">
-          <Link href={"/ssrLanding"}>
+          <a href={"/ssrLanding"}>
             <img src="/skillcraftLogo.svg" className="" width={200}></img>
-          </Link>
+          </a>
           <div className="text-[#000000] font-semibold flex flex-col items-center ">
-            <h1 className="">Copyright ©2024</h1>
+            {/* <h1 className="">Copyright ©2024</h1> */}
             <div className="flex flex-row space-x-1 ">
               <h1>Created by</h1>
               <a href="https://github.com/raunak42">
