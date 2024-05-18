@@ -5,12 +5,14 @@ import { useRecoilState } from "recoil";
 import { sideBarOpenState } from "state-store";
 import Link from "next/link";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 
 const NoSessionNavbar = () => {
   const [searchIconClicked, setSearchIconClicked] = useState<boolean>(false);
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [loginClicked, setLoginClicked] = useState<boolean>(false);
+  const [signupClicked, setSignupClicked] = useState<boolean>(false);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   const isLargeScreen = useMediaQuery({ minWidth: 1024 }); //lg breakpoint
@@ -37,12 +39,12 @@ const NoSessionNavbar = () => {
               ></img>
             </div>
 
-            <Link href={"/ssrLanding"}>
+            <a href={"/ssrLanding"}>
               <img
                 className="w-[150px] md:w-[180px] lg:w-[210px] ml-4 hover:cursor-pointer"
                 src="/skillcraftLogo.svg"
               ></img>
-            </Link>
+            </a>
 
             <div className="ml-8 hidden lg:block w-full">
               <Searchbar />
@@ -81,12 +83,24 @@ const NoSessionNavbar = () => {
             </div>
           </div>
 
-          <Link href={"/login"} className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 py-2 ml-12 hover:rounded-xl transition-all duration-200">
-            Login
+          <Link
+          onClick={()=>{}}
+            href={"/login"}
+            className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 py-2 ml-12 hover:rounded-xl transition-all duration-200"
+          >
+            {loginClicked && (
+              <div className="size-3 animate-spin">
+                <img src="/spinner.svg"></img>
+              </div>
+            )}
+            {!loginClicked && "Login"}
           </Link>
-          <Link href={"/signup"} className="flex flex-row items-center justify-center rounded-3xl py-2 w-32 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200">
+          <Link
+            href={"/signup"}
+            className=" flex flex-row items-center justify-center rounded-3xl py-2 w-32 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200"
+          >
             Signup
-          </Link>     
+          </Link>
         </div>
       </div>
       {categoriesRef.current && (
@@ -101,7 +115,7 @@ const NoSessionNavbar = () => {
           ${showDropDown ? "visible" : "invisible"}
           `}
         >
-          <CategoryCarousel/>
+          <CategoryCarousel />
         </div>
       )}
     </div>
