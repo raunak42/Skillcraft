@@ -1,4 +1,9 @@
 "use client";
+
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { courseClickedState } from "state-store";
+
 interface CourseCardProps {
   title?: string;
   description?: string;
@@ -16,13 +21,17 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   adminUsername,
   courseId,
 }) => {
+  const [courseClicked, setCourseClicked] = useRecoilState(courseClickedState)
+
   const id = courseId.toString();
   return (
     <div
       onClick={() => {
+        if(!courseClicked)
         window.location.assign(`/course/${id}`);
+        setCourseClicked(true);
       }}
-      className="flex-shrink-0 xl:w-[260px] xl:h-[300px] w-[220px] h-[192px] transition-all duration-300 ease-in-out border-[1.5px] border-black shadow bg-white hover:cursor-pointer rounded-lg overflow-hidden flex flex-col group "
+      className={`${courseClicked&&"animated-gradient-dark hover:cursor-not-allowed"} flex-shrink-0 xl:w-[260px] xl:h-[300px] w-[220px] h-[192px] transition-all duration-300 ease-in-out border-[1.5px] border-black shadow bg-white ${!courseClicked&&"hover:cursor-pointer"} rounded-lg overflow-hidden flex flex-col group `}
     >
       <div className="relative">
         <img
@@ -30,7 +39,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           src={imageLink}
           alt={title}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 group-hover:from-black/40 group-hover:to-transparent transition-all duration-300 ease-in-out"></div>
+        <div className="absolute  inset-0 bg-gradient-to-t from-black/60 to-black/20 group-hover:from-black/40 group-hover:to-transparent transition-all duration-300 ease-in-out"></div>
         {/*inset is for this div to be set in (over) the image, try various values to test. Also, inset is the combination of 'bottom', 'top', 'left', 'right'*/}
         <h2 className="absolute bottom-2 left-2 text-white font-bold xl:text-xl">
           {/*'bottom', 'left' are related to inset. These values can be used only when you are using 'relative' and 'absolute'*/}
