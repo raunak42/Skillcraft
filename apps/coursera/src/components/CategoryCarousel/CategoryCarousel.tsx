@@ -21,7 +21,7 @@ export const CategoryCarousel: React.FC<ccProps> = () => {
 
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-y-auto">
       {categories.map((category,index) => (
         <h1 key={index}
           onClick={() => {
