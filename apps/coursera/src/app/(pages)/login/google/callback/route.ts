@@ -58,7 +58,8 @@ export async function GET(request: Request): Promise<Response> {
             data: {
                 id: userId,
                 username: randomWord,
-                email: googleUser.email
+                email: googleUser.email,
+                avatar:googleUser.picture
             }
         });
 
@@ -100,6 +101,10 @@ interface GoogleUser {
     login: string;
     name: string;
     email: string;
+    given_name: string;
+    family_name: string;
+    picture: string;
+    locale: string;
 }
 
 
