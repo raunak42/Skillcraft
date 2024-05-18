@@ -27,13 +27,13 @@ export async function POST(req: Request, { params }: SearchParams): Promise<Resp
     const { toGet, pageNo } = body
     const toSkip = (pageNo - 1) * toGet
 
-    await checkAndSendCachedData(query, pageNo)
+    // await checkAndSendCachedData(query, pageNo)
 
     const searchResult = await getSearchResults(query, toSkip, toGet);
     const totalResults = await getNumberOfAllResults(query)
 
-    await redis.set(`coursesFor${query}${pageNo}`, JSON.stringify({ searchResult }))
-    await redis.set(`totalResultsFor${query}`, JSON.stringify({ totalResults }))
+    // await redis.set(`coursesFor${query}${pageNo}`, JSON.stringify({ searchResult }))
+    // await redis.set(`totalResultsFor${query}`, JSON.stringify({ totalResults }))
 
     if (searchResult.length === 0 || !searchResult) {
       console.log(`No courses found for keyword: ${query}`);
