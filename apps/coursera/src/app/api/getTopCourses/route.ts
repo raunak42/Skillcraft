@@ -24,7 +24,7 @@ export async function GET(req: Request): Promise<Response> {
             distinct: "title"
         });
 
-        await redis.set("topCourses", JSON.stringify(topCourses))
+        // await redis.set("topCourses", JSON.stringify(topCourses))
 
         return apiResponse({ data: { courses: topCourses } }, 200)
     } catch (error) {
