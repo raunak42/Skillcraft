@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { courseFromDb } from "@/native-types/types";
-import { getSessionDataFromMiddleware } from "helpers";
+import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
+import { Session, User } from "lucia";
+import { NextResponse } from "next/server";
+import { PrismaCourseOutput, PrismaUserOutput } from "types";
 
 type UserAttributes = {
     username: string;
@@ -16,11 +19,25 @@ type coursesFromDbWithUserInfo = {
 
 export async function POST(req: Request, { params }: { params: { courseId: string } }): Promise<Response> {
     try {
+        console.log("buyCourse Reached")
+        const body = await req.json()
+        console.log("BODY", body)
+        const { session, user }: { session: Session | null, user: User | null } = body;
+
+            if (!session) {
+                return NextResponse.json({ message: "Sign in first." }, {
+                    status: 403
+                })
+            }
+
         const courseId = parseInt(params.courseId);
         const sessionData = getSessionDataFromMiddleware(req);
         if (sessionData instanceof Response) {
             const response = sessionData;
             return response;
+        }
+        if (!sessionData) {
+            return apiResponse()
         }
 
         const { userId } = sessionData.session
@@ -32,25 +49,18 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
         }
         const courseAlreadyPurchased = purchasedCourses.find((t) => t.id === courseId);
         if (courseAlreadyPurchased) {
-            return Response.json({ message: "already purchased the course" }, { status: 409 })
+            return apiResponse({ message: "already purchased the course" }, 409)
         }
 
-        const updatedCourses = await updateUserCourses(userId, courseId);
-        if (updatedCourses instanceof Response) {
-            const response = updatedCourses;
+        const updatedUser = await updateUserCourses(userId, courseId);
+        if (updatedUser instanceof Response) {
+            const response = updatedUser;
             return response;
         }
 
-        return Response.json({
-            message: "course purchased successfully",
-            yourCourses: updatedCourses
-        }, { status: 200 })
+        return apiResponse({ message: "course purchased successfully", data: { courses: updatedUser.courses } }, 200)
     } catch (error) {
-        console.error(error);
-        if (error instanceof Error) {
-            return Response.json(error.message, { status: 500 })
-        }
-        return Response.json({ error: "internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 }
 
@@ -64,13 +74,13 @@ async function getUserCourses(userId: string): Promise<Response | courseFromDb[]
         }
     });
     if (!userInDb) {
-        return Response.json({ message: "user does not exist" }, { status: 404 })
+        return apiResponse({ message: "user does not exist" }, 404)
     }
     const purchasedCourses = userInDb.courses;
     return purchasedCourses;
 }
 
-async function updateUserCourses(userId: string, courseId: number): Promise<Response | coursesFromDbWithUserInfo> {
+async function updateUserCourses(userId: string, courseId: number): Promise<Response | PrismaUserOutput<{ include: { courses: true } }>> {
     const updateUserCourses = await prisma.user.update({
         where: {
             id: userId
@@ -87,7 +97,7 @@ async function updateUserCourses(userId: string, courseId: number): Promise<Resp
         }
     });
     if (!updateUserCourses) {
-        return new Response("An error occured. Couldn't reach the databse.")
+        return apiResponse({ message: "An error occured. Couldn't reach the databse." })
     }
 
     return updateUserCourses;
