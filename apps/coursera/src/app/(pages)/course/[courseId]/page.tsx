@@ -2,6 +2,8 @@ import { validateRequest } from "@/auth";
 import { CourseInfo } from "@/components/CourseInfo/CourseInfo";
 import { BASE_URL_DEV } from "@/lib/constants";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
+import Video from "next-video";
+import Accordion from "@/components/Accordion/Accordion";
 
 interface CourseParams {
   params: {
@@ -54,8 +56,6 @@ export default async function Page({ params }: CourseParams) {
     (course) => course.id === thisCourse?.id
   );
 
-  console.log(alreadyPurchasedCourse);
-
   return (
     <div>
       {!alreadyPurchasedCourse && (
@@ -71,11 +71,39 @@ export default async function Page({ params }: CourseParams) {
           courseId={thisCourse?.id as number}
         />
       )}
-      {
-        alreadyPurchasedCourse&&(
-          <div>Show video</div>
-        )
-      }
+      {alreadyPurchasedCourse && (
+        <div className="gap-[60px] flex flex-col">
+          <div className="w-full bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row gap-4">
+            <img
+              className="w-full md:w-[30%] rounded-2xl"
+              src={thisCourse?.imageLink as string}
+            ></img>
+            <div>
+              <h1 className="text-3xl font-semibold">{thisCourse?.title}</h1>
+              <div className="flex flex-row gap-1">
+                By<h2 className="font-semibold">{thisCourse?.admin?.username}</h2>
+              </div>
+              <h1 className="mt-4 text-lg">{thisCourse?.description}</h1>
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-semibold">Contents</h1>
+            {thisCourse?.chapters?.map((chapter, index) => (
+              <Accordion
+                key={index}
+                title={`Chapter ${index + 1}: ${chapter}`}
+                content={
+                  <div className="w-[400px]">
+                    <Video
+                      src={(thisCourse.chapterVideoLinks as [])[index]}
+                    />
+                  </div>
+                }
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
