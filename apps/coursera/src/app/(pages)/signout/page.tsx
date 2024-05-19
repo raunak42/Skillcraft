@@ -28,7 +28,7 @@ async function logout(): Promise<ActionResult> {
     sessionCookie.attributes
   );
   
-  return redirect("/login");
+  return redirect("/ssrLanding");
 }
 
 interface ActionResult {
