@@ -102,6 +102,26 @@ body.no-scroll {
   font-size: 13px;
   /* line-height: 28px; */
 }
+
+.accordion-item {
+  @apply my-2;
+}
+
+.accordion-header label {
+  @apply w-full text-left;
+}
+
+.accordion-body {
+  @apply overflow-hidden transition-all duration-300;
+}
+
+.accordion-header input:checked ~ .accordion-body {
+  @apply max-h-screen;
+}
+
+.accordion-header input:checked ~ label svg {
+  @apply rotate-180;
+}
 /* .snap-x {
   scroll-snap-type: x mandatory;
 }
