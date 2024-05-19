@@ -1,5 +1,8 @@
+'use client'
 import { PrismaCourseOutput } from "types";
 import { useMediaQuery } from "react-responsive";
+import { useRecoilState } from "recoil";
+import { courseClickedState } from "state-store";
 
 interface SRProps {
   course: PrismaCourseOutput<{ select: {}; include: { admin: true } }>;
@@ -12,6 +15,8 @@ const handleClickLink = (query: string) => {
 const handleClick = () => {};
 
 export const SearchResults: React.FC<SRProps> = ({ course }: SRProps) => {
+  const [courseClicked, setCourseClicked] = useRecoilState(courseClickedState)
+
   const isMdScreen = useMediaQuery({ minWidth: 768 }); //md breakpoint
 
   if (!Array.isArray(course.category)) {
@@ -23,10 +28,11 @@ export const SearchResults: React.FC<SRProps> = ({ course }: SRProps) => {
   }
   return (
     <div 
-    onClick={()=>[
+    onClick={()=>{
+      setCourseClicked(true)
       window.location.assign(`/course/${course.id}`)
-    ]}
-    className="group h-[115px] sm:h-[140px] lg:w-full lg:h-[200px] xl:h-[260px] flex w-full flex-row  bg-white  sm:border-none rounded-xl overflow-hidden">
+    }}
+    className={` ${courseClicked&&"animated-gradient-dark"} group h-[115px] sm:h-[140px] lg:w-full lg:h-[200px] xl:h-[260px] flex w-full flex-row  bg-white  sm:border-none rounded-xl overflow-hidden`}>
       <div
         onClick={handleClick}
         className="border-0 h-full w-[35%] sm:w-[30%] lg:w-[40%] xl:w-[45%]  hover:cursor-pointer overflow-hidden flex flex-row items-center justify-center"
