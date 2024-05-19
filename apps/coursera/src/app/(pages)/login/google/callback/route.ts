@@ -47,7 +47,7 @@ export async function GET(request: Request): Promise<Response> {
             return new Response(null, {
                 status: 302,
                 headers: {
-                    Location: "/"
+                    Location: "/ssrLanding"
                 }
             });
         }
@@ -77,7 +77,7 @@ export async function GET(request: Request): Promise<Response> {
         return new Response(null, {
             status: 302,
             headers: {
-                Location: "/"
+                Location: "/ssrLanding"
             }
         });
     } catch (e) {
