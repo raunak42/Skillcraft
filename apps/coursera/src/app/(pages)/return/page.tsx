@@ -22,6 +22,7 @@ export default function Page() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const courseId = searchParams.get("courseId");
+  const courseIds = searchParams.get("courseIds")?.split(",");
   const userId = searchParams.get("userId");
 
   const fetchData = async () => {
@@ -29,6 +30,20 @@ export default function Page() {
       const res = await fetch(`/api/checkoutSession?session_id=${sessionId}`, {
         method: "GET",
       });
+
+      const response = await res.json();
+      setResponse(response);
+    }
+  };
+
+  const fetchData3 = async () => {
+    if (sessionId) {
+      const res = await fetch(
+        `/api/cartCheckoutSession?session_id=${sessionId}`,
+        {
+          method: "GET",
+        }
+      );
 
       const response = await res.json();
       setResponse(response);
@@ -45,17 +60,35 @@ export default function Page() {
     setCourses(courses);
   };
 
+  if (courseId !== null) {
+    useEffect(() => {
+      fetchData();
+    }, []);
+  }
+
+  if (courseIds !== undefined) {
+    useEffect(() => {
+      fetchData3();
+    }, []);
+  }
+
   useEffect(() => {
-    fetchData();
     fetchData2();
   }, []);
 
-  if (!response || !courses || courses.length===0) {
+  console.log("response", response);
+  console.log(courses?.length);
+
+  if (!response || !courses || courses.length === 0) {
     return <Loading></Loading>;
   }
 
   const thisCourse = courses.find(
     (course) => course.id?.toString() === courseId
+  );
+
+  const theseCourses = courses.filter((course) =>
+    courseIds?.includes(course.id!.toString())
   );
 
   const status = response.status;
@@ -81,17 +114,34 @@ export default function Page() {
         </div>
 
         <div className="w-full flex flex-row items-center justify-center">
-          <div className="h-[540px] w-[440px] flex flex-col justify-evenly p-4 items-center bg-white rounded-xl">
+          <div className="h-[540px] w-[440px] flex flex-col p-4 items-center justify-evenly bg-white rounded-xl">
             <div>
               <img className="size-40" src="/success.svg"></img>
             </div>
-            <h1 className="text-lg">
-              "{thisCourse?.title}" added to{" "}
-              <Link className="underline" href={"/myCourses"}>
-                your courses
-              </Link>
-              .
-            </h1>
+            {thisCourse && (
+              <h1 className="text-lg">
+                "{thisCourse?.title}" added to{" "}
+                <Link className="underline font-semibold" href={"/myCourses"}>
+                  your courses
+                </Link>
+                .
+              </h1>
+            )}
+            {theseCourses && (
+              <div className="flex flex-row items-center justify-center flex-wrap">
+                {theseCourses.map((course) => {
+                  return <h3 className="shrink-0 pr-1">{course.title},</h3>;
+                })}
+                added to{" "}
+                <Link
+                  className="pl-1 underline font-semibold"
+                  href={"/myCourses"}
+                >
+                  your courses
+                </Link>
+                .
+              </div>
+            )}
           </div>
         </div>
       </div>
