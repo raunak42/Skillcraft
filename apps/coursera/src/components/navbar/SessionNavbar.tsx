@@ -69,7 +69,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
           {!searchIconClicked && (
             <div className="  h-8 lg:h-10 flex flex-row justify-between gap-2 lg:justify-start lg:gap-4 w-full items-center">
               <div className="flex flex-row items-center">
-                <img className="size-2" src="/arrowDown.svg"></img>
+                {/* <img className="size-2" src="/arrowDown.svg"></img> */}
 
                 <div
                   onClick={() => {
