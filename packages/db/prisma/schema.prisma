@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -19,6 +19,7 @@ model User {
   hashed_password String             @default("") //default is an empty string because providers like google do not automatically supply a password to be put in the db. But we do need this field for usrnm/pswrd login.
   email           String?            @unique
   courses         Course[]
+  cart            Int[]
   sessions        userSession[]
   OAuthAccount    UserOAuthAccount[]
 }
@@ -88,15 +89,16 @@ model AdminOAuthAccount {
 }
 
 model Course {
-  id          Int     @id @default(autoincrement())
-  title       String
-  description String?
-  imageLink   String?
-  price       Float
-  published   Boolean
-  category    String[]
-  chapters    String[]
-  admin       Admin?  @relation(fields: [adminId], references: [id])
-  adminId     String?
-  users       User[]
+  id                Int      @id @default(autoincrement())
+  title             String
+  description       String?
+  imageLink         String?
+  price             Float
+  published         Boolean
+  category          String[]
+  chapters          String[]
+  chapterVideoLinks String[]
+  admin             Admin?   @relation(fields: [adminId], references: [id])
+  adminId           String?
+  users             User[]
 }
