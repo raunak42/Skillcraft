@@ -29,9 +29,9 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
   const { session } = await validateRequest();
 
   return (
-    <div className="py-2 grid grid-cols-7 h-full bg-[#ffffff] mx-[15px] rounded-2xl lg:gap-4 xl:gap-0 xl:mx-[50px] overflow-hidden xl:px-6 ">
+    <div className=" grid grid-cols-7 h-full bg-[#ffffff] mx-[15px] rounded-2xl lg:gap-4 xl:gap-0 xl:mx-[50px] overflow-hidden ">
       <div
-        className={`col-span-7 ${session && "md:col-span-4"} lg:col-span-4 md:py-4 px-2 flex flex-col  gap-10`}
+        className={`py-2 px-4 col-span-7 ${session && "md:col-span-4"} lg:col-span-4 md:py-4 px-2 flex flex-col  gap-10`}
       >
         <div className=" flex flex-col items-start justify-start">
           <div className=" flex flex-col  items-start justify-start">
@@ -120,10 +120,10 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
         </Suspense>
       )}
       {!session && (
-        <div className="col-span-7 md:px-4  xl:col-span-3 md:py-4  flex flex-col justify-start items-center gap-8 md:justify-start">
-          <div className="flex flex-row items-center justify-center gap-2">
-            <img className="size-8 lg:size-10" src="/login.svg"></img>
-            <h1 className="text-xl lg:text-2xl">Login to buy this course</h1>
+        <div className="bg-gray-300 col-span-7 md:px-4  xl:col-span-3 md:py-4  flex flex-col items-center justify-center xl:justify-start gap-8 py-4 ">
+          <div className=" flex flex-row items-center justify-center gap-4">
+            <img className="size-8 lg:size-7" src="/login.svg"></img>
+            <h1 className="text-xl lg:text-xl">Login to buy this course</h1>
           </div>
           <div className="px-4 w-full md:w-[30%] flex flex-row items-center justify-center">
             <Login buttonText="Login" />
