@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -e ./../../.env  -- next dev --port 3000 --hostname 0.0.0.0",
+    "dev": "dotenv -e ./../../.env  -- next dev --port 3000 --hostname 0.0.0.0 & npx next-video sync -w",
     "build": "npx prisma generate --no-engine && next build",
     "start": "next start --hostname 0.0.0.0",
     "lint": "next lint"
@@ -28,6 +28,7 @@
     "micro": "^10.0.1",
     "micro-cors": "^0.1.1",
     "next": "^14.2.3",
+    "next-video": "^1.0.6",
     "oslo": "^1.1.2",
     "prisma": "^5.9.1",
     "random-word-slugs": "^0.1.7",
