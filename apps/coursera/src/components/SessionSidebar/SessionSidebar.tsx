@@ -99,12 +99,22 @@ export const SessionSidebar = () => {
           <Link
             className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-[12px] py-[10px]"
             onClick={() => setSideBarOpen(false)}
-            href={"/signup"}
+            href={"/myCourses"}
           >
             <div className="shrink-0 size-[26px]">
               <img src="/hat.svg"></img>
             </div>
             <h3 className="pl-[10px]">My courses</h3>
+          </Link>
+          <Link
+            className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-[16px] py-[11px]"
+            onClick={() => setSideBarOpen(false)}
+            href={"/signout"}
+          >
+            <div className="shrink-0 size-[22px]">
+              <img src="/logout.svg"></img>
+            </div>
+            <h3 className="pl-[10px]">Logout</h3>
           </Link>
           <div>
             <div className="text-nowrap font-semibold px-4 pt-4 pb-2">
