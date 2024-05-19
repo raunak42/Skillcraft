@@ -1,7 +1,7 @@
-import { Session, User } from 'lucia';
+import { Session } from 'lucia';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { buyCourse, getUserCourses } from './helpers';
+import { buyCourse, buyCourses, emptyCart, getUserCourses } from './helpers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-04-10',
@@ -34,9 +34,8 @@ export async function POST(req: NextRequest) {
   if (event.type === 'payment_intent.created') {
     const paymentIntent = event.data.object;
     const courseId = parseInt(paymentIntent.metadata.courseId);
+    const courseIds = JSON.parse(paymentIntent.metadata.courseIds);
     const session: Session = JSON.parse(paymentIntent.metadata.authSession);
-
-
 
     const purchasedCourses = await getUserCourses(session.userId);
     if (purchasedCourses instanceof Response) {
@@ -54,10 +53,21 @@ export async function POST(req: NextRequest) {
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object;
     const courseId = parseInt(paymentIntent.metadata.courseId);
+    const courseIds: number[] = JSON.parse(paymentIntent.metadata.courseIds);
     const session: Session = JSON.parse(paymentIntent.metadata.authSession);
 
+    console.log(courseId)
+    console.log(courseIds)
+
+
     try {
-      await buyCourse(session, courseId);
+      if (!isNaN(courseId)) {
+        await buyCourse(session, courseId);
+      }
+      if (courseIds.length > 0) {
+        await buyCourses(session, courseIds);
+        await emptyCart(session)
+      }
     } catch (error) {
       console.error(error);
     }
