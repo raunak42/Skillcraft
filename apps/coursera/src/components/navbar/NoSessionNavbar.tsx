@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar/Searchbar";
 import { useRecoilState } from "recoil";
-import { sideBarOpenState } from "state-store";
+import { courseClickedState, sideBarOpenState } from "state-store";
 import Link from "next/link";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useMediaQuery } from "react-responsive";
@@ -14,6 +14,8 @@ const NoSessionNavbar = () => {
   const [loginClicked, setLoginClicked] = useState<boolean>(false);
   const [signupClicked, setSignupClicked] = useState<boolean>(false);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
+  const [isLoading, setIsLoading] = useRecoilState(courseClickedState);
+
 
   const isLargeScreen = useMediaQuery({ minWidth: 1024 }); //lg breakpoint
   useEffect(() => {
@@ -78,29 +80,40 @@ const NoSessionNavbar = () => {
             onMouseEnter={() => setShowDropDown(true)}
             onMouseLeave={() => setShowDropDown(false)}
           >
-            <div className=" border-none font-semibold text-black hover:cursor-pointer">
+            <div className="border-none font-semibold text-black hover:cursor-pointer flex flex-row items-center">
               Categories
+              {isLoading&&<img src="/spinnerBlack.svg" className="size-4 animate-spin" ></img>}
             </div>
           </div>
 
-          <Link
-          onClick={()=>{}}
+          <a
+          onClick={()=>{
+            setLoginClicked(true)
+          }}
             href={"/login"}
-            className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 py-2 ml-12 hover:rounded-xl transition-all duration-200"
+            className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 h-10 py-2 ml-12 hover:rounded-xl transition-all duration-200"
           >
             {loginClicked && (
-              <div className="size-3 animate-spin">
+              <div className="size-4 animate-spin">
                 <img src="/spinner.svg"></img>
               </div>
             )}
             {!loginClicked && "Login"}
-          </Link>
-          <Link
+          </a>
+          <a
+          onClick={()=>{
+            setSignupClicked(true)
+          }}
             href={"/signup"}
-            className=" flex flex-row items-center justify-center rounded-3xl py-2 w-32 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200"
+            className=" flex flex-row items-center justify-center rounded-3xl py-2 w-32 h-10 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200"
           >
-            Signup
-          </Link>
+            {signupClicked && (
+              <div className="size-5 animate-spin">
+                <img src="/spinnerBlack.svg"></img>
+              </div>
+            )}
+            {!signupClicked && "Signup"}
+          </a>
         </div>
       </div>
       {categoriesRef.current && (
