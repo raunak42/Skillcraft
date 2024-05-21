@@ -10,7 +10,7 @@ export default async function Page() {
   );
 }
 
-async function logout(): Promise<ActionResult> {
+export async function logout(): Promise<ActionResult> {
   "use server";
   const { session } = await validateRequest();
   if (!session) {
