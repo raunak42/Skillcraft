@@ -30,6 +30,7 @@ export async function GET(request: Request): Promise<Response> {
         });
 
         const githubUser: GitHubUser = await githubUserResponse.json();
+        console.log("githubUser", githubUser)
 
         const existingUser = await prisma.userOAuthAccount.findUnique({
             where: {
@@ -56,6 +57,7 @@ export async function GET(request: Request): Promise<Response> {
             data: {
                 id: userId,
                 username: randomUsername,
+                avatar:githubUser.avatar_url
             }
         });
 
@@ -95,4 +97,5 @@ export async function GET(request: Request): Promise<Response> {
 interface GitHubUser {
     id: number;
     login: string;
+    avatar_url: string
 }
