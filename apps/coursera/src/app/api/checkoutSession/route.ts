@@ -56,6 +56,7 @@ export async function POST(req: Request) {
                 },
                 metadata: {
                     courseId: course.id,
+                    courseIds:JSON.stringify([]), //empty array because this ain't cart
                     authSession: JSON.stringify(authSession),
                     user: JSON.stringify(user)
                 }
