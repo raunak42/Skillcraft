@@ -1,7 +1,11 @@
+import { useRecoilState } from "recoil";
+import { courseClickedState } from "state-store";
 
 interface ccProps {}
 
 export const CategoryCarousel: React.FC<ccProps> = () => {
+  const [isLoading, setIsLoading] = useRecoilState(courseClickedState);
+
   const categories = [
     "Art",
     "Computer Science",
@@ -19,12 +23,13 @@ export const CategoryCarousel: React.FC<ccProps> = () => {
     "Public speaking",
   ];
 
-
   return (
     <div className="flex flex-col overflow-y-auto">
-      {categories.map((category,index) => (
-        <h1 key={index}
+      {categories.map((category, index) => (
+        <h1
+          key={index}
           onClick={() => {
+            setIsLoading(true);
             window.location.assign(
               `/search?q=${encodeURIComponent(category)}&p=${1}`
             );
