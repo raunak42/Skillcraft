@@ -11,7 +11,7 @@ export default async function Page(req: NextRequest, res: NextResponse) {
   const sessionDetails = await validateRequest();
   const existingSession = sessionDetails.session;
   if (existingSession) {
-    return redirect("/");
+    return redirect("/ssrLanding");
   }
 
   return (
@@ -61,5 +61,5 @@ const startSession = (session: Session) => {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return redirect("/ssrLanding");
 };
