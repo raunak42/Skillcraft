@@ -20,6 +20,7 @@ model User {
   email           String?            @unique
   courses         Course[]
   cart            Int[]
+  wishList        Int[]
   sessions        userSession[]
   OAuthAccount    UserOAuthAccount[]
 }
