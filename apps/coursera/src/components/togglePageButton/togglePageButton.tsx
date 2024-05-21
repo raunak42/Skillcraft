@@ -1,3 +1,6 @@
+import { useRecoilState } from "recoil";
+import { courseClickedState } from "state-store";
+
 interface ToggleParams {
   query: string;
   pageNo: number;
@@ -9,9 +12,12 @@ export const TogglePageButton: React.FC<ToggleParams> = ({
   pageNo,
   finalPage,
 }: ToggleParams) => {
+  const [buttonClicked, setButtonClicked] = useRecoilState(courseClickedState)
+
   const toGet = 10;
   const handleNextClick = () => {
     if (pageNo !== finalPage) {
+      setButtonClicked(true)
       window.location.assign(
         `/search?q=${encodeURIComponent(query as string)}&p=${pageNo + 1}`
       );
@@ -19,6 +25,7 @@ export const TogglePageButton: React.FC<ToggleParams> = ({
   };
   const handlePrevClick = () => {
     if (pageNo !== 1) {
+      setButtonClicked(true)
       window.location.assign(
         `/search?q=${encodeURIComponent(query as string)}&p=${pageNo - 1}`
       );
