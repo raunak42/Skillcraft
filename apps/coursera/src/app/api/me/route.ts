@@ -18,7 +18,8 @@ export async function POST(req: Request): Promise<Response> {
                 username: true,
                 email: true,
                 courses: true,
-                cart: true
+                cart: true,
+                wishList:true
             },
             where: {
                 id: userId
