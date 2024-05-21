@@ -43,5 +43,5 @@ const startSession = (session: Session) => {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return redirect("/ssrLanding");
 };
