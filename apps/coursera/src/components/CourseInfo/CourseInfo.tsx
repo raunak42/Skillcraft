@@ -1,10 +1,10 @@
 // "use client";
-import { Session } from "lucia";
 import { PaymentComponent } from "../PaymentComponent/PaymentComponent";
 import { Suspense } from "react";
 import { validateRequest } from "@/auth";
-import Link from "next/link";
 import { Login } from "../Login/Login";
+import { Buttons } from "./Buttons";
+import { handleLogin } from "@/app/(pages)/login/page";
 
 interface CourseInfoProps {
   imageLink: string;
@@ -26,7 +26,7 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
   // session,
   courseId,
 }) => {
-  const { session } = await validateRequest();
+  const { session, user } = await validateRequest();
 
   return (
     <div className=" grid grid-cols-7 h-full bg-[#ffffff] mx-[15px] rounded-2xl lg:gap-4 xl:gap-0 xl:mx-[50px] overflow-hidden ">
@@ -45,11 +45,11 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
             </h1>
           </div>
 
-          <div className=" w-full md:w-[90%]">
-            <div className="relative">
+          <div className="w-full">
+            <div className="relative flex flex-row items-center justify-center shrink-0 w-full">
               <div className="rounded-xl absolute inset-0 bg-gradient-radial from-transparent to-black/40"></div>
               <img
-                className="rounded-xl"
+                className="rounded-xl shrink-0 size-full"
                 src={imageLink as string}
                 alt={title as string}
               ></img>
@@ -58,7 +58,7 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
               </h1>
             </div>
 
-            <div className="px-2 md:px-0 w-full flex flex-row items-center justify-between gap-2">
+            {/* <div className="px-2 md:px-0 w-full flex flex-row items-center justify-between gap-2">
               <button
                 // onClick={handleBuy}
                 className="   bg-black mt-4 px-6 py-2 lg:mt-6  text-sm lg:text-md font-semibold  text-white"
@@ -66,12 +66,13 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
                 Add to wishlist
               </button>
               <button
-                // onClick={handleBuy}
+                onClick={addToCart}
                 className="   bg-black mt-4 px-6 py-2 lg:mt-6  text-sm lg:text-md font-semibold  text-white"
               >
                 + Add to cart
               </button>
-            </div>
+            </div> */}
+            <Buttons session={session} user={user} courseId={courseId} />
           </div>
 
           <div className="pb-4 md:pb-0 pt-10">
@@ -107,7 +108,7 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
             </div>
           }
         >
-          <div className=" col-span-7 md:px-4  md:col-span-3 xl:col-span-3 md:py-4  flex flex-col gap-4 items-center">
+          <div className=" col-span-7 md:px-4  md:col-span-3 xl:col-span-3 px-2 sm:px-0 py-4  flex flex-col gap-4 items-center">
             <div className="w-full">
               <PaymentComponent
                 title={title}
@@ -120,13 +121,24 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
         </Suspense>
       )}
       {!session && (
-        <div className="bg-gray-300 col-span-7 md:px-4  xl:col-span-3 md:py-4  flex flex-col items-center justify-center xl:justify-start gap-8 py-4 ">
+        <div className=" bg-gray-300/90 shadow-inner  col-span-7 md:px-4  xl:col-span-3 md:py-4  flex flex-col items-center justify-center xl:justify-start gap-8 py-4 ">
           <div className=" flex flex-row items-center justify-center gap-4">
-            <img className="size-8 lg:size-7" src="/login.svg"></img>
-            <h1 className="text-xl lg:text-xl">Login to buy this course</h1>
+            <img className="size-8 lg:size-10" src="/login.svg"></img>
+            <h1 className="text-xl lg:text-2xl font-semibold">
+              Login to buy this course
+            </h1>
           </div>
-          <div className="px-4 w-full md:w-[30%] flex flex-row items-center justify-center">
-            <Login buttonText="Login" />
+          <div className="gap-8 px-4 w-full md:w-[30%] flex flex-col items-center justify-center">
+            <form
+              action={handleLogin}
+              className="flex flex-col items-center justify-center"
+            >
+              <Login buttonText="Login" />
+            </form>
+            <div className="flex flex-row">
+              Or{""}
+              <a href="/signup" className="pl-1 font-semibold hover:cursor-pointer"> Signup</a>?
+            </div>
           </div>
         </div>
       )}
