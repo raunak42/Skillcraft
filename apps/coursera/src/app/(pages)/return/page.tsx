@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { BASE_URL_DEV } from "@/lib/constants";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 import Loading from "./loading";
 
@@ -76,8 +75,6 @@ export default function Page() {
     fetchData2();
   }, []);
 
-  console.log("response", response);
-  console.log(courses?.length);
 
   if (!response || !courses || courses.length === 0) {
     return <Loading></Loading>;
@@ -119,7 +116,7 @@ export default function Page() {
               <img className="size-40" src="/success.svg"></img>
             </div>
             {thisCourse && (
-              <h1 className="text-lg">
+              <h1 className="">
                 "{thisCourse?.title}" added to{" "}
                 <Link className="underline font-semibold" href={"/myCourses"}>
                   your courses
@@ -127,7 +124,7 @@ export default function Page() {
                 .
               </h1>
             )}
-            {theseCourses && (
+            {theseCourses.length>0 && (
               <div className="flex flex-row items-center justify-center flex-wrap">
                 {theseCourses.map((course) => {
                   return <h3 className="shrink-0 pr-1">{course.title},</h3>;
