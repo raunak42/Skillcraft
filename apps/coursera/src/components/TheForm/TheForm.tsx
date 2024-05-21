@@ -1,7 +1,7 @@
 "use client";
 import {
   EmbeddedCheckout,
-  EmbeddedCheckoutProvider
+  EmbeddedCheckoutProvider,
 } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 
@@ -23,13 +23,22 @@ export const TheForm: React.FC<TheFormProps> = ({ clientSecret }) => {
     // <Elements stripe={stripePromise} options={options}>
     //   <CheckoutForm />
     // </Elements>
-    <div className="">
-      <EmbeddedCheckoutProvider
-        options={{ clientSecret: clientSecret }}
-        stripe={stripePromise}
-      >
-        <EmbeddedCheckout className=""></EmbeddedCheckout>
-      </EmbeddedCheckoutProvider>
+    <div className=" flex flex-col">
+      <div className="w-full flex flex-col items-center justify-center mb-4">
+       <h1 className="text-red-600">Dummy card credentials:</h1>
+        <img
+          src="/testCard.png"
+          className="w-[380px] rounded-xl border-[1.5px] border-red-500"
+        ></img>
+      </div>
+      <div>
+        <EmbeddedCheckoutProvider
+          options={{ clientSecret: clientSecret }}
+          stripe={stripePromise}
+        >
+          <EmbeddedCheckout className=""></EmbeddedCheckout>
+        </EmbeddedCheckoutProvider>
+      </div>
     </div>
   );
 };
