@@ -5,11 +5,12 @@ import { ApiResponseAttributes } from "types";
 import { LOGIN_SUCCESS_MESSAGE } from "@/lib/constants";
 import { Session } from "lucia";
 import { Login } from "@/components/Login/Login";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   return (
     <form
-      action={handleClick}
+      action={handleLogin}
       className="flex flex-col items-center justify-center"
     >
       <Login buttonText="Login" />
@@ -17,11 +18,12 @@ export default async function Page() {
   );
 }
 
-const handleClick = async (formData: FormData) => {
+export const handleLogin = async (formData: FormData) => {
   "use server"; //Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".
 
   const username = formData.get("username");
   const password = formData.get("password");
+  
   const startSession = (session: Session) => {
     console.log("session started");
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -30,6 +32,8 @@ const handleClick = async (formData: FormData) => {
       sessionCookie.value,
       sessionCookie.attributes
     );
+    return redirect("/ssrLanding");
+
   };
 
   const res = await fetch("http://localhost:3000/api/login", {
