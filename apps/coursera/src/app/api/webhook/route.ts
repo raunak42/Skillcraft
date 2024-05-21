@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
   if (event.type === 'payment_intent.created') {
     const paymentIntent = event.data.object;
     const courseId = parseInt(paymentIntent.metadata.courseId);
-    const courseIds = JSON.parse(paymentIntent.metadata.courseIds);
     const session: Session = JSON.parse(paymentIntent.metadata.authSession);
 
     const purchasedCourses = await getUserCourses(session.userId);
@@ -46,7 +45,7 @@ export async function POST(req: NextRequest) {
     if (courseAlreadyPurchased) {
       // return apiResponse({ message: "already purchased the course" }, 409)
       console.log(`Already purchased the course. PaymentIntent for ${paymentIntent.amount} failed.`)
-      return new Response("Already purchased the course.");
+      return NextResponse.json({ message: "Already purchased the course." })
     }
   }
 
@@ -55,10 +54,6 @@ export async function POST(req: NextRequest) {
     const courseId = parseInt(paymentIntent.metadata.courseId);
     const courseIds: number[] = JSON.parse(paymentIntent.metadata.courseIds);
     const session: Session = JSON.parse(paymentIntent.metadata.authSession);
-
-    console.log(courseId)
-    console.log(courseIds)
-
 
     try {
       if (!isNaN(courseId)) {
