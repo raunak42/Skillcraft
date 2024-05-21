@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 interface LoginProps {
@@ -8,6 +7,7 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = ({ buttonText }: LoginProps) => {
   const [githubClicked, setGithubClicked] = useState<boolean>(false);
   const [googleClicked, setGoogleClicked] = useState<boolean>(false);
+  const [buttonClicked, setButtonCLicked] = useState<boolean>(false);
 
   return (
     <div>
@@ -33,9 +33,16 @@ export const Login: React.FC<LoginProps> = ({ buttonText }: LoginProps) => {
               className="bg-gray-100 w-full h-[40px] rounded-full px-4"
             ></input>
           </div>
-
-          <button className="rounded-full bg-black text-white font-semibold px-12 py-2 mt-4">
-            {buttonText}
+          <button
+            onClick={() => {
+              setButtonCLicked(true);
+            }}
+            className="w-[160px] h-[40px] rounded-full bg-black text-white font-semibold flex flex-row items-center justify-center mt-4"
+          >
+            {!buttonClicked && <div>{buttonText}</div>}
+            {buttonClicked && (
+              <img src="/spinner.svg" className="animate-spin size-5"></img>
+            )}
           </button>
         </div>
 
@@ -44,9 +51,9 @@ export const Login: React.FC<LoginProps> = ({ buttonText }: LoginProps) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {!googleClicked && (
               <Link
-              onClick={()=>{
-                setGoogleClicked(true)
-              }}
+                onClick={() => {
+                  setGoogleClicked(true);
+                }}
                 href={"/login/google"}
                 className="hover:bg-gray-200 rounded-full"
               >
@@ -63,9 +70,9 @@ export const Login: React.FC<LoginProps> = ({ buttonText }: LoginProps) => {
             )}
             {!githubClicked && (
               <Link
-              onClick={()=>{
-                setGithubClicked(true)
-              }}
+                onClick={() => {
+                  setGithubClicked(true);
+                }}
                 href={"/login/github"}
                 className="px-[12px] py-[10px] border-[1px] border-gray-500 w-[189px] h-[40px] rounded-full flex flex-row items-center justify-between hover:bg-gray-200"
               >
@@ -74,9 +81,7 @@ export const Login: React.FC<LoginProps> = ({ buttonText }: LoginProps) => {
               </Link>
             )}
             {githubClicked && (
-              <div
-                className="bg-gray-200 px-[12px] py-[10px] border-[1px] border-gray-500 w-[189px] h-[40px] rounded-full flex flex-col items-center justify-center"
-              >
+              <div className="bg-gray-200 px-[12px] py-[10px] border-[1px] border-gray-500 w-[189px] h-[40px] rounded-full flex flex-col items-center justify-center">
                 <img
                   className="size-3 animate-spin "
                   src="/darkSpinner.svg"
