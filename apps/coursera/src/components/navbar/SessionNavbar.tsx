@@ -1,8 +1,13 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar/Searchbar";
 import { useRecoilState } from "recoil";
-import { avatarState, sideBarOpenState, usernameState } from "state-store";
+import {
+  avatarState,
+  courseClickedState,
+  sideBarOpenState,
+  usernameState,
+} from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useMediaQuery } from "react-responsive";
 import { ApiResponseAttributes } from "types";
@@ -20,6 +25,9 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
   const [response, setResponse] = useState<ApiResponseAttributes>();
   const [avatar, setAvatar] = useRecoilState(avatarState);
   const [username, setUsername] = useRecoilState(usernameState);
+  const [isLoading, setIsLoading] = useRecoilState(courseClickedState);
+  const [cartItems, setCartItems] = useState<number | null>(null);
+  const [listItems, setListItems] = useState<number | null>(null);
 
   const fetchData = async () => {
     const res = await fetch(`/api/me`, {
@@ -31,9 +39,14 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
     });
 
     const response: ApiResponseAttributes = await res.json();
-    console.log(response);
     setResponse(response);
     const user = response.data?.user;
+    const cart = user?.cart;
+    const cartItems = cart?.length;
+    setCartItems(cartItems!);
+    const wishlist = user?.wishList;
+    const listItems = wishlist?.length;
+    setListItems(listItems!);
     setAvatar(user?.avatar as string);
     setUsername(user?.username as string);
   };
@@ -80,8 +93,13 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
                   <div
                     className={`${!response && "animated-gradient"}  overflow-hidden shrink-0  size-8 lg:size-[36px] rounded-full  flex flex-row items-center justify-center`}
                   >
-                    {response && (
+                    {response && avatar && (
                       <img className="size-full" src={avatar as string}></img>
+                    )}
+                    {response && !avatar && (
+                      <div className="size-full border border-black rounded-full flex flex-col items-center justify-center">
+                        <img className="size-5" src={"/emptyAvatar.svg"}></img>
+                      </div>
                     )}
                     {!response && (
                       <div
@@ -132,20 +150,55 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
             onMouseEnter={() => setShowDropDown(true)}
             onMouseLeave={() => setShowDropDown(false)}
           >
-            <div className=" border-none font-semibold text-black hover:cursor-pointer">
-              Categories
+            <div className="gap-2 w-[120px] border-none font-semibold text-black hover:cursor-pointer flex flex-row items-center justify-between">
+              <h1>Categories</h1>
+              <div className="w-full">
+                {" "}
+                {isLoading && (
+                  <img
+                    src="/spinnerBlack.svg"
+                    className="size-4 animate-spin"
+                  ></img>
+                )}
+              </div>
             </div>
           </div>
-          <div className="hover:bg-gray-200 rounded-full p-[4px] flex flex-row items-center justify-center gap-8 mr-[8px]">
+          <a
+            onClick={() => {
+              setIsLoading(true);
+            }}
+            href="/wishlist"
+            className="relative hover:bg-gray-200 rounded-full p-[4px] flex flex-row items-center justify-center gap-8 mr-[8px]"
+          >
             <div className="size-8">
               <img className=" hover:cursor-pointer" src="/heart.svg"></img>
             </div>
-          </div>
-          <div className="hover:bg-gray-200 rounded-full p-[4px] flex flex-row gap-8 mr-[8px]">
+            {listItems !== 0 && (
+              <div
+                className={`absolute bottom-[24px] left-[32px] ${listItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+              >
+                <h1 className="pt-[2px]">{listItems}</h1>
+              </div>
+            )}
+          </a>
+          <a
+            onClick={() => {
+              setIsLoading(true);
+            }}
+            href="/cart"
+            className="relative hover:bg-gray-200 rounded-full p-[4px] flex flex-row gap-8 mr-[8px]"
+          >
             <div className="size-9">
               <img className=" hover:cursor-pointer" src="/cart1.svg"></img>
             </div>
-          </div>
+            {cartItems !== 0 && (
+              <div
+                className={`absolute bottom-[24px] left-[32px] ${cartItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+              >
+                <h1 className="pt-[2px]">{cartItems}</h1>
+              </div>
+            )}
+          </a>
         </div>
       </div>
       {categoriesRef.current && (
