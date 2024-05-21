@@ -93,8 +93,9 @@ export default async function Page({ params }: CourseParams) {
                 key={index}
                 title={`Chapter ${index + 1}: ${chapter}`}
                 content={
-                  <div className="w-[400px]">
+                  <div className="w-[400px] rounded-2xl overflow-hidden">
                     <Video
+                    accentColor="#000000"
                       src={(thisCourse.chapterVideoLinks as [])[index]}
                     />
                   </div>
