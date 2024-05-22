@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: [
-    "ui",
+    "components",
     "db",
     "state-store",
     "auth",

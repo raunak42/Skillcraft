@@ -5,7 +5,7 @@ const nextConfig = {
   //   serverActions:true
   // },
   transpilePackages: [
-    "ui",
+    "components",
     "db",
     "state-store",
     "auth",

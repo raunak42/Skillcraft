@@ -44,7 +44,7 @@
     "stripe": "^15.5.0",
     "swr": "^2.2.5",
     "types": "*",
-    "ui": "*",
+    "components": "*",
     "zod": "^3.22.4",
     "zod-validation": "*"
   },
