@@ -4,16 +4,18 @@ import { userInput } from "zod-validation";
 import { Argon2id } from "oslo/password";
 import { apiResponse, handleApiError } from "helpers";
 import { NextRequest } from "next/server";
+import { randomAvatars } from "./randomAvatars";
+
 
 interface UserValidation {
     username: string,
     password: string,
-    adminId: string
+    userId: string
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
     try {
-        const { parsedUsername, parsedPassword, adminId } = await getAndValidateBody(req)
+        const { parsedUsername, parsedPassword, userId } = await getAndValidateBody(req)
         const hashedPassword = await new Argon2id().hash(parsedPassword)
 
         const usernameTaken = await checkUsernameInDb(parsedUsername);
@@ -21,22 +23,22 @@ export async function POST(req: NextRequest): Promise<Response> {
             return apiResponse({ message: USERNAME_TAKEN_MESSAGE }, 409)
         }
 
-        await createNewAdmin(parsedUsername, adminId, hashedPassword);
+        await createNewUser(parsedUsername, userId, hashedPassword);
         return apiResponse({ message: SIGNUP_SUCCESS_MESSAGE }, 200)
     } catch (error) {
         return handleApiError(error)
     }
 }
 
-const getAndValidateBody = async (req: Request): Promise<{ parsedUsername: string, parsedPassword: string, adminId: string }> => {
+const getAndValidateBody = async (req: Request): Promise<{ parsedUsername: string, parsedPassword: string, userId: string }> => {
     const body: UserValidation = await req.json()
-    const { username, password, adminId }: UserValidation = body;
+    const { username, password, userId }: UserValidation = body;
 
     const parsedData = userInput.parse({ username, password })
     const parsedUsername = parsedData.username;
     const parsedPassword = parsedData.password;
 
-    return { parsedUsername, parsedPassword, adminId }
+    return { parsedUsername, parsedPassword, userId }
 }
 
 const checkUsernameInDb = async (username: string): Promise<boolean> => {
@@ -56,17 +58,20 @@ const checkUsernameInDb = async (username: string): Promise<boolean> => {
     return false;
 }
 
-const createNewAdmin = async (parsedUsername: string, adminId: string, hashedPassword: string): Promise<{ id: string }> => {
-    const newAdmin = await prisma.admin.create({
+const createNewUser = async (parsedUsername: string, userId: string, hashedPassword: string): Promise<{ id: string }> => {
+    const randomIndex = Math.floor(Math.random() * randomAvatars.length);
+
+    const newUser = await prisma.admin.create({
         data: {
-            id: adminId,
+            id: userId,
             username: parsedUsername,
             hashed_password: hashedPassword,
+            avatar: randomAvatars[randomIndex]
         },
         select: {
             id: true
         }
     });
 
-    return newAdmin;
+    return newUser;
 }
