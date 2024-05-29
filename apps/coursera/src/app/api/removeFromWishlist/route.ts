@@ -1,4 +1,4 @@
-import { ADMIN_NOT_FOUND_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
+import { ADMIN_NOT_FOUND_MESSAGE, REMOVED_FROM_WISHLIST_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
@@ -42,7 +42,7 @@ export async function POST(req: Request): Promise<Response> {
             return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE }, 404)
         }
         const myCourses = userinDb.courses;
-        return apiResponse({ data: { courses: myCourses } }, 200)
+        return apiResponse({ message: REMOVED_FROM_WISHLIST_MESSAGE }, 404)
     } catch (error) {
         return handleApiError(error)
     }
