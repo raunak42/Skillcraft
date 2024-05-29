@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar/Searchbar";
 import { useRecoilState } from "recoil";
 import { courseClickedState, sideBarOpenState } from "state-store";
-import Link from "next/link";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useMediaQuery } from "react-responsive";
 
@@ -90,7 +89,7 @@ const NoSessionNavbar = () => {
           onClick={()=>{
             setLoginClicked(true)
           }}
-            href={"/login"}
+            href={"/login/fresh"}
             className=" flex flex-row items-center justify-center rounded-3xl bg-black text-white font-bold w-32 h-10 py-2 ml-12 hover:rounded-xl transition-all duration-200"
           >
             {loginClicked && (
@@ -104,7 +103,7 @@ const NoSessionNavbar = () => {
           onClick={()=>{
             setSignupClicked(true)
           }}
-            href={"/signup"}
+            href={"/signup/fresh/0"}
             className=" flex flex-row items-center justify-center rounded-3xl py-2 w-32 h-10 ml-2 font-bold text-black border-[1.5px] border-black bg-white hover:rounded-xl transition-all duration-200"
           >
             {signupClicked && (
