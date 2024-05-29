@@ -1,12 +1,14 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar/Searchbar";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import {
   avatarState,
   courseClickedState,
   sideBarOpenState,
+  adminDetailsState,
   usernameState,
+  userDetailsState,
 } from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useMediaQuery } from "react-responsive";
@@ -25,6 +27,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
   const [response, setResponse] = useState<ApiResponseAttributes>();
   const [avatar, setAvatar] = useRecoilState(avatarState);
   const [username, setUsername] = useRecoilState(usernameState);
+  const [user, setUser] = useRecoilState(userDetailsState);
   const [isLoading, setIsLoading] = useRecoilState(courseClickedState);
   const [cartItems, setCartItems] = useState<number | null>(null);
   const [listItems, setListItems] = useState<number | null>(null);
@@ -49,6 +52,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
     setListItems(listItems!);
     setAvatar(user?.avatar as string);
     setUsername(user?.username as string);
+    setUser(user!)
   };
 
   useEffect(() => {
@@ -88,7 +92,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
                   onClick={() => {
                     setSideBarOpen(true);
                   }}
-                  className=" hover:bg-gray-200 hover:cursor-pointer p-[6px] rounded-full flex flex-row items-center justify-center"
+                  className=" hover:bg-gray-300 bg-gray-200 hover:cursor-pointer p-[5px] rounded-full flex flex-row items-center justify-center"
                 >
                   <div
                     className={`${!response && "animated-gradient"}  overflow-hidden shrink-0  size-8 lg:size-[36px] rounded-full  flex flex-row items-center justify-center`}
@@ -175,7 +179,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
             </div>
             {listItems !== 0 && (
               <div
-                className={`absolute bottom-[24px] left-[32px] ${listItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+                className={`absolute bottom-[23px] left-[26px] ${listItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
               >
                 <h1 className="pt-[2px]">{listItems}</h1>
               </div>
@@ -193,7 +197,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
             </div>
             {cartItems !== 0 && (
               <div
-                className={`absolute bottom-[24px] left-[32px] ${cartItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+                className={`absolute bottom-[25px] left-[26px] ${cartItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
               >
                 <h1 className="pt-[2px]">{cartItems}</h1>
               </div>
