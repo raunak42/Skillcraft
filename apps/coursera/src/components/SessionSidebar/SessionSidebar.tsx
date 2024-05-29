@@ -12,13 +12,13 @@ export const SessionSidebar = () => {
   const [username, setUsername] = useRecoilState(usernameState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (sideBarOpen) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [sideBarOpen]);
+  // useEffect(() => {
+  //   if (sideBarOpen) {
+  //     document.body.classList.add("no-scroll");
+  //   } else {
+  //     document.body.classList.remove("no-scroll");
+  //   }
+  // }, [sideBarOpen]);
 
   return (
     <div

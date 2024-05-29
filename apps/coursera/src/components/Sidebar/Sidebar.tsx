@@ -11,13 +11,13 @@ export const NoSessionSidebar = () => {
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (sideBarOpen) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [sideBarOpen]);
+  // useEffect(() => {
+  //   if (sideBarOpen) {
+  //     document.body.classList.add("no-scroll");
+  //   } else {
+  //     document.body.classList.remove("no-scroll");
+  //   }
+  // }, [sideBarOpen]);
 
   return (
     <div
