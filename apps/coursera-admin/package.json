@@ -3,31 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -e ./../../.env  -- next dev --port 3001",
+    "dev": "dotenv -e ./../../.env  -- next dev --port 3001 --hostname 0.0.0.0",
     "build": "npx prisma generate --no-engine && next build",
-    "start": "next start",
+    "start": "next start --hostname 0.0.0.0",
     "lint": "next lint"
   },
   "dependencies": {
+    "components": "*",
+    "db": "*",
+    "helpers": "*",
+    "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0",
-    "db": "*",
+    "sonner": "^1.4.41",
     "state-store": "*",
-    "components": "*",
-    "zod-validation": "*",
     "types": "*",
-    "helpers": "*"
+    "zod-validation": "*"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "typescript": "^5"
   }
 }
