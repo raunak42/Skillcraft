@@ -10,19 +10,19 @@ interface AccordionProps {
 const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <div className="w-full overflow-hidden border rounded-md shadow-md ">
-      <button
-        className={`bg-green-200 px-4 py-3  rounded-b-md transition-all duration-700 ease-in-out ${
-          isOpen ? "max-h-screen" : "h-[90px]"
-        } w-full flex items-center justify-between px-4 py-3 bg-white rounded-t-md cursor-pointer transition-all duration-700 ease-in-out`}
-        onClick={toggleAccordion}
+    <div
+      className={`bg-white flex flex-col items-center gap-4 w-full overflow-hidden border rounded-md shadow-md transition-all duration-300 ease-in-out ${
+        isOpen ? "h-[300px]" : "h-[66px] sm:h-[50px]"
+      }`}
+    >
+      <div
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className={`${!isOpen && "h-full"} bg-gray-100 cursor-pointer flex flex-row items-start justify-between px-4 py-3  rounded-b-md   w-full  sm:items-start sm:justify-between rounded-t-md`}
       >
-        <span className=" font-medium">{title}</span>
+        <div className="w-[85%]" >{title}</div>
         <svg
           className={`w-6 h-6 transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -37,8 +37,12 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
             d="M19 9l-7 7-7-7"
           />
         </svg>
-      </button>
-      <div className="bg-white flex flex-row items-center justify-center">{isOpen && content}</div>
+      </div>
+      {isOpen && (
+        <div className=" flex flex-row items-center justify-center">
+          {content}
+        </div>
+      )}
     </div>
   );
 };
