@@ -1,13 +1,11 @@
-import { GitHub, Google } from "arctic"
+import { GitHub, Google } from "arctic";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
 import { Lucia, User, Session } from "lucia";
-import { cookies } from "next/headers"
-import * as dotenv from "dotenv";
+import { cookies } from "next/headers";
 
 // dotenv.config();
 
-/*Important*/
 const redirectURI = "http://localhost:3001/login/google/callback";
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID_ADMIN!, process.env.GITHUB_CLIENT_SECRET_ADMIN!);
@@ -64,31 +62,40 @@ function memoize<T extends (...args: any[]) => any>(fn: T): T {
 
 // Function to validate request with memoization
 export const validateRequest = async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
-    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+    const sessionId = cookies().get("auth_session_admin")?.value ?? null;
     if (!sessionId) {
         return {
             user: null,
             session: null
         };
-    };
+    }
 
-    const result = await lucia.validateSession(sessionId);
+    let result: {
+        user: User;
+        session: Session;
+    } | {
+        user: null;
+        session: null;
+    } = {
+        user: null,
+        session: null
+    }
     // next.js throws when you attempt to set cookie when rendering page
     try {
+        result = await lucia.validateSession(sessionId)
         if (result.session && result.session.fresh) {
             const sessionCookie = lucia.createSessionCookie(result.session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("auth_session_admin", sessionCookie.value, sessionCookie.attributes);
         }
         if (!result.session) {
             const sessionCookie = lucia.createBlankSessionCookie();
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("auth_session_admin", sessionCookie.value, sessionCookie.attributes);
         }
     } catch (error) {
         console.error(error)
     }
     return result;
 }
-    ;
 
 // Function to get user with memoization
 export const getUser = async () => {
@@ -98,11 +105,11 @@ export const getUser = async () => {
     try {
         if (session && session.fresh) {
             const sessionCookie = lucia.createSessionCookie(session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("auth_session_admin", sessionCookie.value, sessionCookie.attributes);
         }
         if (!session) {
             const sessionCookie = lucia.createBlankSessionCookie();
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("auth_session_admin", sessionCookie.value, sessionCookie.attributes);
         }
     } catch (error) {
         console.error(error)
