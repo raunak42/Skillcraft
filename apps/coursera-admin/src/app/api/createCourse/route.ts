@@ -2,11 +2,24 @@ import { COURSE_CREATE_SUCCESS_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@
 import { prisma } from "@/lib/prisma";
 import { apiResponse, getSessionDataFromMiddleware, handleApiError, validateCourseBody } from "helpers";
 import { PrismaCourseInput } from "types";
+import { Session, User } from "lucia"
 
+interface BodyType {
+    title: string;
+    description: string;
+    imageLink: string;
+    price: string; //will be received as a string from the client
+    published: boolean;
+    data: {
+        session: Session | null;
+        user: User | null
+    }
+}
 
 export async function POST(req: Request): Promise<Response> {
     try {
-        const body: PrismaCourseInput = await req.json()
+        const body: BodyType = await req.json()
+        // console.log("body", body)
         const sessionData = getSessionDataFromMiddleware(req);
         if (!sessionData) {
             return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 500);//500 internal server error because middleware not working
