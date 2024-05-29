@@ -6,6 +6,7 @@ import {
     COURSE_UPDATE_SUCCESS_MESSAGE,
     PERMISSION_DENIED_MESSAGE, SESSION_HEADER_MISSING_MESSAGE
 } from "@/lib/constants";
+import { Session, User } from "lucia";
 
 interface CourseIdParams {
     params: {
@@ -13,9 +14,21 @@ interface CourseIdParams {
     }
 }
 
+interface BodyType {
+    title: string;
+    description: string;
+    imageLink: string;
+    price: string; //will be received as a string from the client
+    published: boolean;
+    data: {
+        session: Session | null;
+        user: User | null
+    }
+}
+
 export async function PUT(req: Request, { params }: CourseIdParams): Promise<Response | undefined> {
     try {
-        const body: PrismaCourseInput = await req.json()
+        const body: BodyType = await req.json()
         const courseId = parseInt(params.courseId)
         const sessionData = getSessionDataFromMiddleware(req)
         if (!sessionData) {
