@@ -36,7 +36,7 @@ export default async function Page() {
   console.log(cartCourses);
 
   if(cartCourses?.length===0){
-    return<h1>No courses to show.</h1>
+    return<h1 className="mb-[500px]" >No courses to show.</h1>
   }
 
   return (
