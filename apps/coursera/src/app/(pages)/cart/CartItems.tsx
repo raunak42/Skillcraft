@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { removeClickedState } from "state-store";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
+import { Toaster, toast } from "sonner";
 // import { RemoveButton } from "./RemoveButton";
 
 interface CartItemsProps {
@@ -23,6 +24,7 @@ export const CartItems: React.FC<CartItemsProps> = ({
   const [courseToRemove, setCourseToRemove] = useState<number>();
 
   const RemoveItem = async (courseId: number) => {
+    toast.success("Removed from cart.")
     const res = await fetch(`/api/removeFromCart`, {
       method: "POST",
       body: JSON.stringify({
@@ -56,7 +58,7 @@ export const CartItems: React.FC<CartItemsProps> = ({
               setRemoveClicked(true);
               RemoveItem(course.id!);
             }}
-            className="size-4 hover:cursor-pointer rounded-full hover:bg-gray-200"
+            className="size-4 hover:cursor-pointer rounded-full hover:bg-white"
             src="/minus.svg"
           ></img>
         </div>
@@ -74,6 +76,7 @@ export const CartItems: React.FC<CartItemsProps> = ({
       )}
       {removeClicked && (
         <div className=" flex flex-row justify-end rounded-full overflow-hidden">
+          <Toaster/>
           <img
             onClick={() => {
               setRemoveClicked(true);
