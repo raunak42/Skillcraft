@@ -2,11 +2,14 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { courseClickedState } from "state-store";
 
 interface SearchbarProps {}
 
 export const Searchbar: React.FC<SearchbarProps> = () => {
   const [query, setQuery] = useState<string>("");
+  const [searchHit, setSearchHit] = useRecoilState(courseClickedState)
   const firstPage = 1
   const searchParams = useSearchParams();
   const persistingText = searchParams.get("q");
@@ -16,6 +19,7 @@ export const Searchbar: React.FC<SearchbarProps> = () => {
 
   const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      setSearchHit(true)
       if (query.trim().length !== 0 && query !== null && query !== "") {
         window.location.assign(
           `/search?q=${encodeURIComponent(query)}&p=${firstPage}`
@@ -25,6 +29,7 @@ export const Searchbar: React.FC<SearchbarProps> = () => {
   };
 
   const handleCLick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSearchHit(true)
     if (query.trim().length !== 0 && query !== null && query !== "") {
       window.location.assign(
         `/search?q=${encodeURIComponent(query)}&p=${firstPage}`
