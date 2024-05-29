@@ -2,7 +2,6 @@ import { validateRequest } from "@/auth";
 import { CourseInfo } from "@/components/CourseInfo/CourseInfo";
 import { BASE_URL_DEV } from "@/lib/constants";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
-import Video from "next-video";
 import Accordion from "@/components/Accordion/Accordion";
 
 interface CourseParams {
@@ -81,7 +80,8 @@ export default async function Page({ params }: CourseParams) {
             <div>
               <h1 className="text-3xl font-semibold">{thisCourse?.title}</h1>
               <div className="flex flex-row gap-1">
-                By<h2 className="font-semibold">{thisCourse?.admin?.username}</h2>
+                By
+                <h2 className="font-semibold">{thisCourse?.admin?.username}</h2>
               </div>
               <h1 className="mt-4 text-lg">{thisCourse?.description}</h1>
             </div>
@@ -93,9 +93,11 @@ export default async function Page({ params }: CourseParams) {
                 key={index}
                 title={`Chapter ${index + 1}: ${chapter}`}
                 content={
-                  <div className="w-[400px] rounded-2xl overflow-hidden">
-                    <Video
-                    accentColor="#000000"
+                  <div className="px-4 sm:w-[400px]  overflow-hidden">
+                    <video
+                      className="hover:cursor-pointer rounded-2xl"
+                      // accentColor="#000000"
+                      controls
                       src={(thisCourse.chapterVideoLinks as [])[index]}
                     />
                   </div>
