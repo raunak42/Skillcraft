@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { lucia, validateRequest } from "@/auth";
+import { Button } from "./button";
 
 export default async function Page() {
   return (
     <form action={logout}>
-      <button className="p-4 bg-black rounded-full text-white font-semibold">Sign out</button>
+      <Button />
     </form>
   );
 }
@@ -27,7 +28,8 @@ export async function logout(): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  
+  // cookies().delete(sessionCookie.name) //So that when you try to log in another time, the browser doesn't remember which google/github account you were previously signed in with. This way auth gives you the option to sign in with one of your google/github accounts and doesn't directly sign you in with the previous account.
+
   return redirect("/ssrLanding");
 }
 
