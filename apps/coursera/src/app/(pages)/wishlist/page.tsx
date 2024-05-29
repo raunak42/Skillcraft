@@ -35,7 +35,7 @@ export default async function Page() {
   console.log(wishListCourses);
 
   if (wishListCourses?.length === 0) {
-    return <h1>No courses to show.</h1>;
+    return <h1 className="mb-[400px]" >No courses to show.</h1>;
   }
 
   return (
