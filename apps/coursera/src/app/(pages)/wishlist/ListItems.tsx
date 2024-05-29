@@ -2,6 +2,8 @@
 import { CourseCard } from "@/components/Coursecard/CourseCard";
 import { Session, User } from "lucia";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { courseState, displayModalState } from "state-store";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 
 interface ListItemsProps {
@@ -17,6 +19,8 @@ export const ListItems: React.FC<ListItemsProps> = ({
 }) => {
   const [removeClicked, setRemoveClicked] = useState<boolean>(false);
   const [response, setResponse] = useState<ApiResponseAttributes>();
+  const [displaModal, setDisplayModal] = useRecoilState(displayModalState);
+  const [modalCourse, setModalCourse] = useRecoilState(courseState);
 
   const RemoveItem = async (courseId: number) => {
     const res = await fetch(`/api/removeFromWishlist`, {
@@ -34,7 +38,7 @@ export const ListItems: React.FC<ListItemsProps> = ({
 
   return (
     !removeClicked && (
-      <div className="ml-4 mt-6">
+      <div id={course.id?.toString()} className="ml-4 mt-6">
         <CourseCard
           imageLink={course.imageLink as string}
           title={course.title}
@@ -47,8 +51,10 @@ export const ListItems: React.FC<ListItemsProps> = ({
         <div className="mt-2 flex flex-row justify-end rounded-full overflow-hidden">
           <img
             onClick={() => {
-              setRemoveClicked(true);
-              RemoveItem(course.id!);
+              // setRemoveClicked(true);
+              // RemoveItem(course.id!);
+              setDisplayModal(true);
+              setModalCourse(course);
             }}
             className="size-4 hover:cursor-pointer rounded-full hover:bg-white"
             src="/minus.svg"
