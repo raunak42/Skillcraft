@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const userInput = z.object({
   username: z.string().min(5).max(35),

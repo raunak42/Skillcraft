@@ -5,12 +5,10 @@ export const courseInput = z.object({
         .min(1)
         .max(50),
     description: z.string()
-        .max(200)
-        .nullable(), //this is to match the return type of course from prisma calls.
+        .max(200),
     price: z.number(),
     imageLink: z.string()
-        .url()
-        .nullable(),
+        .url(),
     published: z.boolean()
 });
 
