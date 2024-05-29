@@ -6,11 +6,13 @@ generator client {
   previewFeatures = ["fullTextSearch"]
 }
 
+//url(from prisma accelerate console) and directUrl(to your postgres db) both have to be specified when using prisma accelerate. If not using accelerate, only url has to be provided and it has to be the direct url to your postgres db. 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
-  directUrl = env("DIRECT_DATABASE_URL") //---||---
+  url       = env("DIRECT_DATABASE_URL") //this has to be in an env file in the same directory as the schema for the schema to pick it up.
+  // directUrl = env("DIRECT_DATABASE_URL") //---||---
 }
+
 
 model User {
   id              String             @id
