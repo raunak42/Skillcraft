@@ -40,7 +40,7 @@ async function signupAndStartSession(formData: FormData): Promise<any> {
 
   const res = await fetch("http://localhost:3001/api/signup", {
     method: "POST",
-    body: JSON.stringify({ username, password, adminId }),
+    body: JSON.stringify({ username, password, userId: adminId }),
   });
 
   const response: ApiResponseAttributes = await res.json();
