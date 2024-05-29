@@ -2,7 +2,7 @@ import { ADMIN_NOT_FOUND_MESSAGE, SESSION_HEADER_MISSING_MESSAGE } from "@/lib/c
 import { prisma } from "@/lib/prisma";
 import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 
-export async function GET(req: Request): Promise<Response> {
+export async function POST(req: Request): Promise<Response> {
     try {
         const sessionData = getSessionDataFromMiddleware(req)
         if (!sessionData) {
@@ -19,7 +19,11 @@ export async function GET(req: Request): Promise<Response> {
                 avatar: true,
                 username: true,
                 email: true,
-                createdCourses: true
+                createdCourses: {
+                    include: {
+                        admin: true
+                    }
+                }
             },
         });
 
