@@ -25,6 +25,7 @@ export async function POST(req: Request) {
         const { course, authSession, user } = body;
 
         const session = await stripe.checkout.sessions.create({
+            currency:'inr',
             ui_mode: 'embedded',
             submit_type: 'pay',
             line_items: [
@@ -44,26 +45,25 @@ export async function POST(req: Request) {
             return_url: `${BASE_URL_DEV}/return?session_id={CHECKOUT_SESSION_ID}&courseId=${course.id}&userId=${authSession?.userId}`,
             payment_intent_data: {
                 description: course.name,
-                shipping: {
-                    name: 'Jenny Rosenthal',
-                    address: {
-                        line1: '510 Townsend Streeeet',
-                        postal_code: '981403',
-                        city: 'San Francisco',
-                        state: 'CA',
-                        country: 'US',
-                    },
-                },
+                // shipping: {
+                //     name: user?.username!,
+                //     address: {
+                //         line1: '510 Townsend Streeeet',
+                //         postal_code: '981403',
+                //         city: 'Nagpur',
+                //         state: 'MH',
+                //         country: 'IN',
+                //     },
+                // },
                 metadata: {
                     courseId: course.id,
-                    courseIds:JSON.stringify([]), //empty array because this ain't cart
+                    courseIds: JSON.stringify([]), //empty array because this is not cart
                     authSession: JSON.stringify(authSession),
                     user: JSON.stringify(user)
                 }
             },
-            // payment_method_types: ["card"],
-            // expires_at: Math.floor(Date.now() / 1000) + ((3600 * 2) / 4), // Configured to expire after 2 hours/4 = 30mins
-            phone_number_collection: { enabled: true }
+            phone_number_collection: { enabled: true },
+            billing_address_collection: 'required',
         });
 
         return NextResponse.json({ clientSecret: session.client_secret });
