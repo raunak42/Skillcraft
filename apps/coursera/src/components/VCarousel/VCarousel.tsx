@@ -1,20 +1,12 @@
 import { BASE_URL_DEV } from "@/lib/constants";
 import { CourseCardHz } from "../CourseCardHz/CourseCardHz";
-import { ApiResponseAttributes } from "types";
+import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 
-interface VCarouselProps {}
+interface VCarouselProps {
+  courses: PrismaCourseOutput<{ select: {}; include: {} }>[]
+}
 
-export const VCarousel: React.FC<VCarouselProps> = async () => {
-  const res = await fetch(`${BASE_URL_DEV}/api/getTopCourses`, {
-    cache: "default",
-  });
-  const response: ApiResponseAttributes = await res.json();
-
-  const topCourses = response.data?.courses;
-  if (!topCourses) {
-    return<div>No courses available.</div>
-  }
-
+export const VCarousel: React.FC<VCarouselProps> = async ({courses}) => {
   const months = [
     "January",
     "February",
@@ -41,7 +33,7 @@ export const VCarousel: React.FC<VCarouselProps> = async () => {
           {month} | {year}
         </h2>
       </div>
-      {topCourses.map((course) => {
+      {courses.map((course) => {
         return (
           <CourseCardHz
             key={course.id}
