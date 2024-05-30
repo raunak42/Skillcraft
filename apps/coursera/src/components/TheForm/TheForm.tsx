@@ -25,9 +25,16 @@ export const TheForm: React.FC<TheFormProps> = ({ clientSecret }) => {
     // </Elements>
     <div className=" flex flex-col">
       <div className="w-full flex flex-col items-center justify-center mb-4">
-       <h1 className="text-red-600">Dummy card credentials:</h1>
+       <h1 className="text-red-600">Dummy card credentials (Outside India):</h1>
         <img
           src="/testCard.png"
+          className="w-[380px] rounded-xl border-[1.5px] border-red-500"
+        ></img>
+      </div>
+      <div className="w-full flex flex-col items-center justify-center mb-4">
+       <h1 className="text-red-600">Dummy card credentials (India):</h1>
+        <img
+          src="/testCardIndia.png"
           className="w-[380px] rounded-xl border-[1.5px] border-red-500"
         ></img>
       </div>
