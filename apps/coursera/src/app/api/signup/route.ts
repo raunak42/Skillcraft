@@ -4,7 +4,7 @@ import { userInput } from "zod-validation";
 import { Argon2id } from "oslo/password";
 import { apiResponse, handleApiError } from "helpers";
 import { NextRequest } from "next/server";
-import { randomAvatars } from "./randomAvatars";
+import { pixelAvatars } from "./randomAvatars";
 
 
 interface UserValidation {
@@ -59,14 +59,14 @@ const checkUsernameInDb = async (username: string): Promise<boolean> => {
 }
 
 const createNewUser = async (parsedUsername: string, userId: string, hashedPassword: string): Promise<{ id: string }> => {
-    const randomIndex = Math.floor(Math.random() * randomAvatars.length);
+    const randomIndex = Math.floor(Math.random() * pixelAvatars.length);
 
     const newUser = await prisma.user.create({
         data: {
             id: userId,
             username: parsedUsername,
             hashed_password: hashedPassword,
-            avatar: randomAvatars[randomIndex]
+            avatar: pixelAvatars[randomIndex]
         },
         select: {
             id: true
