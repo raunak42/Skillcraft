@@ -78,9 +78,9 @@ export const SessionNavbar: React.FC<SessionNavbarProps> = ({
             onClick={() => {
               setSideBarOpen(true);
             }}
-            className="hover:cursor-pointer hover:bg-gray-300 rounded-full bg-gray-200 size-11 flex flex-row items-center justify-center"
+            className="hover:cursor-pointer hover:bg-gray-300 rounded-full bg-gray-200 size-12 flex flex-row items-center justify-center"
           >
-            {avatar && <img className="size-8 rounded-full" src={avatar}></img>}
+            {avatar && <img className="size-10 rounded-full" src={avatar}></img>}
             {!avatar && <img className="size-6" src={"/emptyAvatar.svg"}></img>}
           </div>
 
