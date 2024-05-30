@@ -18,23 +18,9 @@ export const ListItems: React.FC<ListItemsProps> = ({
   user,
 }) => {
   const [removeClicked, setRemoveClicked] = useState<boolean>(false);
-  const [response, setResponse] = useState<ApiResponseAttributes>();
   const [displaModal, setDisplayModal] = useRecoilState(displayModalState);
   const [modalCourse, setModalCourse] = useRecoilState(courseState);
 
-  const RemoveItem = async (courseId: number) => {
-    const res = await fetch(`/api/removeFromWishlist`, {
-      method: "POST",
-      body: JSON.stringify({
-        courseIdToRemove: courseId,
-        data: { session, user },
-      }),
-    });
-
-    const response = await res.json();
-    setResponse(response);
-    // window.location.reload();
-  };
 
   return (
     !removeClicked && (
@@ -51,8 +37,6 @@ export const ListItems: React.FC<ListItemsProps> = ({
         <div className="mt-2 flex flex-row justify-end rounded-full overflow-hidden">
           <img
             onClick={() => {
-              // setRemoveClicked(true);
-              // RemoveItem(course.id!);
               setDisplayModal(true);
               setModalCourse(course);
             }}
