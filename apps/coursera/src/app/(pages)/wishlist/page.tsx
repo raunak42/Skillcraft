@@ -32,16 +32,15 @@ export default async function Page() {
   const wishListCourses = courses?.filter((course) =>
     wishlist?.includes(course.id!)
   );
-  console.log(wishListCourses);
 
   if (wishListCourses?.length === 0) {
-    return <h1 className="mb-[400px]" >No courses to show.</h1>;
+    return <h1 className="mb-[400px] font-semibold text-2xl" >No courses to show.</h1>;
   }
 
   return (
     <div className="flex flex-col">
       <h1 className="text-3xl font-semibold">Your wishlist:</h1>
-      <div className="flex flex-row flex-wrap  justify-start">
+      <div className="flex flex-row flex-wrap  justify-start mb-[300px]">
         {wishListCourses?.map((course, index) => (
           <ListItems key={index} course={course} session={session} user={user} />
         ))}
