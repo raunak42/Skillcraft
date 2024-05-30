@@ -20,7 +20,7 @@ export async function POST(req: Request): Promise<Response> {
             select: {
                 // cart: true,
                 courses: true,
-                wishList:true
+                wishList: true
             }
         });
 
@@ -28,7 +28,7 @@ export async function POST(req: Request): Promise<Response> {
         const updatedWishlist = wishlist.filter(courseId => courseId !== courseIdToRemove);
 
 
-        await prisma.user.update({
+        const updatedUser = await prisma.user.update({
             where: {
                 id: userId
             },
@@ -42,7 +42,7 @@ export async function POST(req: Request): Promise<Response> {
             return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE }, 404)
         }
         const myCourses = userinDb.courses;
-        return apiResponse({ message: REMOVED_FROM_WISHLIST_MESSAGE }, 404)
+        return apiResponse({ message: REMOVED_FROM_WISHLIST_MESSAGE, data: { courseIds: updatedUser.wishList } }, 404)
     } catch (error) {
         return handleApiError(error)
     }
