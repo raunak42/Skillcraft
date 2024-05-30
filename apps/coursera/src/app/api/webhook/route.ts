@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-04-10',
 });
 
-const endpointSecret = 'whsec_23af65fd0856b9fc84a7ca275a76783571136454f460efbc861bdb982164f19b';
+const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINTSECRET!
 
 export async function POST(req: NextRequest) {
 
