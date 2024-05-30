@@ -42,7 +42,7 @@ export default function Page() {
   }
 
   if (response.message) {
-    return <div className="mt-20 ml-10">{response.message}</div>;
+    return <div className="font-semibold text-2xl ml-10 mb-[350px]">{response.message}</div>;
   }
 
   if (!response.data?.courses) {
