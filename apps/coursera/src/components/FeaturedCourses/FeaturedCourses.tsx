@@ -12,7 +12,7 @@ export const FeaturedCourses = async () => {
   const featuredCourses: featuredCourses[] = response.data
     ?.featuredCourses as featuredCourses[];
 
-  if(!response){
+  if(!featuredCourses){
     return<div>Loading...</div>
   }
   if (featuredCourses.length === 0) {

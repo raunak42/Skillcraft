@@ -2,6 +2,7 @@ import { lucia, validateRequest } from "@/auth";
 import { cookies } from "next/headers"; //this requires the server, hence cannot mark the page with 'use client', hence cannot use state variables, hence need to use <form>
 import { ApiResponseAttributes } from "types";
 import {
+  BASE_URL_DEV,
   INVALID_USRNM_PSWRD_MESSAGE,
   LOGIN_SUCCESS_MESSAGE,
 } from "@/lib/constants";
@@ -37,7 +38,7 @@ export const handleLogin = async (formData: FormData) => {
   const username = formData.get("username");
   const password = formData.get("password");
 
-  const res = await fetch("http://localhost:3000/api/login", {
+  const res = await fetch(`${BASE_URL_DEV}/api/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
   });
