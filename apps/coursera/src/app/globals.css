@@ -50,8 +50,8 @@ input:focus {
 
 @keyframes bounce {
   0%, 100% {
-    transform: translateX(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    transform: translateX(30%);
+    animation-timing-function: cubic-bezier(4, 0, 0, 0);
   }
   50% {
     transform: translateY(0);
