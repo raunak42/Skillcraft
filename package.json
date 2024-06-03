@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "dotenv -- turbo dev",
+    "dev": "dotenv -- turbo dev & stripe listen --forward-to localhost:3000/api/webhook",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
