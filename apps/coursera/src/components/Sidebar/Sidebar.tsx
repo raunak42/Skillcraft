@@ -11,13 +11,13 @@ export const NoSessionSidebar = () => {
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (sideBarOpen) {
-  //     document.body.classList.add("no-scroll");
-  //   } else {
-  //     document.body.classList.remove("no-scroll");
-  //   }
-  // }, [sideBarOpen]);
+  useEffect(() => {
+    if (sideBarOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [sideBarOpen]);
 
   return (
     <div
@@ -41,13 +41,13 @@ export const NoSessionSidebar = () => {
         </div>
       </div>
       <div className=" text-nowrap flex-col">
-        <a onClick={() => setIsLoading(true)} href={"/login"}>
+        <a onClick={() => setIsLoading(true)} href={"/login/fresh"}>
           <h3 className=" hover:bg-gray-200 hover:cursor-pointer pl-4 py-2">
             Login
           </h3>
         </a>
 
-        <a onClick={() => setIsLoading(true)} href={"/signup"}>
+        <a onClick={() => setIsLoading(true)} href={"/signup/fresh/0"}>
           <h3 className=" hover:bg-gray-200 hover:cursor-pointer pl-4 py-2">
             Signup
           </h3>

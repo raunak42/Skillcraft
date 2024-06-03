@@ -40,7 +40,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ adminUsername }) => {
 
       <div className="overflow-hidden px-[8px] p-[4px] xl:p-2">
         <p className="text-ellipsis line-clamp-2 xl:line-clamp-2 ">
-          {description || "Description here..."}
+          {description || "Description here."}
         </p>
       </div>
       <div className="xl:flex justify-start px-2 pt-4 hidden ">

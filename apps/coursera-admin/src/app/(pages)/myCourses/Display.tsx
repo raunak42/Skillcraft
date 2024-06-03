@@ -35,7 +35,7 @@ export const Display: React.FC<DisplayProps> = ({ session, user }) => {
       <h1 className="text-3xl font-semibold pl-8 pb-2">
         Your created courses:
       </h1>
-      <div className="pl-[5%] sm:pl-12 xl:pl-8 flex flex-col sm:flex-row flex-wrap items-center justify-center sm:justify-start ">
+      <div className=" sm:pl-12 xl:pl-8 flex flex-col sm:flex-row flex-wrap items-center justify-center sm:justify-start ">
         {courses.map((course) => {
           return (
             <Item

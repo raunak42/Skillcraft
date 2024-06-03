@@ -1,6 +1,11 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { avatarState, sideBarOpenState, usernameState } from "state-store";
+import {
+  avatarState,
+  sideBarOpenState,
+  userDetailsState,
+  usernameState,
+} from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -11,14 +16,19 @@ export const SessionSidebar = () => {
   const [avatar, setAvatar] = useRecoilState(avatarState);
   const [username, setUsername] = useRecoilState(usernameState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [user, setUser] = useRecoilState(userDetailsState);
+  const [listItems, setListItems] = useState<number | null>(null);
+  const [cartItems, setCartItems] = useState<number | null>(null);
 
-  // useEffect(() => {
-  //   if (sideBarOpen) {
-  //     document.body.classList.add("no-scroll");
-  //   } else {
-  //     document.body.classList.remove("no-scroll");
-  //   }
-  // }, [sideBarOpen]);
+  useEffect(() => {
+    setListItems(user?.wishList?.length!);
+    setCartItems(user?.cart?.length!);
+    if (sideBarOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [sideBarOpen]);
 
   return (
     <div
@@ -74,7 +84,7 @@ export const SessionSidebar = () => {
           </div>
         </div>
         <a
-          className=" flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
+          className="relative flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
           onClick={() => {
             // setSideBarOpen(false);
             setIsLoading(true);
@@ -84,10 +94,17 @@ export const SessionSidebar = () => {
           <div className="shrink-0 size-8">
             <img src="/heart.svg"></img>
           </div>
+          {listItems !== 0 && (
+            <div
+              className={`absolute bottom-[28px] left-[32px] ${listItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+            >
+              <h1 className="pt-[2px]">{listItems}</h1>
+            </div>
+          )}
           <h3 className="pl-2">Wishlist</h3>
         </a>
         <a
-          className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
+          className="relative flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
           onClick={() => {
             // setSideBarOpen(false);
             setIsLoading(true);
@@ -97,6 +114,13 @@ export const SessionSidebar = () => {
           <div className="shrink-0 size-8">
             <img src="/cart1.svg"></img>
           </div>
+          {cartItems !== 0 && (
+            <div
+              className={`absolute bottom-[28px] left-[32px] ${cartItems && "bg-red-600"} flex flex-row items-center justify-center size-[15px] p-[2px] rounded-full text-xs text-white font-semibold`}
+            >
+              <h1 className="pt-[2px]">{cartItems}</h1>
+            </div>
+          )}
           <h3 className="pl-2">Cart</h3>
         </a>
         <a

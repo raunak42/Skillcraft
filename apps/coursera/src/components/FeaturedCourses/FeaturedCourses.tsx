@@ -3,6 +3,7 @@ import { ApiResponseAttributes, featuredCourses } from "types";
 import { CourseCard } from "../Coursecard/CourseCard";
 import { ViewAllButton } from "./ViewAllButton";
 import { SmallCarousel } from "./SmallCarousel";
+import { FCSkeleton } from "./FCSkeleton";
 
 export const FeaturedCourses = async () => {
   const res = await fetch(`${BASE_URL_DEV}/api/getFeaturedCourses`, {
@@ -13,7 +14,7 @@ export const FeaturedCourses = async () => {
     ?.featuredCourses as featuredCourses[];
 
   if(!featuredCourses){
-    return<div>Loading...</div>
+    return<div className="mt-[15px]" ><FCSkeleton/></div>
   }
   if (featuredCourses.length === 0) {
     return <div>No courses available</div>;

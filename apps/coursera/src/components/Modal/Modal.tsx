@@ -69,9 +69,9 @@ export const Modal: React.FC<ModalProps> = ({ session, user }) => {
               setDisplayModal(false);
             }
           }}
-          className="fixed inset-0 z-30 flex items-center justify-center bg-gradient-radial from-transparent to-black/60"
+          className="fixed inset-0 z-30 flex items-center justify-center bg-gradient-radial from-black/60 to-black/60"
         >
-          <div className="w-[400px] h-[260px] rounded-xl bg-white flex flex-col items-center justify-between p-6 border-[1.5px] border-black">
+          <div className="rounded-2xl w-[90%] sm:w-[400px] h-[260px]rounded-xl bg-white flex flex-col items-center justify-between p-6 border-[1.5px] border-black">
             <div className="flex flex-col items-center gap-4">
               <h1 className="font-semibold text-xl">Remove from wishlist:</h1>
               <h1>

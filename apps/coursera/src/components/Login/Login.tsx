@@ -1,5 +1,6 @@
 "use client";
 import { Session } from "lucia";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useState } from "react";
@@ -68,7 +69,13 @@ export const Login: React.FC<LoginProps> = ({
                 href={"/login/google"}
                 className="hover:bg-gray-200 rounded-full"
               >
-                <img src="/googleSignin.svg" className=""></img>
+                <Image
+                  width={189}
+                  height={40}
+                  alt="sex"
+                  src="/googleSignin.svg"
+                  className=""
+                ></Image>
               </Link>
             )}
             {googleClicked && (
