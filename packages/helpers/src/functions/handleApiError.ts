@@ -3,7 +3,10 @@ import { apiResponse } from "./apiResponse";
 import { Prisma } from "db"
 
 //*******console.error(error) is for api developers*******//////////
-//*******apiResponse(error) is for client-developers/client*******////////
+//*******apiResponse(error) is for client-developers/client*******////////\
+
+export const DB_CONNCT_ERR = "Error connecting to database."
+
 
 export const handleApiError = (error: unknown): Response => {
     console.error(error)//for developers
@@ -18,7 +21,7 @@ export const handleApiError = (error: unknown): Response => {
         error instanceof Prisma.PrismaClientInitializationError ||
         error instanceof Prisma.PrismaClientUnknownRequestError
     ) {
-        return apiResponse({ error: error.message }, 500)
+        return apiResponse({ error: error.message, message: DB_CONNCT_ERR }, 500)
     }
     if (error instanceof Error) { //the above errors are instanceof Error, so even if the above two if-blocks are removed, this block will catch those errors, we are keeping the blocks seperate for handling different types of error mesages.
         return apiResponse({ error: error.message }, 500)
