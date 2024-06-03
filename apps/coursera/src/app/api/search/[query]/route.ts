@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { redis } from "@/lib/redis";
+// import { redis } from "@/lib/redis";
 import { apiResponse, handleApiError } from "helpers";
 import { PrismaCourseOutput } from "types";
 
@@ -45,14 +45,14 @@ export async function POST(req: Request, { params }: SearchParams): Promise<Resp
   }
 }
 
-const checkAndSendCachedData = async (query: string, pageNo: number) => {
-  const searchResult: PrismaCourseOutput<{ select: {}, include: {} }>[] = JSON.parse(await redis.get(`coursesFor${query}${pageNo}`) as string)
-  const totalResults: number = JSON.parse(await redis.get(`totalResultsFor${query}`) as string)
+// const checkAndSendCachedData = async (query: string, pageNo: number) => {
+//   const searchResult: PrismaCourseOutput<{ select: {}, include: {} }>[] = JSON.parse(await redis.get(`coursesFor${query}${pageNo}`) as string)
+//   const totalResults: number = JSON.parse(await redis.get(`totalResultsFor${query}`) as string)
    
-  if (searchResult && totalResults) {
-    return apiResponse({data: { courses: searchResult, totalResults: totalResults }});
-  }
-}
+//   if (searchResult && totalResults) {
+//     return apiResponse({data: { courses: searchResult, totalResults: totalResults }});
+//   }
+// }
 
 const getSearchResults = async (query: string, toSkip: number, toGet: number) => {
   const searchTerm = query.split(' ').map((word) => `${word}:*`).join(' & ');

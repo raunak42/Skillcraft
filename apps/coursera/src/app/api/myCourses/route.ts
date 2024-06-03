@@ -4,7 +4,6 @@ import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpe
 
 export async function POST(req: Request): Promise<Response> {
     try {
-        console.log("myCourses route")
         const sessionData = getSessionDataFromMiddleware(req)
         if (!sessionData) {
             return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 401);//500 internal server error because middleware not working

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { redis } from "@/lib/redis";
+// import { redis } from "@/lib/redis";
 import { apiResponse, handleApiError } from "helpers";
 import { PrismaCourseOutput, featuredCourses } from "types";
 
