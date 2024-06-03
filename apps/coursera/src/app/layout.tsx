@@ -4,13 +4,13 @@ import "./globals.css";
 import Footer from "../../../coursera/src/components/footer/Footer";
 import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
 import { validateRequest } from "@/auth";
-import SessionNavbar from "../../../coursera/src/components/navbar/SessionNavbar";
 import { NoSessionSidebar } from "@/components/Sidebar/Sidebar";
 import RecoilWrapper from "./recoilWrapper";
 import { SessionSidebar } from "@/components/SessionSidebar/SessionSidebar";
 import { SessionNavbarSSR } from "@/components/navbar/SessionNavbarSSR";
 import { Haze } from "@/components/Haze/Haze";
 import { Modal } from "@/components/Modal/Modal";
+import { DBError } from "@/components/DBError/DBError";
 
 const inter = Inter({ subsets: ["latin"] });
 const germaniaOne = Germania_One({ subsets: ["latin"], weight: "400" });
@@ -41,15 +41,16 @@ export default async function RootLayout({
               {!session && <NoSessionSidebar />}
               {session && <SessionSidebar />}
             </div>
-            <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2 ">
-              {children}
-            </div>
+            <DBError>
+              <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2 ">
+                {children}
+              </div>
+            </DBError>
             <Modal session={session} user={user} />
             <Haze />
-
-            <div className="mt-16 border-t">
+            {<div className="mt-16 border-t">
               <Footer />
-            </div>
+            </div>}
           </div>
         </body>
       </RecoilWrapper>
