@@ -2,90 +2,93 @@
 import { PaymentComponent } from "../PaymentComponent/PaymentComponent";
 import { Suspense } from "react";
 import { validateRequest } from "@/auth";
-import { Login } from "../Login/Login";
-import { Buttons } from "./Buttons";
-import { handleLogin } from "@/app/(pages)/login/[status]/page";
+import { SessionButtons } from "./Buttons/SessionButtons";
+import { Buttons } from "./Buttons/Buttons";
+import { PrismaCourseOutput } from "types";
+import Accordion from "../Accordion/Accordion";
 
 interface CourseInfoProps {
-  imageLink: string;
-  title: string;
-  price: number;
-  description: string;
-  chapters: [];
-  adminUsername: string;
-  // session: Session | null;
-  courseId: number;
+  course: PrismaCourseOutput<{ select: {}; include: { admin: true } }>;
 }
-export const CourseInfo: React.FC<CourseInfoProps> = async ({
-  imageLink,
-  title,
-  price,
-  description,
-  chapters,
-  adminUsername,
-  // session,
-  courseId,
-}) => {
+export const CourseInfo: React.FC<CourseInfoProps> = async ({ course }) => {
   const { session, user } = await validateRequest();
 
   return (
-    <div className=" grid grid-cols-7 h-full bg-[#ffffff] mx-[15px] rounded-2xl lg:gap-4 xl:gap-0 xl:mx-[50px] overflow-hidden ">
+    <div
+      className={`bg-white ${!session && "py-2"} grid grid-cols-7  mx-[15px] rounded-2xl gap-4 xl:mx-[50px] overflow-hidden `}
+    >
       <div
-        className={`py-2 px-4 col-span-7 ${session && "md:col-span-4"} ${session && "lg:col-span-4"} ${!session && "lg:col-span-7"} md:py-4 px-2 flex flex-col  gap-10`}
+        className={` md:border-r border-gray-200 py-2 px-4 col-span-7 ${session && "md:col-span-4"} ${session && "lg:col-span-4"} ${!session && "lg:col-span-7"} md:py-4 px-2 flex flex-col  gap-10`}
       >
         <div
-          className={` flex ${!session && "grid grid-cols-5"} ${session && "flex-col"} items-start justify-start`}
+          className={`  ${!session && "grid grid-cols-5"} ${session && "flex flex-col gap-4 items-start justify-start"} `}
         >
-          <div className="flex flex-col col-span-5 md:col-span-3">
-            <div className=" flex flex-col  items-start justify-start">
-              <h1 className="text-3xl lg:text-4xl xl:text-4xl font-bold md:pt-0">
-                {title}
+          <div className={`  flex flex-col  col-span-5 md:col-span-3 w-full`}>
+            <div className=" flex flex-col w-[90%] items-start justify-start">
+              <h1 className="text-3xl lg:text-4xl xl:text-4xl font-bold md:pt-0 ">
+                {course.title}
               </h1>
-              <h1 className=" text-md lg:text-xl xl:text-lg ">{description}</h1>
+              <h1 className=" text-md lg:text-xl xl:text-lg ">
+                {course.description}
+              </h1>
               <h1 className="text-xs lg:text-sm flex flex-row gap-1 pt-4">
                 Created by
-                <p className="font-semibold"> {adminUsername}</p>
+                <p className="font-semibold"> {course.admin?.username}</p>
               </h1>
             </div>
-            <div className="w-full">
-              <div className="relative flex flex-row items-center justify-center shrink-0 w-full">
-                <div className="rounded-xl absolute inset-0 bg-gradient-radial from-transparent to-black/40"></div>
-                <img
-                  className="rounded-xl shrink-0 size-full"
-                  src={imageLink as string}
-                  alt={title as string}
-                ></img>
-                <h1 className="absolute left-2 bottom-2 text-white flex flex-row justify-start ml-4 md:ml-0 mt-4 w-full text-2xl md:text-2xl font-bold">
-                  ₹{price}/-
-                </h1>
+            <div className=" w-full md:w-[90%] lg:w-[80%] flex flex-col">
+              <div
+                className={`relative flex flex-row items-start justify-start shrink-0 w-full`}
+              >
+                <div className="w-full ">
+                  <div className="rounded-xl w-full  absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
+
+                  <img
+                    className="rounded-xl shrink-0 w-full"
+                    src={course.imageLink as string}
+                    alt={course.title as string}
+                  ></img>
+                  <h1 className="absolute left-[0%] bottom-1 lg:left-2 lg:bottom-2 text-white flex flex-row justify-start ml-4 md:ml-0 mt-4 w-full text-2xl md:text-2xl font-bold">
+                    ₹{course.price}/-
+                  </h1>
+                </div>
               </div>
-              <Buttons session={session} user={user} courseId={courseId} />
+              {session && (
+                <SessionButtons
+                  session={session}
+                  user={user}
+                  courseId={course.id!}
+                />
+              )}
+              {!session && (
+                <Buttons session={session} user={user} courseId={course.id!} />
+              )}
             </div>
           </div>
 
           <div
-            className={`pb-4 md:pb-0 pt-10 col-span-5 md:col-span-2 ${!session && "flex flex-col items-start md:items-center justify-center"}`}
+            className={` mt-6 md:mt-0 ${session&&"md:mt-6"} w-full  pb-4 md:pb-0 col-span-5 md:col-span-2 ${!session && "flex flex-col items-start justify-start"}`}
           >
-            <h1 className=" lg:text-2xl xl:text-2xl font-semibold">
+            <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
               What you'll learn :-
             </h1>
-
-            <div className="space-y-1 pl-[6px]">
-              <div className="overflow-y-auto mt-2">
-                {chapters?.map((chapter, index) => (
-                  <h1
-                    key={index}
-                    className="lg:text-base xl:text-lg text-sm lg:pl-[18px] pl-[10px]"
-                  >
-                    • Chapter {index + 1}: {chapter}
-                    <br />
-                    {/* • Chapter {index + 1}: {chapter} */}
-                  </h1>
-                ))}
-              </div>
+            <div className="w-full mt-4" >
+              {course.chapters?.map((chapter, index) => (
+                <div className=""  key={index} >
+                  <Accordion
+                    title={`Chapter ${index + 1}: ${chapter}`}
+                    content={<div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full" >
+                      <img src="/lock.svg" className="size-8" ></img>
+                    </div>}
+                  />
+                </div>
+              ))}
             </div>
             {!session && (
-              <a href="/login/fresh" className="hover:cursor-pointer w-[240px] lg:w-[300px] h-[46px] flex items-center justify-center text-white font-semibold  rounded-full bg-green-500 mt-[30px]">
+              <a
+                href="/login/fresh"
+                className="hover:cursor-pointer w-[240px] lg:w-[300px] h-[46px] flex items-center justify-center text-white font-semibold  rounded-full bg-green-500 mt-[30px]"
+              >
                 Login to purchase
               </a>
             )}
@@ -106,37 +109,15 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({
           <div className=" col-span-7 md:px-4  md:col-span-3 xl:col-span-3 px-2 sm:px-0 py-4  flex flex-col gap-4 items-center">
             <div className="w-full">
               <PaymentComponent
-                title={title}
-                price={price}
-                imageLink={imageLink}
-                id={courseId}
+                title={course.title!}
+                price={course.price!}
+                imageLink={course.imageLink!}
+                id={course.id!}
               />
             </div>
           </div>
         </Suspense>
       )}
-      {/* {!session && (
-        <div className=" bg-gray-300/90 shadow-inner  col-span-7 md:px-4  xl:col-span-3 md:py-4  flex flex-col items-center justify-center xl:justify-start gap-8 py-4 ">
-          <div className=" flex flex-row items-center justify-center gap-4">
-            <img className="size-8 lg:size-10" src="/login.svg"></img>
-            <h1 className="text-xl lg:text-2xl font-semibold">
-              Login to buy this course
-            </h1>
-          </div>
-          <div className="gap-8 px-4 w-full md:w-[30%] flex flex-col items-center justify-center">
-            <form
-              action={handleLogin}
-              className="flex flex-col items-center justify-center"
-            >
-              <Login session={session} buttonText="Login" />
-            </form>
-            <div className="flex flex-row">
-              Or{""}
-              <a href="/signup" className="pl-1 font-semibold hover:cursor-pointer"> Signup</a>?
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
