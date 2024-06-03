@@ -10,6 +10,7 @@ import { SessionNavbarSSR } from "@/components/navbar/SessionNavbarSSR";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { Modal } from "@/components/Modal/Modal";
 import { Haze } from "@/components/Haze/Haze";
+import { DBError } from "@/components/DBError/DBError";
 // import { Sidebar } from "@/components/Sidebar/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -38,13 +39,14 @@ export default async function RootLayout({
             {session && <SessionNavbarSSR />}
           </div>
           <Sidebar />
-          
-          <div className="pt-[80px]">{children}</div>
+          <DBError>
+y            <div className="pt-[80px]">{children}</div>
+          </DBError>
           <div className="mt-[120px]">
             <Footer />
           </div>
           <Modal session={session} user={user} />
-          <Haze/>
+          <Haze />
         </body>
       </RecoilWrapper>
     </html>
