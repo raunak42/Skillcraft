@@ -8,6 +8,8 @@ export const INVALID_USRNM_PSWRD_MESSAGE = "Invalid username or password."
 export const LOGIN_SUCCESS_MESSAGE = "Successfully logged in."
 
 export const UNKNOWN_ERR_MESSAGE = "An unknown error occurred."
+export const DB_CONNCT_ERR = "Error connecting to database."
+export const DB_CONNCT_SCCS = "Connected to database."
 
 export const SESSION_HEADER_MISSING_MESSAGE = "sessionDataHeader not found."
 export const COURSE_CREATE_SUCCESS_MESSAGE = "Course created successfully."
