@@ -33,7 +33,8 @@ export default async function Page() {
   const cart = userData?.cart;
 
   const cartCourses = courses?.filter((course) => cart?.includes(course.id!));
-  console.log(cartCourses);
+  const alreadyPurchasedCourses = userData?.courses;  
+
 
   if(cartCourses?.length===0){
     return<h1 className="mb-[500px] text-2xl font-semibold" >No courses to show.</h1>

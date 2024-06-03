@@ -3,6 +3,7 @@ import { CourseInfo } from "@/components/CourseInfo/CourseInfo";
 import { BASE_URL_DEV } from "@/lib/constants";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 import Accordion from "@/components/Accordion/Accordion";
+import Loading from "./loading";
 
 interface CourseParams {
   params: {
@@ -17,20 +18,22 @@ export default async function Page({ params }: CourseParams) {
     method: "GET",
     cache: "no-store",
   });
+
   const coursesResponse: ApiResponseAttributes = await coursesRes.json();
-  if (!coursesResponse.data) {
-    return;
-  }
-  if (!coursesResponse.data.courses) {
-    return;
+
+  // console.log("MESSAGE",coursesResponse.message)
+
+  if (!coursesResponse?.data?.courses) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
   const courses: PrismaCourseOutput<{
     select: {};
     include: { admin: true };
   }>[] = coursesResponse.data.courses;
-  if (!courses) {
-    return;
-  }
 
   const thisCourse = courses.find((course) => {
     return (course.id as number).toString() === params.courseId;
@@ -56,18 +59,10 @@ export default async function Page({ params }: CourseParams) {
   );
 
   return (
-    <div>
+    <div >
       {!alreadyPurchasedCourse && (
         <CourseInfo
-          key={thisCourse?.id}
-          title={thisCourse?.title as string}
-          price={thisCourse?.price as number}
-          imageLink={thisCourse?.imageLink as string}
-          description={thisCourse?.description as string}
-          chapters={thisCourse?.chapters as []}
-          adminUsername={thisCourse?.admin?.username as string}
-          // session={session}
-          courseId={thisCourse?.id as number}
+          course={thisCourse!}
         />
       )}
       {alreadyPurchasedCourse && (

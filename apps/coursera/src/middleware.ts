@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 import { apiResponse } from "helpers";
 
 const unprotectedRoutes = ["/api/getCourses", "/api/getFeaturedCourses", "/api/getTopCourses", "/api/search", "/api/checkoutSession", "/api/cartCheckoutSession", "/api/video"] //for ssr //could have gone with the matcher approach for ssr routes but mathcer blocks the entire middleware for the path that is not included, that means session verification would have stopped but on top of that csrf prevention would also have stopped.
-const noMiddlewareRoutes = ["/api/signup", "/api/login", "/api/checkoutSession", "/api/cartCheckoutSession", "/api/webhook", "/api/video"]
+const noMiddlewareRoutes = ["/api/signup", "/api/login", "/api/checkoutSession", "/api/cartCheckoutSession", "/api/webhook", "/api/video", "/api/checkDbError"]
 
 export async function middleware(request: NextRequest): Promise<Response | undefined> {
 	const response = NextResponse.next();
