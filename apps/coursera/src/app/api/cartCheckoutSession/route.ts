@@ -47,25 +47,14 @@ export async function POST(req: Request) {
             return_url: `${BASE_URL_DEV}/return?session_id={CHECKOUT_SESSION_ID}&courseIds=${courseIds}&userId=${authSession?.userId}`,
             payment_intent_data: {
                 description: courses[0].description!,
-                shipping: {
-                    name: 'Jenny Rosenthal',
-                    address: {
-                        line1: '510 Townsend Streeeet',
-                        postal_code: '981403',
-                        city: 'San Francisco',
-                        state: 'CA',
-                        country: 'US',
-                    },
-                },
                 metadata: {
                     courseIds: JSON.stringify(courseIds),
                     authSession: JSON.stringify(authSession),
                     user: JSON.stringify(user)
                 }
             },
-            // payment_method_types: ["card"],
-            // expires_at: Math.floor(Date.now() / 1000) + ((3600 * 2) / 4), // Configured to expire after 2 hours/4 = 30mins
-            phone_number_collection: { enabled: true }
+            phone_number_collection: { enabled: true },
+            billing_address_collection: "required"
         });
 
         return NextResponse.json({ clientSecret: session.client_secret });

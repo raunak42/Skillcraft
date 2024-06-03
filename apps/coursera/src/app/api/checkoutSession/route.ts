@@ -1,4 +1,5 @@
 import { BASE_URL_DEV } from '@/lib/constants';
+import { MetadataParam } from '@stripe/stripe-js';
 import { handleApiError } from 'helpers';
 import { Session, User } from 'lucia';
 import { NextRequest, NextResponse } from 'next/server';
@@ -24,8 +25,15 @@ export async function POST(req: Request) {
         const body: BodyType = await req.json()
         const { course, authSession, user } = body;
 
+        const metadata: MetadataParam = {
+            courseId: course.id,
+            courseIds: JSON.stringify([]), //empty array because this is not cart
+            authSession: JSON.stringify(authSession),
+            user: JSON.stringify(user)
+        }
+
         const session = await stripe.checkout.sessions.create({
-            currency:'inr',
+            currency: 'inr',
             ui_mode: 'embedded',
             submit_type: 'pay',
             line_items: [
@@ -45,22 +53,7 @@ export async function POST(req: Request) {
             return_url: `${BASE_URL_DEV}/return?session_id={CHECKOUT_SESSION_ID}&courseId=${course.id}&userId=${authSession?.userId}`,
             payment_intent_data: {
                 description: course.name,
-                // shipping: {
-                //     name: user?.username!,
-                //     address: {
-                //         line1: '510 Townsend Streeeet',
-                //         postal_code: '981403',
-                //         city: 'Nagpur',
-                //         state: 'MH',
-                //         country: 'IN',
-                //     },
-                // },
-                metadata: {
-                    courseId: course.id,
-                    courseIds: JSON.stringify([]), //empty array because this is not cart
-                    authSession: JSON.stringify(authSession),
-                    user: JSON.stringify(user)
-                }
+                metadata: metadata
             },
             phone_number_collection: { enabled: true },
             billing_address_collection: 'required',
