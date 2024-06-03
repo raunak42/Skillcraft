@@ -1,30 +1,29 @@
 "use client";
-
 import React, { useState } from "react";
 
 interface AccordionProps {
   title: string;
-  content: React.ReactNode; // Accept any valid React element
+  content: React.ReactNode;
 }
 
 const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div
-      className={`bg-white flex flex-col items-center gap-4 w-full overflow-hidden border rounded-md shadow-md transition-all duration-300 ease-in-out ${
-        isOpen ? "h-[300px]" : "h-[66px] sm:h-[50px]"
-      }`}
-    >
+    <div className="bg-white flex flex-col items-center justify-center w-full overflow-hidden border rounded-md shadow-md">
       <div
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        className={`${!isOpen && "h-full"} bg-gray-100 cursor-pointer flex flex-row items-start justify-between px-4 py-3  rounded-b-md   w-full  sm:items-start sm:justify-between rounded-t-md`}
+        onClick={toggleAccordion}
+        className="bg-gray-100 h-[50px] cursor-pointer flex flex-row items-center justify-between w-full rounded-t-md px-4"
       >
-        <div className="w-[85%]" >{title}</div>
+        <div className="w-[85%] ">{title}</div>
         <svg
-          className={`w-6 h-6 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={` w-6 h-6 transition-transform duration-300 ease-in-out ${
+            isOpen ? "rotate-180" : ""
+          }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -38,11 +37,16 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
           />
         </svg>
       </div>
-      {isOpen && (
-        <div className=" flex flex-row items-center justify-center">
+      <div
+        className={`
+          transition-all duration-500 ease-in-out overflow-hidden flex flex-col items-center justify-center
+          ${isOpen ? "max-h-[1000px] py-4" : "max-h-0 py-0"}
+        `}
+      >
+        <div className=" px-4 flex flex-col items-center justify-center">
           {content}
         </div>
-      )}
+      </div>
     </div>
   );
 };
