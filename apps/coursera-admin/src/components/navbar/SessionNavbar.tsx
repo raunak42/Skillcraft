@@ -50,7 +50,6 @@ export const SessionNavbar: React.FC<SessionNavbarProps> = ({
     });
 
     const response: ApiResponseAttributes = await res.json();
-    console.log(response);
     setResponse(response);
     const admin = response.data?.admin;
     setAvatar(admin?.avatar as string);

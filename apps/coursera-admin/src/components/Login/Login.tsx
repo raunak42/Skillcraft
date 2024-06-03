@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { userInput } from "zod-validation";
 import { ZodError } from "zod";
 import { SignupWarnings } from "../../app/(pages)/signup/[status]/[number]/SignupWarnings";
+import Image from "next/image";
 
 interface LoginProps {
   buttonText: string;
@@ -72,7 +73,7 @@ export const Login: React.FC<LoginProps> = ({ buttonText, session }) => {
         <div className="flex flex-col items-center justify-center gap-2">
           <h1 className="font-semibold">Or</h1>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {!googleClicked && (
+          {!googleClicked && (
               <Link
                 onClick={() => {
                   setGoogleClicked(true);
@@ -80,7 +81,13 @@ export const Login: React.FC<LoginProps> = ({ buttonText, session }) => {
                 href={"/login/google"}
                 className="hover:bg-gray-200 rounded-full"
               >
-                <img src="/googleSignin.svg" className=""></img>
+                <Image
+                  width={189}
+                  height={40}
+                  alt="sex"
+                  src="/googleSignin.svg"
+                  className=""
+                ></Image>
               </Link>
             )}
             {googleClicked && (
