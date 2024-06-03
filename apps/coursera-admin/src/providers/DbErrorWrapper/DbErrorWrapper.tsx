@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const DBError: React.FC<Props> = async ({ children }) => {
+export const DbErrorWrapper: React.FC<Props> = async ({ children }) => {
   let showDbError = true;
 
   const res = await fetch(`${BASE_URL_DEV}/api/checkDbError`, {

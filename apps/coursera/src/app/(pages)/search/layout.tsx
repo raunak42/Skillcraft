@@ -1,5 +1,5 @@
 "use client";
-import { TogglePageButton } from "@/components/togglePageButton/togglePageButton";
+import { TogglePageButton } from "@/components/TogglePageButton/togglePageButton";
 import { useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 

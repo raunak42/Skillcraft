@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
 import { Inter, Germania_One, Amiko } from "next/font/google";
 import "./globals.css";
-// import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
 import { validateRequest } from "@/auth";
-import RecoilWrapper from "./recoilWrapper";
-import Footer from "@/components/footer/Footer";
-import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
-import { SessionNavbarSSR } from "@/components/navbar/SessionNavbarSSR";
+import RecoilWrapper from "../providers/RecoilWrapper/RecoilWrapper";
+import Footer from "@/components/Footer/Footer";
+import NoSessionNavbar from "@/components/Navbar/NoSessionNavbar";
+import { SessionNavbarSSR } from "@/components/Navbar/SessionNavbarSSR";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { Modal } from "@/components/Modal/Modal";
 import { Haze } from "@/components/Haze/Haze";
-import { DBError } from "@/components/DBError/DBError";
-// import { Sidebar } from "@/components/Sidebar/Sidebar";
+import { DbErrorWrapper } from "@/providers/DbErrorWrapper/DbErrorWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 const germaniaOne = Germania_One({ subsets: ["latin"], weight: "400" });
@@ -39,9 +37,9 @@ export default async function RootLayout({
             {session && <SessionNavbarSSR />}
           </div>
           <Sidebar />
-          <DBError>
-y            <div className="pt-[80px]">{children}</div>
-          </DBError>
+          <DbErrorWrapper>
+            y <div className="pt-[80px]">{children}</div>
+          </DbErrorWrapper>
           <div className="mt-[120px]">
             <Footer />
           </div>

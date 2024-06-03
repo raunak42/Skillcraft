@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { Inter, Germania_One, Amiko } from "next/font/google";
 import "./globals.css";
-import Footer from "../../../coursera/src/components/footer/Footer";
-import NoSessionNavbar from "@/components/navbar/NoSessionNavbar";
+import Footer from "../components/Footer/Footer";
+import NoSessionNavbar from "@/components/Navbar/NoSessionNavbar";
 import { validateRequest } from "@/auth";
 import { NoSessionSidebar } from "@/components/Sidebar/Sidebar";
-import RecoilWrapper from "./recoilWrapper";
+import RecoilWrapper from "../providers/RecoilWrapper/RecoilWrapper";
 import { SessionSidebar } from "@/components/SessionSidebar/SessionSidebar";
-import { SessionNavbarSSR } from "@/components/navbar/SessionNavbarSSR";
+import { SessionNavbarSSR } from "@/components/Navbar/SessionNavbarSSR";
 import { Haze } from "@/components/Haze/Haze";
 import { Modal } from "@/components/Modal/Modal";
-import { DBError } from "@/components/DBError/DBError";
+import { DbErrorWrapper } from "@/providers/DbErrorWrapper/DbErrorWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 const germaniaOne = Germania_One({ subsets: ["latin"], weight: "400" });
@@ -41,16 +41,18 @@ export default async function RootLayout({
               {!session && <NoSessionSidebar />}
               {session && <SessionSidebar />}
             </div>
-            <DBError>
+            <DbErrorWrapper>
               <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2 ">
                 {children}
               </div>
-            </DBError>
+            </DbErrorWrapper>
             <Modal session={session} user={user} />
             <Haze />
-            {<div className="mt-16 border-t">
-              <Footer />
-            </div>}
+            {
+              <div className="mt-16 border-t">
+                <Footer />
+              </div>
+            }
           </div>
         </body>
       </RecoilWrapper>
