@@ -32,21 +32,9 @@ export async function POST(req: NextRequest) {
   }
 
   if (event.type === 'payment_intent.created') {
-    const paymentIntent = event.data.object;
-    const courseId = parseInt(paymentIntent.metadata.courseId);
-    const session: Session = JSON.parse(paymentIntent.metadata.authSession);
-
-    const purchasedCourses = await getUserCourses(session.userId);
-    if (purchasedCourses instanceof Response) {
-      const response = purchasedCourses;
-      return response;
-    }
-    const courseAlreadyPurchased = purchasedCourses.find((t) => t.id === courseId);
-    if (courseAlreadyPurchased) {
-      // return apiResponse({ message: "already purchased the course" }, 409)
-      console.log(`Already purchased the course. PaymentIntent for ${paymentIntent.amount} failed.`)
-      return NextResponse.json({ message: "Already purchased the course." })
-    }
+    console.log("Payment intent created")
+    //This if-check has to have some logic, a mere console log even, for the logic in the next if statement to work.
+    //And this if-check has to exist.
   }
 
   if (event.type === 'payment_intent.succeeded') {
@@ -55,11 +43,13 @@ export async function POST(req: NextRequest) {
     const courseIds: number[] = JSON.parse(paymentIntent.metadata.courseIds);
     const session: Session = JSON.parse(paymentIntent.metadata.authSession);
 
+    console.log("courseIds", courseIds)
+
     try {
-      if (!isNaN(courseId)) {
+      if (!isNaN(courseId)) { //for checkoutSession
         await buyCourse(session, courseId);
       }
-      if (courseIds.length > 0) {
+      if (courseIds.length > 0) { //for cartCheckoutSession
         await buyCourses(session, courseIds);
         await emptyCart(session)
       }
