@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchResults } from "@/components/SearchResults/SearchResults";
 import Loading from "./loading";
-import { TogglePageButton } from "@/components/TogglePageButton/togglePageButton";
+import { TogglePageButton } from "@/components/TogglePageButton/TogglePageButton";
 
 export default function Page() {
   const searchParams = useSearchParams();
