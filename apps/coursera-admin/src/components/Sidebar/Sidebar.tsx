@@ -83,8 +83,4 @@ export const Sidebar = () => {
       </div>
     </div>
   );
-
-  if (!sideBarOpen) {
-    return null;
-  }
 };

@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar/Searchbar";
 import { useRecoilState } from "recoil";
 import { courseClickedState, sideBarOpenState } from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import { useMediaQuery } from "react-responsive";
 
-const NoSessionNavbar = () => {
+const NoSessionNavbar:React.FC = () => {
   const [searchIconClicked, setSearchIconClicked] = useState<boolean>(false);
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -40,7 +40,7 @@ const NoSessionNavbar = () => {
               ></img>
             </div>
 
-            <a href={"/ssrLanding"}>
+            <a href={"/home"}>
               <img
                 className="w-[150px] md:w-[180px] lg:w-[210px] ml-4 hover:cursor-pointer"
                 src="/skillcraftLogo.svg"

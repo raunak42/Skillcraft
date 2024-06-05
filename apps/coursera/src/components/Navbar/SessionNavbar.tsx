@@ -115,7 +115,7 @@ const SessionNavbar: React.FC<SessionNavbarProps> = ({ session, authUser }) => {
                 </div>
               </div>
 
-              <a className="" href={"/ssrLanding"}>
+              <a className="" href={"/home"}>
                 <img
                   className="w-[150px] md:w-[180px] lg:w-[260px]  hover:cursor-pointer"
                   src="/skillcraftLogo.svg"

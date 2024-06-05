@@ -28,7 +28,7 @@ const NoSessionNavbar = () => {
       <div className="flex flex-row justify-between items-center md:gap-4 border-b-[1.5px] border-b-black shadow-md p-2">
         {(
           <div className="flex flex-row justify-between lg:justify-start lg:gap-4 w-full px-2 items-center">
-            <a className="" href={"/ssrLanding"}>
+            <a className="" href={"/home"}>
             <img
               className="w-[120px] md:w-[160px] ml-4 hover:cursor-pointer"
               src="/skillcraft-admin.svg"

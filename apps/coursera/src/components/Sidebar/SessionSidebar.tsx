@@ -7,11 +7,10 @@ import {
   usernameState,
 } from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
-import { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState } from "react";
 import { ADMIN_BASE_URL_DEV } from "@/lib/constants";
 
-export const SessionSidebar = () => {
+export const SessionSidebar: React.FC = () => {
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
   const [avatar, setAvatar] = useRecoilState(avatarState);
   const [username, setUsername] = useRecoilState(usernameState);
@@ -52,14 +51,7 @@ export const SessionSidebar = () => {
         </div>
       </div>
       <div className=" text-nowrap flex-col shrink-0">
-        <div
-          className=" flex flex-row items-center pl-2 py-[10px]"
-          // onClick={() => {
-          //   // setSideBarOpen(false);
-          //   setIsLoading(true);
-          // }}
-          // href={"/settings"}
-        >
+        <div className=" flex flex-row items-center pl-2 py-[10px]">
           {avatar && (
             <div className="shrink-0 size-[34px]">
               <img className="rounded-full" src={avatar}></img>
@@ -72,7 +64,6 @@ export const SessionSidebar = () => {
           )}
 
           <div className="pl-2 flex flex-col">
-            {/* <h3>Username</h3> */}
             {username && (
               <h3 className=" text-xs text-gray-600 font-semibold">
                 {username}
@@ -86,7 +77,6 @@ export const SessionSidebar = () => {
         <a
           className="relative flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
           onClick={() => {
-            // setSideBarOpen(false);
             setIsLoading(true);
           }}
           href={"/wishlist"}
@@ -106,7 +96,6 @@ export const SessionSidebar = () => {
         <a
           className="relative flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-2 py-[10px]"
           onClick={() => {
-            // setSideBarOpen(false);
             setIsLoading(true);
           }}
           href={"/cart"}
@@ -126,7 +115,6 @@ export const SessionSidebar = () => {
         <a
           className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-[12px] py-[10px]"
           onClick={() => {
-            // setSideBarOpen(false);
             setIsLoading(true);
           }}
           href={"/myCourses"}
@@ -139,7 +127,6 @@ export const SessionSidebar = () => {
         <a
           className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-[16px] py-[11px]"
           onClick={() => {
-            // setSideBarOpen(false);
             setIsLoading(true);
           }}
           href={"/signout"}
