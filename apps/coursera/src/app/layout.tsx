@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Germania_One, Amiko } from "next/font/google";
+import { Amiko } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer/Footer";
-import NoSessionNavbar from "@/components/Navbar/NoSessionNavbar";
-import { validateRequest } from "@/auth";
-import { NoSessionSidebar } from "@/components/Sidebar/Sidebar";
 import RecoilWrapper from "../providers/RecoilWrapper/RecoilWrapper";
-import { SessionSidebar } from "@/components/SessionSidebar/SessionSidebar";
-import { SessionNavbarSSR } from "@/components/Navbar/SessionNavbarSSR";
+import { Navbar } from "@/components/Navbar/Navbar";
 import { Haze } from "@/components/Haze/Haze";
+import { DbErrorWrapper } from "@/components/DbErrorWrapper/DbErrorWrapper";
+import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { Modal } from "@/components/Modal/Modal";
-import { DbErrorWrapper } from "@/providers/DbErrorWrapper/DbErrorWrapper";
 
-const inter = Inter({ subsets: ["latin"] });
-const germaniaOne = Germania_One({ subsets: ["latin"], weight: "400" });
-const amiko = Amiko({ subsets: ["latin"], weight: "400" });
+const amiko = Amiko({ subsets: ["latin"], weight: "400", display:"swap" });
 
 export const metadata: Metadata = {
   title: "Skillcraft",
@@ -26,36 +21,30 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { session, user } = await validateRequest();
-
   return (
     <html lang="en">
-      <RecoilWrapper>
-        <body className={amiko.className}>
-          <div className="relative">
-            <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
-              {!session && <NoSessionNavbar />}
-              {session && <SessionNavbarSSR />}
-            </div>
-            <div>
-              {!session && <NoSessionSidebar />}
-              {session && <SessionSidebar />}
-            </div>
-            <DbErrorWrapper>
+      <body className={amiko.className}>
+        <RecoilWrapper>
+          <DbErrorWrapper>
+            <div className="relative">
+              <div className="w-full fixed top-0 z-10 bg-[#ffffff]">
+                <Navbar />
+              </div>
+              <div>
+                <Sidebar />
+              </div>
               <div className="xl:pt-[82px] pt-[62px] md:pt-[72px] xl:px-4 px-2 ">
                 {children}
               </div>
-            </DbErrorWrapper>
-            <Modal session={session} user={user} />
-            <Haze />
-            {
+              <Modal />
+              <Haze />
               <div className="mt-16 border-t">
                 <Footer />
               </div>
-            }
-          </div>
-        </body>
-      </RecoilWrapper>
+            </div>
+          </DbErrorWrapper>
+        </RecoilWrapper>
+      </body>
     </html>
   );
 }
