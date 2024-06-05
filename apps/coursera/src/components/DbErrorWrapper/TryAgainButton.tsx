@@ -10,7 +10,7 @@ export const TryAgainButton = () => {
         setLoading(true);
         window.location.reload();
       }}
-      className="border-[1.5px] hover:shadow-xl border-black rounded-full text-base font-thin text-black w-[100px] h-[34px]"
+      className=" border-[1.5px] hover:shadow-xl border-black rounded-full text-base font-thin text-black w-[100px] h-[34px]"
     >
       {loading ? <Spinner /> : "Try again."}
     </button>
