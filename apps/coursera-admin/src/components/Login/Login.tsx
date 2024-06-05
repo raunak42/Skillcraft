@@ -3,29 +3,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { Session } from "lucia";
 import { redirect } from "next/navigation";
-import { userInput } from "zod-validation";
-import { ZodError } from "zod";
-import { SignupWarnings } from "../../app/(pages)/signup/[status]/[number]/SignupWarnings";
 import Image from "next/image";
 
 interface LoginProps {
   buttonText: string;
-  session: Session | null;
 }
-export const Login: React.FC<LoginProps> = ({ buttonText, session }) => {
+export const Login: React.FC<LoginProps> = ({ buttonText }) => {
   const [githubClicked, setGithubClicked] = useState<boolean>(false);
   const [googleClicked, setGoogleClicked] = useState<boolean>(false);
   const [buttonClicked, setButtonCLicked] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [validatedInput, setValidatedInput] = useState<boolean>(true);
-  const [invalidUsername, SetInvalidUsername] = useState<boolean>(false);
-  const [invalidPassword, setInvalidPassword] = useState<boolean>(false);
-  const [counter, setCounter] = useState<number>(0);
-
-  if (session) {
-    redirect("/create");
-  }
 
   return (
     <div className=" flex flex-col items-center justify-center">
@@ -73,7 +61,7 @@ export const Login: React.FC<LoginProps> = ({ buttonText, session }) => {
         <div className="flex flex-col items-center justify-center gap-2">
           <h1 className="font-semibold">Or</h1>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {!googleClicked && (
+            {!googleClicked && (
               <Link
                 onClick={() => {
                   setGoogleClicked(true);

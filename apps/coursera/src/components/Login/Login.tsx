@@ -7,19 +7,13 @@ import { useState } from "react";
 
 interface LoginProps {
   buttonText: string;
-  session: Session | null;
 }
 export const Login: React.FC<LoginProps> = ({
   buttonText,
-  session,
 }: LoginProps) => {
   const [githubClicked, setGithubClicked] = useState<boolean>(false);
   const [googleClicked, setGoogleClicked] = useState<boolean>(false);
   const [buttonClicked, setButtonCLicked] = useState<boolean>(false);
-
-  if (session) {
-    redirect("/ssrLanding");
-  }
 
   return (
     <div>
