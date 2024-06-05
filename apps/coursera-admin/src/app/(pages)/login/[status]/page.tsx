@@ -3,12 +3,13 @@ import { cookies } from "next/headers"; //this requires the server, hence cannot
 import { ApiResponseAttributes } from "types";
 import {
   ADMIN_BASE_URL_DEV,
-  INVALID_USRNM_PSWRD_MESSAGE
+  INVALID_USRNM_PSWRD_MESSAGE,
 } from "@/lib/constants";
 import { Session } from "lucia";
 import { redirect } from "next/navigation";
 import { Login } from "@/components/Login/Login";
 import { LoginWarnings } from "./Loginwarnings";
+import { RedirectButton } from "./RedirectButton";
 
 interface PageParams {
   params: {
@@ -17,22 +18,27 @@ interface PageParams {
 }
 
 export default async function Page({ params }: PageParams) {
-  const { session } = await validateRequest();
+  const existingSession = (await validateRequest()).session;
 
-  return (
-    <form
-      action={handleLogin}
-      className=" flex flex-col items-center justify-center"
-    >
-      <div className=" flex flex-col items-start justify-start">
-        <Login session={session} buttonText="Login" />
-        {params.status !== "fresh" && <LoginWarnings />}
-      </div>
-    </form>
-  );
+  if (!existingSession) {
+    return (
+      <form
+        action={handleLogin}
+        className=" flex flex-col items-center justify-center"
+      >
+        <div className=" flex flex-col items-start justify-start">
+          <Login buttonText="Login" />
+          {params.status !== "fresh" && <LoginWarnings />}
+        </div>
+      </form>
+    );
+  }
+  if (existingSession) {
+    return <RedirectButton />;
+  }
 }
 
-export const handleLogin = async (formData: FormData) => {
+const handleLogin = async (formData: FormData) => {
   "use server"; //Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".
   const username = formData.get("username");
   const password = formData.get("password");

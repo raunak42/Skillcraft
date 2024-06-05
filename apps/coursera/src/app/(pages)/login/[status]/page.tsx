@@ -1,15 +1,12 @@
 import { lucia, validateRequest } from "@/auth";
 import { cookies } from "next/headers"; //this requires the server, hence cannot mark the page with 'use client', hence cannot use state variables, hence need to use <form>
 import { ApiResponseAttributes } from "types";
-import {
-  BASE_URL_DEV,
-  INVALID_USRNM_PSWRD_MESSAGE,
-  LOGIN_SUCCESS_MESSAGE,
-} from "@/lib/constants";
+import { BASE_URL_DEV, INVALID_USRNM_PSWRD_MESSAGE } from "@/lib/constants";
 import { Session } from "lucia";
 import { Login } from "@/components/Login/Login";
 import { redirect } from "next/navigation";
 import { LoginWarnings } from "./Loginwarnings";
+import { RedirectButton } from "./RedirectButton";
 
 interface PageParams {
   params: {
@@ -18,23 +15,31 @@ interface PageParams {
 }
 
 export default async function Page({ params }: PageParams) {
-  const { session } = await validateRequest();
+  const existingSession = (await validateRequest()).session;
 
-  return (
-    <form
-      action={handleLogin}
-      className=" flex flex-col items-center justify-center"
-    >
-      <div className=" flex flex-col items-start justify-start">
-        <Login session={session} buttonText="Login" />
-        {params.status !== "fresh" && <LoginWarnings />}
-      </div>
-    </form>
-  );
+  if (!existingSession) {
+    return (
+      <form
+        action={handleLogin}
+        className=" flex flex-col items-center justify-center"
+      >
+        <div className=" flex flex-col items-start justify-start">
+          <Login buttonText="Login" />
+          {params.status !== "fresh" && <LoginWarnings />}
+        </div>
+      </form>
+    );
+  }
+  if (existingSession) {
+    return (
+      <RedirectButton/>
+    );
+  }
 }
 
-export const handleLogin = async (formData: FormData) => {
+const handleLogin = async (formData: FormData) => {
   "use server"; //Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".
+  console.log("login function")
   const username = formData.get("username");
   const password = formData.get("password");
 
@@ -65,5 +70,5 @@ const startSession = (session: Session) => {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/ssrLanding");
+  return redirect("/home");
 };

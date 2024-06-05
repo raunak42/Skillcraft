@@ -10,6 +10,7 @@ import {
   USERNAME_TAKEN_MESSAGE,
 } from "@/lib/constants";
 import { SignupWarnings } from "./SignupWarnings";
+import { RedirectButton } from "./RedirectButton";
 
 interface PageParams {
   params: {
@@ -19,18 +20,24 @@ interface PageParams {
 }
 
 export default async function Page({ params }: PageParams) {
-  const { session } = await validateRequest();
-  return (
-    <form
-      action={signupAndStartSession}
-      className=" flex flex-col items-center justify-center"
-    >
-      <div className=" flex flex-col items-start justify-start">
-        <Login session={session} buttonText="Signup" />
-        <SignupWarnings status={params.status} />
-      </div>
-    </form>
-  );
+  const existingSession = (await validateRequest()).session;
+
+  if (!existingSession) {
+    return (
+      <form
+        action={signupAndStartSession}
+        className=" flex flex-col items-center justify-center"
+      >
+        <div className=" flex flex-col items-start justify-start">
+          <Login buttonText="Signup" />
+          <SignupWarnings status={params.status} />
+        </div>
+      </form>
+    );
+  }
+  if (existingSession) {
+    return <RedirectButton />;
+  }
 }
 
 async function signupAndStartSession(formData: FormData): Promise<any> {
