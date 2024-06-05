@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenv -e ./../../.env  -- next dev --port 3000 --hostname 0.0.0.0 & npx next-video sync -w",
-    "build": "npx prisma generate --no-engine && next build",
+    "dev": "npx prisma generate --no-engine & dotenv -e ./../../.env  -- next dev --port 3000 --hostname 0.0.0.0 & npx next-video sync -w",
+    "build": "npx prisma generate && next build",
     "start": "next start --hostname 0.0.0.0",
     "lint": "next lint"
   },
