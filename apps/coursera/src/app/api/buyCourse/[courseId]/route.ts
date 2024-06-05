@@ -1,21 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { courseFromDb } from "@/native-types/types";
 import { apiResponse, getSessionDataFromMiddleware, handleApiError } from "helpers";
 import { Session, User } from "lucia";
 import { NextResponse } from "next/server";
 import { PrismaCourseOutput, PrismaUserOutput } from "types";
-
-type UserAttributes = {
-    username: string;
-    id: string;
-    email: string | null;
-    avatar: string | null;
-    hashed_password: string;
-};
-
-type coursesFromDbWithUserInfo = {
-    courses: courseFromDb[]
-} & UserAttributes
 
 export async function POST(req: Request, { params }: { params: { courseId: string } }): Promise<Response> {
     try {
@@ -24,11 +11,11 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
         console.log("BODY", body)
         const { session, user }: { session: Session | null, user: User | null } = body;
 
-            if (!session) {
-                return NextResponse.json({ message: "Sign in first." }, {
-                    status: 403
-                })
-            }
+        if (!session) {
+            return NextResponse.json({ message: "Sign in first." }, {
+                status: 403
+            })
+        }
 
         const courseId = parseInt(params.courseId);
         const sessionData = getSessionDataFromMiddleware(req);
@@ -64,7 +51,7 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
     }
 }
 
-async function getUserCourses(userId: string): Promise<Response | courseFromDb[]> {
+async function getUserCourses(userId: string): Promise<Response | PrismaCourseOutput<{ select: {}, include: {} }>[]> {
     const userInDb = await prisma.user.findUnique({
         where: {
             id: userId

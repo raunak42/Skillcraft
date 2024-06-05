@@ -6,7 +6,7 @@ export default async function Page() {
   const { session, user } = await validateRequest();
 
   return (
-    <div className=" mt-12 grid grid-cols-4 bg-white lg:px-4 lg:py-4 px-2 py-2 lg:mx-14 mx-2 rounded-2xl">
+    <div className="mx-8 mt-12 grid grid-cols-4 bg-white px-4 lg:py-4  py-2 lg:mx-14  rounded-2xl">
       <div className="col-span-4 lg:col-span-2 flex flex-col items-center justify-start gap-4 lg:gap-10 ">
         <div className="w-full">
           <h1 className="lg:text-3xl text-xl font-semibold">

@@ -10,7 +10,6 @@ import {
 } from "state-store";
 import { Session, User } from "lucia";
 import { ApiResponseAttributes } from "types";
-import { response } from "express";
 import {
   COURSE_CREATE_SUCCESS_MESSAGE,
   COURSE_UPDATE_SUCCESS_MESSAGE,
@@ -38,7 +37,6 @@ export const CourseInput: React.FC<CourseInputProps> = ({
   const [imageLink, setImageLink] = useRecoilState(imageLinkState);
   const [price, setPrice] = useRecoilState(priceState);
   const [clicked, setCLicked] = useState<boolean>(false);
-  const [response, setResponse] = useState<ApiResponseAttributes>();
   const [userDetails, setUserDetials] = useRecoilState(adminDetailsState);
   const courses = userDetails?.createdCourses;
 

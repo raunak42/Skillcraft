@@ -28,7 +28,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ adminUsername }) => {
           <img className={` w-full h-[140px] object-cover`} src={imageLink} />
         )}
         {!imageLink && (
-          <img className={` w-[60%] h-[140px] object-cover`} src={"/hat.svg"} />
+          <div className={` w-[60%] h-[140px] object-cover`} />
         )}
         {
           <div className="absolute  inset-0 bg-gradient-to-t  from-black/40 to-transparent transition-all duration-300 ease-in-out"></div>

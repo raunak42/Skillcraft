@@ -11,7 +11,7 @@ export default async function Page() {
   );
 }
 
-export async function logout(): Promise<ActionResult> {
+async function logout(): Promise<ActionResult> {
   "use server";
   const { session } = await validateRequest();
   if (!session) {
@@ -30,7 +30,7 @@ export async function logout(): Promise<ActionResult> {
   );
   // cookies().delete(sessionCookie.name) //So that when you try to log in another time, the browser doesn't remember which google/github account you were previously signed in with. This way auth gives you the option to sign in with one of your google/github accounts and doesn't directly sign you in with the previous account.
 
-  return redirect("/ssrLanding");
+  return redirect("/home");
 }
 
 interface ActionResult {

@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { courseFromDb } from "@/native-types/types";
 import { apiResponse } from "helpers";
 import { Session } from "lucia";
-import { PrismaUserOutput } from "types";
+import { PrismaCourseOutput, PrismaUserOutput } from "types";
 
-export async function getUserCourses(userId: string): Promise<Response | courseFromDb[]> {
+export async function getUserCourses(userId: string): Promise<Response | PrismaCourseOutput<{}>[]> {
     const userInDb = await prisma.user.findUnique({
         where: {
             id: userId

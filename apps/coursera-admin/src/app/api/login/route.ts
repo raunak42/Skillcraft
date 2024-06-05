@@ -32,7 +32,7 @@ const validateBody = async (body: { username: string, password: string }): Promi
     return parsedData;
 }
 
-export const findAdminInDb = async (username: string): Promise<PrismaAdminOutput<{
+const findAdminInDb = async (username: string): Promise<PrismaAdminOutput<{
     select: {
         id: true,
         hashed_password: true,

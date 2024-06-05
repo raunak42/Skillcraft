@@ -22,7 +22,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="flex flex-col items-center mt-20 space-y-2">
-          <a href={"/ssrLanding"}>
+          <a href={"/home"}>
             <img src="/skillcraftLogo.svg" className="" width={200}></img>
           </a>
           <div className="text-[#000000] font-semibold flex flex-col items-center ">

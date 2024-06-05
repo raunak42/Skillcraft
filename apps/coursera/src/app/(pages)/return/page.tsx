@@ -102,7 +102,7 @@ export default function Page() {
       <div className="flex flex-col gap-2">
         <div className="  flex flex-row items-center gap-4">
           <Link
-            href={"/ssrLanding"}
+            href={"/home"}
             className="bg-black text-white p-2 rounded-full"
           >
             <img src="/arrowLeft.svg" className="size-4"></img>
