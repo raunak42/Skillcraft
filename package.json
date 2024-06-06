@@ -1,5 +1,5 @@
 {
-  "name": "course-webapp",
+  "name": "skillcraft",
   "private": true,
   "scripts": {
     "build": "turbo build",
