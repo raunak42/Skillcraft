@@ -4,7 +4,6 @@ import { allCourses, physicsCourses } from "./courses"
 
 export async function GET(req: Request): Promise<Response> {
     try {
-        console.log("hello")
         const courses = await prisma.course.findMany({});
 
         // const totalCourses = physicsCourses.concat(allCourses)

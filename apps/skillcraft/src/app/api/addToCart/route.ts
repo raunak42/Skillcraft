@@ -29,7 +29,6 @@ export async function POST(req: Request): Promise<Response> {
 
 
         if(alreadyInCart){
-            console.log("Already in cart.")
             return apiResponse({message:"Already in cart."})
         }
 

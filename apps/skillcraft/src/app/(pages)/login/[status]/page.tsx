@@ -39,7 +39,6 @@ export default async function Page({ params }: PageParams) {
 
 const handleLogin = async (formData: FormData) => {
   "use server"; //Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".
-  console.log("login function")
   const username = formData.get("username");
   const password = formData.get("password");
 
@@ -63,7 +62,6 @@ const handleLogin = async (formData: FormData) => {
 };
 
 const startSession = (session: Session) => {
-  console.log("session started");
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
     sessionCookie.name,

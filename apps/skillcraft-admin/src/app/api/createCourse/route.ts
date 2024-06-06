@@ -19,7 +19,6 @@ interface BodyType {
 export async function POST(req: Request): Promise<Response> {
     try {
         const body: BodyType = await req.json()
-        // console.log("body", body)
         const sessionData = getSessionDataFromMiddleware(req);
         if (!sessionData) {
             return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 500);//500 internal server error because middleware not working

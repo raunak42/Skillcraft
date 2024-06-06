@@ -11,16 +11,17 @@ export const DbErrorWrapper: React.FC<Props> = async ({ children }) => {
   let showDbError = true;
 
   try {
-    const testUser = await prisma.user.create({
+    const testCourse = await prisma.course.create({
       data: {
-        id: generateId(15),
-        username: `${randomWord}TEST`,
+        title: "TESTCOURSE",
+        price: 0,
+        published: true,
       },
     });
 
-    await prisma.user.delete({
+    await prisma.course.deleteMany({
       where: {
-        id: testUser.id,
+        title: testCourse.title,
       },
     });
 

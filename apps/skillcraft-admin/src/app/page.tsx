@@ -1,17 +1,13 @@
-import { validateRequest } from "@/auth";
-import { AuthRequiredError } from "@/lib/exceptions";
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default async function Home() {
-  const sessionDetails = await validateRequest();
-  const { session, user } = sessionDetails;
-  
-  if (!session) {
-    throw new AuthRequiredError();
-  }
+export default function Page() {
+  const router = useRouter();
 
-  return (
-    <div>
-      <h2>Hello {user.username}</h2>
-    </div>
-  );
+  useEffect(() => {
+    router.push("/login/fresh");
+  });
+
+  return<div className="mt-[700px]" ></div>
 }

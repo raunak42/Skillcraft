@@ -30,7 +30,6 @@ export async function POST(req: Request): Promise<Response> {
 
 
         if(alreadyInWishlist){
-            console.log("Already in wishlist.")
             return apiResponse({message:"Already in wishlist."})
         }
 

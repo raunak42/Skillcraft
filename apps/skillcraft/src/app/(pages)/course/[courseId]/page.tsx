@@ -21,7 +21,6 @@ export default async function Page({ params }: CourseParams) {
 
   const coursesResponse: ApiResponseAttributes = await coursesRes.json();
 
-  // console.log("MESSAGE",coursesResponse.message)
 
   if (!coursesResponse?.data?.courses) {
     return (

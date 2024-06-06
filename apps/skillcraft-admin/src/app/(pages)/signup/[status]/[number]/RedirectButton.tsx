@@ -1,15 +1,17 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const RedirectButton: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   return (
     <div className="flex flex-col items-center text-center justify-start gap-4 mb-[320px]">
       <h1 className="text-2xl font-semibold">You are already logged in.</h1>
       <button
         onClick={() => {
           setLoading(true);
-          window.location.assign("/create");
+          router.push("/create");
         }}
         className=" w-[200px] h-[40px] rounded-full bg-black "
       >

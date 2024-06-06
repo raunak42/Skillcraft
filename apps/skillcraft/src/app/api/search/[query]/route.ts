@@ -15,6 +15,8 @@ interface SearchBody {
   pageNo: number
 }
 
+
+
 export async function POST(req: Request, { params }: SearchParams): Promise<Response> {
   try {
     const query = params.query;
@@ -36,7 +38,6 @@ export async function POST(req: Request, { params }: SearchParams): Promise<Resp
     // await redis.set(`totalResultsFor${query}`, JSON.stringify({ totalResults }))
 
     if (searchResult.length === 0 || !searchResult) {
-      console.log(`No courses found for keyword: ${query}`);
       return apiResponse({ message: "Search didn't match any courses." });
     }
     return apiResponse({ data: { courses: searchResult, totalResults: totalResults } });
@@ -56,7 +57,6 @@ export async function POST(req: Request, { params }: SearchParams): Promise<Resp
 
 const getSearchResults = async (query: string, toSkip: number, toGet: number) => {
   const searchTerm = query.split(' ').map((word) => `${word}:*`).join(' & ');
-  console.log(searchTerm)
   const unique = query.split(' ').toString()
   const searchResult = await prisma.course.findMany({
     where: {

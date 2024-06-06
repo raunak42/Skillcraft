@@ -6,7 +6,6 @@ export async function POST(req: Request): Promise<Response> {
     try {
         const body = await req.json();
         const courseIdToRemove = body.courseIdToRemove
-        // console.log(body)
         const sessionData = getSessionDataFromMiddleware(req)
         if (!sessionData) {
             return apiResponse({ message: SESSION_HEADER_MISSING_MESSAGE }, 401);//500 internal server error because middleware not working
@@ -36,7 +35,6 @@ export async function POST(req: Request): Promise<Response> {
                 wishList: updatedWishlist
             }
         })
-        console.log("Successfully removed.")
 
         if (!userinDb) {
             return apiResponse({ message: ADMIN_NOT_FOUND_MESSAGE }, 404)

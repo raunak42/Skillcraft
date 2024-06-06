@@ -6,9 +6,7 @@ import { PrismaCourseOutput, PrismaUserOutput } from "types";
 
 export async function POST(req: Request, { params }: { params: { courseId: string } }): Promise<Response> {
     try {
-        console.log("buyCourse Reached")
         const body = await req.json()
-        console.log("BODY", body)
         const { session, user }: { session: Session | null, user: User | null } = body;
 
         if (!session) {

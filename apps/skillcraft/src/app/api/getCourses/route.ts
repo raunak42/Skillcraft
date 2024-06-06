@@ -3,7 +3,6 @@ import { apiResponse, handleApiError } from "helpers";
 // import { allCourses, physicsCourses } from "./courses"
 
 export async function GET(req: Request): Promise<Response> {
-    // console.log(1)
     try {
         const courses = await prisma.course.findMany({
             // take:10

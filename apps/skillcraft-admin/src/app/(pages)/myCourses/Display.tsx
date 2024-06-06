@@ -1,5 +1,5 @@
 "use client";
-import { deleteConfirmationState, adminDetailsState } from "state-store";
+import { adminDetailsState } from "state-store";
 import { useRecoilState } from "recoil";
 import { Item } from "./Items";
 import { Session, User } from "lucia";
@@ -11,7 +11,6 @@ interface DisplayProps {
 
 export const Display: React.FC<DisplayProps> = ({ session, user }) => {
   const [userDetails, setUserDetials] = useRecoilState(adminDetailsState);
-  const [hideCourse, setHideCourse] = useRecoilState(deleteConfirmationState);
 
   const courses = userDetails?.createdCourses;
 

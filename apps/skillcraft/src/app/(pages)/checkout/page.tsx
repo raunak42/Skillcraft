@@ -11,7 +11,6 @@ interface responseType {
 }
 
 export default function Page() {
-  console.log("hello");
   const [response, setResponse] = useState<responseType>();
   const [stripe, setStripe] = useState<Stripe | null>(null);
   const hasFetchedData = useRef(false); // Reference to track data fetching
@@ -25,7 +24,6 @@ export default function Page() {
   };
 
   useEffect(() => {
-    console.log("useEffect ran");
     if (!hasFetchedData.current) { // Check if data has already been fetched
       fetchData();
       hasFetchedData.current = true; // Mark data as fetched

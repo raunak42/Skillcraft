@@ -19,7 +19,6 @@ export async function GET(request: Request): Promise<Response> {
             status: 400
         });
     }
-    console.log(await validateRequest());
 
     try {
         const tokens = await github.validateAuthorizationCode(code);
@@ -30,7 +29,6 @@ export async function GET(request: Request): Promise<Response> {
         });
 
         const githubUser: GitHubUser = await githubUserResponse.json();
-        console.log("githubUser", githubUser)
 
         const existingUser = await prisma.adminOAuthAccount.findUnique({
             where: {
