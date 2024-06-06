@@ -116,7 +116,7 @@ export default function Page() {
               <img className="size-40" src="/success.svg"></img>
             </div>
             {thisCourse && (
-              <h1 className="">
+              <h1 className="text-center">
                 "{thisCourse?.title}" added to{" "}
                 <Link className="underline font-semibold" href={"/myCourses"}>
                   your courses

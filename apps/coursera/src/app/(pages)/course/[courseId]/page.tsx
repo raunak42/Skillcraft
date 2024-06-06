@@ -59,12 +59,8 @@ export default async function Page({ params }: CourseParams) {
   );
 
   return (
-    <div >
-      {!alreadyPurchasedCourse && (
-        <CourseInfo
-          course={thisCourse!}
-        />
-      )}
+    <div>
+      {!alreadyPurchasedCourse && <CourseInfo course={thisCourse!} />}
       {alreadyPurchasedCourse && (
         <div className="gap-[60px] flex flex-col">
           <div className="w-full bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row gap-4">
@@ -83,22 +79,38 @@ export default async function Page({ params }: CourseParams) {
           </div>
           <div className="flex flex-col items-center">
             <h1 className="text-2xl font-semibold">Contents</h1>
-            {thisCourse?.chapters?.map((chapter, index) => (
-              <Accordion
-                key={index}
-                title={`Chapter ${index + 1}: ${chapter}`}
-                content={
-                  <div className="px-4 sm:w-[400px]  overflow-hidden">
-                    <video
-                      className="hover:cursor-pointer rounded-2xl"
-                      // accentColor="#000000"
-                      controls
-                      src={(thisCourse.chapterVideoLinks as [])[index]}
-                    />
-                  </div>
-                }
-              />
-            ))}
+            {thisCourse?.chapters &&
+              thisCourse.chapters.length > 0 &&
+              thisCourse.chapters.map((chapter, index) => (
+                <Accordion
+                  key={index}
+                  title={`Chapter ${index + 1}: ${chapter}`}
+                  content={
+                    <div className="px-4 sm:w-[400px]  overflow-hidden">
+                      <video
+                        className="hover:cursor-pointer rounded-2xl"
+                        // accentColor="#000000"
+                        controls
+                        src={(thisCourse.chapterVideoLinks as [])[index]}
+                      />
+                    </div>
+                  }
+                />
+              ))}
+            {!thisCourse?.chapters ||
+              (thisCourse.chapters.length === 0 &&
+                Array.from({ length: 10 }, (_, index) => (
+                  <Accordion
+                    key={index}
+                    title={`Chapter ${index + 1}:-`}
+                    content={
+                      <div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full">
+                        {/* <img src="/lock.svg" className="size-8"></img> */}
+                        <h1>No videos for this course.</h1>
+                      </div>
+                    }
+                  />
+                )))}
           </div>
         </div>
       )}

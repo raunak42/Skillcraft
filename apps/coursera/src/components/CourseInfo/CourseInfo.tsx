@@ -67,22 +67,40 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({ course }) => {
           </div>
 
           <div
-            className={` mt-6 md:mt-0 ${session&&"md:mt-6"} w-full  pb-4 md:pb-0 col-span-5 md:col-span-2 ${!session && "flex flex-col items-start justify-start"}`}
+            className={` mt-6 md:mt-0 ${session && "md:mt-6"} w-full  pb-4 md:pb-0 col-span-5 md:col-span-2 ${!session && "flex flex-col items-start justify-start"}`}
           >
             <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
               What you'll learn :-
             </h1>
-            <div className="w-full mt-4" >
-              {course.chapters?.map((chapter, index) => (
-                <div className=""  key={index} >
-                  <Accordion
-                    title={`Chapter ${index + 1}: ${chapter}`}
-                    content={<div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full" >
-                      <img src="/lock.svg" className="size-8" ></img>
-                    </div>}
-                  />
-                </div>
-              ))}
+            <div className="w-full mt-4">
+              {course.chapters &&
+                course.chapters.length > 0 &&
+                course.chapters.map((chapter, index) => (
+                  <div className="" key={index}>
+                    <Accordion
+                      title={`Chapter ${index + 1}: ${chapter}`}
+                      content={
+                        <div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full">
+                          <img src="/lock.svg" className="size-8"></img>
+                        </div>
+                      }
+                    />
+                  </div>
+                ))}
+              {!course.chapters ||
+                (course.chapters.length === 0 &&
+                  Array.from({ length: 10 }, (_, index) => (
+                    <div className="" key={index}>
+                      <Accordion
+                        title={`Chapter ${index + 1}:-`}
+                        content={
+                          <div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full">
+                            <img src="/lock.svg" className="size-8"></img>
+                          </div>
+                        }
+                      />
+                    </div>
+                  )))}
             </div>
             {!session && (
               <a
