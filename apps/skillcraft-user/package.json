@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cd ../../packages/db/ & npx prisma generate --no-engine & cd - &  next dev --port 3000 --hostname 0.0.0.0 & npx next-video sync -w",
-    "build": "cd ../../packages/db/ & npx prisma generate --no-engine & cd - &  next build",
-    "start": "cd ../../packages/db/ & npx prisma generate --no-engine & cd - &  next start --port 3000",
+    "dev": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - && (next dev --port 3000 --hostname 0.0.0.0 & (while ! nc -z localhost 3000; do sleep 1; done; stripe listen --forward-to localhost:3000/api/webhook))",
+    "build": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - &&  next build",
+    "start": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - && (next start --port 3000 --hostname 0.0.0.0 & (while ! nc -z localhost 3000; do sleep 1; done; stripe listen --forward-to localhost:3000/api/webhook))",
     "lint": "next lint"
   },
   "dependencies": {
