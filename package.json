@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev & stripe listen --forward-to localhost:3000/api/webhook",
+    "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "start": "turbo run start"
+    "start": "turbo start"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
