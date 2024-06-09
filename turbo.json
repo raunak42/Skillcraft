@@ -33,12 +33,8 @@
       ]
     },
     "start": {
-      "dotEnv": [
-        ".env.production.local",
-        ".env.local",
-        ".env.production",
-        ".env"
-      ]
+      "cache": true,
+      "persistent": true
     },
     "test": {
       "dotEnv": [".env.test.local", ".env.test", ".env"]
