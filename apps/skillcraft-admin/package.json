@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx prisma generate --no-engine & dotenv -e ./../../.env  -- next dev --port 3001 --hostname 0.0.0.0",
-    "build": "next build",
-    "start": "npx prisma generate --no-engine && next start",
+    "dev": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - &&  next dev --port 3001 --hostname 0.0.0.0",
+    "build": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - &&  next build",
+    "start": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - &&  next start --port 3001 --hostname 0.0.0.0",
     "lint": "next lint"
   },
   "dependencies": {

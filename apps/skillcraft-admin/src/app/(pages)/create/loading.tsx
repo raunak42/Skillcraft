@@ -1,7 +1,6 @@
 const Loading: React.FC = () => {
     return (
       <div className="flex flex-col">
-        <h1 className="text-3xl font-semibold">Your courses:</h1>
         <div className="flex flex-row flex-wrap  justify-center items-center mb-[300px]">
           <img
             src="/spinnerBlack.svg"
