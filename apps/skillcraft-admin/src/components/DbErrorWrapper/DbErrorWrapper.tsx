@@ -1,6 +1,5 @@
 import { TryAgainButton } from "./TryAgainButton";
 import { prisma } from "@/lib/prisma";
-import { preparedWord as randomWord } from "helpers";
 import { generateId } from "lucia";
 
 interface Props {

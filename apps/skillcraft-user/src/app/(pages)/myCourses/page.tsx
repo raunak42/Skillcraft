@@ -1,7 +1,6 @@
 import { validateRequest } from "@/auth";
 import { MyCourseCard } from "@/components/MyCourseCard/MyCourseCard";
 import { BASE_URL_DEV } from "@/lib/constants";
-import { response } from "express";
 import { ApiResponseAttributes } from "types";
 
 export default async function Page() {

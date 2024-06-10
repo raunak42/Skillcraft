@@ -1,7 +1,6 @@
 import { generateId } from "lucia";
 import { TryAgainButton } from "./TryAgainButton";
 import { prisma } from "@/lib/prisma";
-import { preparedWord as randomWord } from "helpers";
 
 interface Props {
   children: React.ReactNode;
