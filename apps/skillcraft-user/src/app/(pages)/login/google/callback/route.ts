@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { prisma } from "@/lib/prisma"
-import { preparedWord as randomWord } from "helpers";
+import { generateRandomWord } from "@/helpers/randomWord";
+
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -53,13 +54,14 @@ export async function GET(request: Request): Promise<Response> {
         }
 
         const userId = generateId(15);
+        const randomWord = await generateRandomWord()
 
         await prisma.user.create({
             data: {
                 id: userId,
                 username: randomWord,
                 email: googleUser.email,
-                avatar:googleUser.picture
+                avatar: googleUser.picture
             }
         });
 
