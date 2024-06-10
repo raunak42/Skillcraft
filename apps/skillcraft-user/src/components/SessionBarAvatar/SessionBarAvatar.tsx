@@ -1,12 +1,12 @@
 'use server'
 import { validateRequest } from "@/auth";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes } from "types";
 
 export const SessionBarAvatar = async () => {
   const { session } = await validateRequest();
 
-  const res = await fetch(`${BASE_URL_DEV}/api/me`, {
+  const res = await fetch(`${BASE_URL}/api/me`, {
     cache: "no-store",
     method: "POST",
     body: JSON.stringify({

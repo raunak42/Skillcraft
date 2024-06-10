@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from '@/lib/constants';
+import { BASE_URL } from '@/lib/constants';
 import { handleApiError } from 'helpers';
 import { Session, User } from 'lucia';
 import { NextRequest, NextResponse } from 'next/server';
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
             submit_type: 'pay',
             line_items: items as [],
             mode: 'payment',
-            return_url: `${BASE_URL_DEV}/return?session_id={CHECKOUT_SESSION_ID}&courseIds=${courseIds}&userId=${authSession?.userId}`,
+            return_url: `${BASE_URL}/return?session_id={CHECKOUT_SESSION_ID}&courseIds=${courseIds}&userId=${authSession?.userId}`,
             payment_intent_data: {
                 description: courses[0].description!,
                 metadata: {

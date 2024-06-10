@@ -1,5 +1,5 @@
 "use client";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { Session, User } from "lucia";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";

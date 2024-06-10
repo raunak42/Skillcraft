@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes, featuredCourses } from "types";
 import { CourseCard } from "../Coursecard/CourseCard";
 import { ViewAllButton } from "./ViewAllButton";
@@ -6,7 +6,7 @@ import { SmallCarousel } from "./SmallCarousel";
 import { FCSkeleton } from "./FCSkeleton";
 
 export const FeaturedCourses = async () => {
-  const res = await fetch(`${BASE_URL_DEV}/api/getFeaturedCourses`, {
+  const res = await fetch(`${BASE_URL}/api/getFeaturedCourses`, {
     cache: "no-store",
   });
   const response: ApiResponseAttributes = await res.json();

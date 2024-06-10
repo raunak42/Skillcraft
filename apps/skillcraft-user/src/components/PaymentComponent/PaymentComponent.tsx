@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { TheForm } from "../TheForm/TheForm";
 import { validateRequest } from "@/auth";
 
@@ -17,7 +17,7 @@ export const PaymentComponent: React.FC<PaymentComponentProps> = async ({
 }) => {
   const { session, user } = await validateRequest();
 
-  const res = await fetch(`${BASE_URL_DEV}/api/checkoutSession`, {
+  const res = await fetch(`${BASE_URL}/api/checkoutSession`, {
     method: "POST",
     cache: "no-store",
     body: JSON.stringify({

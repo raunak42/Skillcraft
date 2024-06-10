@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { CourseCardHz } from "../CourseCardHz/CourseCardHz";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 

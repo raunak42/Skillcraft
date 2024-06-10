@@ -1,8 +1,8 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { TheForm } from "@/components/TheForm/TheForm";
 
 export default async function Page() {
-  const res = await fetch(`${BASE_URL_DEV}/api/checkoutSession`, {
+  const res = await fetch(`${BASE_URL}/api/checkoutSession`, {
     method: "POST",
     cache: "no-store",
   });

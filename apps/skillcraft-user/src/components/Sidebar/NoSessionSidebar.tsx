@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { sideBarOpenState } from "state-store";
 import { CategoryCarousel } from "../CategoryCarousel/CategoryCarousel";
 import React, { useEffect, useState } from "react";
-import { ADMIN_BASE_URL_DEV } from "@/lib/constants";
+import { ADMIN_BASE_URL } from "@/lib/constants";
 
 export const NoSessionSidebar:React.FC = () => {
   const [sideBarOpen, setSideBarOpen] = useRecoilState(sideBarOpenState);
@@ -53,7 +53,7 @@ export const NoSessionSidebar:React.FC = () => {
         <a
             target="_blank"
             className="flex flex-row items-center hover:bg-gray-200 hover:cursor-pointer pl-[12px] py-[11px]"
-            href={`${ADMIN_BASE_URL_DEV}/login/fresh`}
+            href={`${ADMIN_BASE_URL}/login/fresh`}
           >
             <div className="shrink-0 w-[100px] border border-black p-1">
               <img src="/skillcraft-admin.svg"></img>

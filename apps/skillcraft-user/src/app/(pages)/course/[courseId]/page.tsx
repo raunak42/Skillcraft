@@ -1,6 +1,6 @@
 import { validateRequest } from "@/auth";
 import { CourseInfo } from "@/components/CourseInfo/CourseInfo";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes, PrismaCourseOutput } from "types";
 import Accordion from "@/components/Accordion/Accordion";
 import Loading from "./loading";
@@ -14,7 +14,7 @@ interface CourseParams {
 export default async function Page({ params }: CourseParams) {
   const { session, user } = await validateRequest();
 
-  const coursesRes = await fetch(`${BASE_URL_DEV}/api/getCourses`, {
+  const coursesRes = await fetch(`${BASE_URL}/api/getCourses`, {
     method: "GET",
     cache: "no-store",
   });
@@ -38,14 +38,14 @@ export default async function Page({ params }: CourseParams) {
     return (course.id as number).toString() === params.courseId;
   });
 
-  const userRes = await fetch(`${BASE_URL_DEV}/api/me`, {
+  const userRes = await fetch(`${BASE_URL}/api/me`, {
     method: "POST",
     cache: "no-store",
     body: JSON.stringify({
       data: { session, user },
     }),
     headers: {
-      Origin: BASE_URL_DEV, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
+      Origin: BASE_URL, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
     },
   });
 

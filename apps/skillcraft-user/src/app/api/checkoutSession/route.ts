@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from '@/lib/constants';
+import { BASE_URL } from '@/lib/constants';
 import { MetadataParam } from '@stripe/stripe-js';
 import { handleApiError } from 'helpers';
 import { Session, User } from 'lucia';
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
                 }
             ],
             mode: 'payment',
-            return_url: `${BASE_URL_DEV}/return?session_id={CHECKOUT_SESSION_ID}&courseId=${course.id}&userId=${authSession?.userId}`,
+            return_url: `${BASE_URL}/return?session_id={CHECKOUT_SESSION_ID}&courseId=${course.id}&userId=${authSession?.userId}`,
             payment_intent_data: {
                 description: course.name,
                 metadata: metadata

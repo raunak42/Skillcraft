@@ -1,10 +1,10 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes } from "types";
 
 interface AvatarComponentProps {}
 export const AvatarComponent: React.FC<AvatarComponentProps> = async () => {
   const fetchData = async () => {
-    const res = await fetch(`${BASE_URL_DEV}/api/me`, {
+    const res = await fetch(`${BASE_URL}/api/me`, {
       method: "POST",
       cache: "no-store",
     });

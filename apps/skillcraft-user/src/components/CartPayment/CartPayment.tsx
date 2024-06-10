@@ -1,4 +1,4 @@
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { TheForm } from "../TheForm/TheForm";
 import { validateRequest } from "@/auth";
 import { PrismaCourseOutput } from "types";
@@ -13,7 +13,7 @@ interface CartPaymentProps {
 export const CartPayment: React.FC<CartPaymentProps> = async ({ courses }) => {
   const { session, user } = await validateRequest();
 
-  const res = await fetch(`${BASE_URL_DEV}/api/cartCheckoutSession`, {
+  const res = await fetch(`${BASE_URL}/api/cartCheckoutSession`, {
     method: "POST",
     cache: "no-store",
     body: JSON.stringify({

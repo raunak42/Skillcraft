@@ -1,11 +1,11 @@
 import { Carousel } from "@/components/Carousel/Carousel";
 import { FeaturedCourses } from "@/components/FeaturedCourses/FeaturedCourses";
 import { VCarousel } from "@/components/VCarousel/VCarousel";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes } from "types";
 
 export default async function Page() {
-  const res = await fetch(`${BASE_URL_DEV}/api/getTopCourses`, {
+  const res = await fetch(`${BASE_URL}/api/getTopCourses`, {
     cache: "default",
   });
   const response: ApiResponseAttributes = await res.json();

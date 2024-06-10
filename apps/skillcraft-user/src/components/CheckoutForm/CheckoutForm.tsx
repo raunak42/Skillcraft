@@ -6,7 +6,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -64,7 +64,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${BASE_URL_DEV}/return`,
+        return_url: `${BASE_URL}/return`,
       },
     });
 

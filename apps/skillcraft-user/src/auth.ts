@@ -3,11 +3,11 @@ import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { prisma } from "@/lib/prisma";
 import { Lucia, User, Session } from "lucia";
 import { cookies } from "next/headers";
-import { BASE_URL_DEV } from "./lib/constants";
+import { BASE_URL } from "./lib/constants";
 
 // dotenv.config();
 
-const redirectURI = `${BASE_URL_DEV}/login/google/callback`;
+const redirectURI = `${BASE_URL}/login/google/callback`;
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
 export const google = new Google(process.env.GOOGLE_CLIENT_ID!, process.env.GOOGLE_CLIENT_SECRET!, redirectURI)

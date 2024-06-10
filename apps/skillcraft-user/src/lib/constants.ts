@@ -1,5 +1,11 @@
-export const BASE_URL_DEV = "http://localhost:3000"
-export const ADMIN_BASE_URL_DEV = "http://localhost:3001"
+const BASE_URL_DEV = "http://localhost:3000"
+const BASE_URL_PROD = "https://raunak42.in"
+
+const ADMIN_BASE_URL_DEV = "http://localhost:3001"
+const ADMIN_BASE_URL_PROD = "https://skillcraftadmin.raunak42.in"
+
+export const BASE_URL = process.env.NODE_ENV === 'production' ? BASE_URL_PROD : BASE_URL_DEV;
+export const ADMIN_BASE_URL = process.env.NODE_ENV === 'production' ? ADMIN_BASE_URL_PROD : ADMIN_BASE_URL_DEV;
 
 export const SIGNUP_SUCCESS_MESSAGE = "Signed up successfully.";
 export const USERNAME_TAKEN_MESSAGE = "Username taken."

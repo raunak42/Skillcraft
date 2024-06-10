@@ -1,18 +1,18 @@
 import { validateRequest } from "@/auth";
 import { MyCourseCard } from "@/components/MyCourseCard/MyCourseCard";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { ApiResponseAttributes } from "types";
 
 export default async function Page() {
   const { session, user } = await validateRequest();
-  const res = await fetch(`${BASE_URL_DEV}/api/myCourses`, {
+  const res = await fetch(`${BASE_URL}/api/myCourses`, {
     method: "POST",
     body: JSON.stringify({
       data: { session, user },
     }),
     cache: "no-store",
     headers: {
-      Origin: BASE_URL_DEV, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
+      Origin: BASE_URL, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
     },
   });
 

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Login } from "@/components/Login/Login";
 import { ApiResponseAttributes } from "types";
 import {
-  ADMIN_BASE_URL_DEV,
+  ADMIN_BASE_URL,
   SIGNUP_SUCCESS_MESSAGE,
   USERNAME_TAKEN_MESSAGE,
 } from "@/lib/constants";
@@ -46,7 +46,7 @@ async function signupAndStartSession(formData: FormData): Promise<any> {
   const password = formData.get("password") as string;
   const adminId = generateId(15);
 
-  const res = await fetch(`${ADMIN_BASE_URL_DEV}/api/signup`, {
+  const res = await fetch(`${ADMIN_BASE_URL}/api/signup`, {
     method: "POST",
     body: JSON.stringify({ username, password, userId: adminId }),
   });

@@ -1,5 +1,5 @@
 "use client";
-import { BASE_URL_DEV } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import { Session, User } from "lucia";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -31,7 +31,7 @@ export const SessionButtons: React.FC<SessionButtonsProps> = ({
   }, [userDetails, userDetailsState]);
 
   const addToCart = async () => {
-    const res = await fetch(`${BASE_URL_DEV}/api/addToCart`, {
+    const res = await fetch(`${BASE_URL}/api/addToCart`, {
       method: "POST",
       cache: "no-store",
       body: JSON.stringify({
@@ -42,13 +42,13 @@ export const SessionButtons: React.FC<SessionButtonsProps> = ({
         courseIdToAdd: courseId,
       }),
       headers: {
-        Origin: BASE_URL_DEV, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
+        Origin: BASE_URL, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
       },
     });
   };
 
   const addToWishList = async () => {
-    const res = await fetch(`${BASE_URL_DEV}/api/addToWishlist`, {
+    const res = await fetch(`${BASE_URL}/api/addToWishlist`, {
       method: "POST",
       cache: "no-store",
       body: JSON.stringify({
@@ -59,7 +59,7 @@ export const SessionButtons: React.FC<SessionButtonsProps> = ({
         courseIdToAdd: courseId,
       }),
       headers: {
-        Origin: BASE_URL_DEV, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
+        Origin: BASE_URL, ///Middleware demands the origin header. Need to send this origin header because this POST request is being made from a server component. Server deons't know the origin of the client.
       },
     });
   };
