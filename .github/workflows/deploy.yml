@@ -2,6 +2,10 @@ name: Deploy
 
 on:
   push:
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "deploy.sh"
     branches:
       - main
 
@@ -11,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 #The actions/checkout@v2 step is an action provided by GitHub that performs a Git checkout operation. During this step, the runner (github machine) connects to your repository and downloads/clones a copy of your repository code at the specified branch or commit.
 
       - name: Retrieve Host Key
         run: |
