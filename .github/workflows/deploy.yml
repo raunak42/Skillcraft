@@ -1,0 +1,27 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest #this is github's ubuntu machine
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        #the uses: actions/checkout@v2 step is used to check out the code from your repository,
+        #which makes this repository's contents available to the runner(github's ubuntu machine) for the duration of the workflow run.
+        #This allows you to work with files and scripts that are part of your repository in your workflow.z
+
+      - name: SSH and deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run:
+          | #this will run on github's ubuntu machine, the machine has access to this entire repo because of checkout@v2
+          echo "$SSH_PRIVATE_KEY" > keyfile
+          chmod 600 keyfile
+          mkdir -p ~/.ssh
+          ssh-keyscan ec2-3-68-90-164.eu-central-1.compute.amazonaws.com >> known_hosts
+          cp known_hosts ~/.ssh/known_hosts 
+          ssh -t -i keyfile ssh-keyscan ec2-3-68-90-164.eu-central-1.compute.amazonaws.com "sudo bash ~/skillcraft/deploy.sh"
