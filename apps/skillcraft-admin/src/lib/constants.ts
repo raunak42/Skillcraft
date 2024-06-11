@@ -1,5 +1,5 @@
 const BASE_URL_DEV = "http://localhost:3000"
-const BASE_URL_PROD = "https://raunak42.in"
+const BASE_URL_PROD = "https://skillcraft.raunak42.in"
 
 const ADMIN_BASE_URL_DEV = "http://localhost:3001"
 const ADMIN_BASE_URL_PROD = "https://skillcraftadmin.raunak42.in"
