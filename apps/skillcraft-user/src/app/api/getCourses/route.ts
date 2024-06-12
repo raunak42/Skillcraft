@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { apiResponse, handleApiError } from "helpers";
-// import { allCourses, physicsCourses } from "./courses"
 
 export async function GET(req: Request): Promise<Response> {
     try {
