@@ -70,9 +70,10 @@ export const Login: React.FC<LoginProps> = ({ buttonText }) => {
                 className="hover:bg-gray-200 rounded-full"
               >
                 <Image
+                  priority={true}
                   width={189}
                   height={40}
-                  alt="sex"
+                  alt="googleSignin"
                   src="/googleSignin.svg"
                   className=""
                 ></Image>
@@ -94,7 +95,13 @@ export const Login: React.FC<LoginProps> = ({ buttonText }) => {
                 href={"/login/github"}
                 className="px-[12px] py-[10px] border-[1px] border-gray-500 w-[189px] h-[40px] rounded-full flex flex-row items-center justify-between hover:bg-gray-200"
               >
-                <img className="size-[20px]" src="/github.svg"></img>
+                <Image
+                  priority={true}
+                  width={20}
+                  height={20}
+                  alt="githubSignin"
+                  src="/github.svg"
+                ></Image>
                 <h1 className="roboto-medium">Continue with GitHub</h1>
               </Link>
             )}
