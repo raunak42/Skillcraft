@@ -6,4 +6,4 @@ git pull origin main
 yarn install
 yarn build
 pm2 kill
-pm2 start yarn --name skillcraft -- start
+pm2 start yarn --name skillcraft -- start -i max
