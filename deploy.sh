@@ -5,5 +5,5 @@ cd /home/ubuntu/Skillcraft #The script runs at root of ec2 instance, hence cd in
 git pull origin main
 yarn install
 yarn build
-pm2 kill
-pm2 start yarn --name skillcraft -- start
+sudo pm2 kill
+sudo pm2 start yarn --name skillcraft -- start
