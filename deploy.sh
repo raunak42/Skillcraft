@@ -7,10 +7,7 @@ cd /home/ubuntu/Skillcraft #The script runs at root of ec2 instance, hence cd in
 yarn install
 yarn build
 sudo pm2 kill
-stripe login --interactive <<EOF
-$STRIPE_SECRET_KEY
-raunak42-server
-EOF
+sudo bash /home/ubuntu/Skillcraft/stripe_login.sh
 sudo pm2 start yarn --name skillcraft -- start
 sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
 sudo pm2 save                # Save the current PM2 process list for automatic respawn
