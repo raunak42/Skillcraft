@@ -6,6 +6,7 @@ on:
       - "apps/**"
       - "packages/**"
       - "deploy.sh"
+      - ".github/**"
     branches:
       - main
 
