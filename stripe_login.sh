@@ -22,6 +22,8 @@ if ! command -v expect &> /dev/null; then
     fi
 fi
 
+sudo apt install gnome-keyring
+
 # Set your Stripe API key
 API_KEY="sk_test_51PEbJDSFIpXPowBcSg7nFlPBMfRlmcaESDocAp2VEPdQpc6oZotFW0GHfIViyTTyTX8bsQtceUDz20HkO7tHSmvq008ABlr4nH"
 
