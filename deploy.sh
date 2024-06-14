@@ -8,8 +8,8 @@ yarn install
 yarn build
 sudo pm2 kill
 stripe login --interactive <<EOF
-                       
 $STRIPE_SECRET_KEY
+raunak42-server
 EOF
 sudo pm2 start yarn --name skillcraft -- start
 sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
