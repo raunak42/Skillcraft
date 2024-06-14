@@ -1,6 +1,8 @@
 #!/bin/bash
 export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v20.5.1/bin
 
+#Keep the user homogeneous, if one command is prefixed with sudo, prefix every other command including how you handle the start of this script in the yml file. Else just do not user sudo anywhere.
+
 cd /home/ubuntu/Skillcraft #The script runs at root of ec2 instance, hence cd into repo first. Yml file says "sudo bash ~/Skillcraft/deploy.sh" but still it says it at the root of the ec2. #Writing cd /home/ubuntu/Skillcraft instead of cd ~/Skillcraft because the root dirs of sudo user and normal users are different respectively.
 # git pull origin main
 yarn install
