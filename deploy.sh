@@ -4,7 +4,7 @@ export $(grep -v '^#' .env | xargs) # Load environment variables from .env file
 
 
 cd /home/ubuntu/Skillcraft #The script runs at root of ec2 instance, hence cd into repo first. Yml file says "sudo bash ~/Skillcraft/deploy.sh" but still it says it at the root of the ec2. #Writing cd /home/ubuntu/Skillcraft instead of cd ~/Skillcraft because the root dirs of sudo user and normal users are different respectively.
-git pull origin main
+# git pull origin main
 yarn install
 yarn build
 sudo pm2 kill
