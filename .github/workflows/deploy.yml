@@ -34,5 +34,5 @@ jobs:
           ssh -t -i keyfile ubuntu@ec2-3-68-90-164.eu-central-1.compute.amazonaws.com "
           cd ~/Skillcraft
           sudo git pull origin main
-          sudo bash deploy.sh
+          bash deploy.sh
           "
