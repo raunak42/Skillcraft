@@ -11,7 +11,8 @@ yarn build
 sudo pm2 kill
 bash ~/Skillcraft/stripe_login.sh #This one does not work with sudo.
 sudo pm2 start yarn --name skillcraft -- start
-stripe listen --forward-to https://skillcraft.raunak42.in/api/webhook
+cd ~/Skillcraft/apps/skillcraft-user
+sudo pm2 start yarn --name stripe-listener -- start-stripe-listener
 sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
 sudo pm2 save                # Save the current PM2 process list for automatic respawn
 
