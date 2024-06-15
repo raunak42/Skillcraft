@@ -33,6 +33,6 @@ jobs:
           cp known_hosts ~/.ssh/known_hosts
           ssh -t -i keyfile ubuntu@ec2-3-68-90-164.eu-central-1.compute.amazonaws.com "
           cd ~/Skillcraft
-          sudo git pull origin main
-          sudo bash deploy.sh
+          git pull origin main
+          bash deploy.sh
           "
