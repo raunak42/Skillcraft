@@ -14,3 +14,5 @@ sudo pm2 start yarn --name skillcraft -- start
 stripe listen --forward-to https://skillcraft.raunak42.in/api/webhook
 sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
 sudo pm2 save                # Save the current PM2 process list for automatic respawn
+
+#"yarn start" needs sudo so instead just give sudo permission to all pm2 processes.
