@@ -10,9 +10,9 @@ yarn cache clean #every time "yarn install" runs, it builds up cache.
 sudo yarn build
 sudo pm2 kill
 bash ~/Skillcraft/stripe_login.sh #This one does not work with sudo.
-sudo pm2 start yarn --name skillcraft -- start
+sudo pm2 start yarn --name skillcraft -- start #sudo pm2 logs for logs
 cd ~/Skillcraft/apps/skillcraft-user
-pm2 start yarn --name stripe-listener -- start-stripe-listener
+pm2 start yarn --name stripe-listener -- start-stripe-listener #pm2 logs for pm2 logs.
 sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
 sudo pm2 save                # Save the current PM2 process list for automatic respawn
 
