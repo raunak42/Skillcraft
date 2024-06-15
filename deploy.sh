@@ -8,8 +8,9 @@ cd ~/Skillcraft #The script runs at root of ec2 instance, hence cd into repo fir
 yarn install
 yarn cache clean #every time "yarn install" runs, it builds up cache.
 yarn build
-pm2 kill
+sudo pm2 kill
 bash ~/Skillcraft/stripe_login.sh #This one does not work with sudo.
-pm2 start yarn --name skillcraft -- start
-pm2 startup | bash #This command generates a startup script and runs it.
-pm2 save           # Save the current PM2 process list for automatic respawn
+sudo pm2 start yarn --name skillcraft -- start
+stripe listen --forward-to https://skillcraft.raunak42.in/api/webhook
+sudo pm2 startup | sudo bash #This command generates a startup script and runs it.
+sudo pm2 save                # Save the current PM2 process list for automatic respawn
