@@ -7,7 +7,7 @@ cd ~/Skillcraft #The script runs at root of ec2 instance, hence cd into repo fir
 # git pull origin main
 yarn install
 yarn cache clean #every time "yarn install" runs, it builds up cache.
-yarn build
+sudo yarn build
 sudo pm2 kill
 bash ~/Skillcraft/stripe_login.sh #This one does not work with sudo.
 sudo pm2 start yarn --name skillcraft -- start
