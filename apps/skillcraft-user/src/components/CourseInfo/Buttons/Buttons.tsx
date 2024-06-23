@@ -1,23 +1,7 @@
 "use client";
-import { BASE_URL } from "@/lib/constants";
-import { Session, User } from "lucia";
-import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
 import { Toaster, toast } from "sonner";
-import { userDetailsState } from "state-store";
-import { PrismaUserOutput } from "types";
 
-interface ButtonsProps {
-  user: User | null;
-  courseId: number;
-  session: Session | null;
-}
-
-export const Buttons: React.FC<ButtonsProps> = ({
-  user,
-  courseId,
-  session,
-}) => {
+export const Buttons: React.FC = () => {
 
   return (
     <div>
