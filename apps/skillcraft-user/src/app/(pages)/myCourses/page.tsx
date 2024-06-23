@@ -21,7 +21,10 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-3xl font-semibold">Your courses:</h1>
+      <h1 className={`text-3xl font-semibold`}>Your courses:</h1>
+      {(courses as []).length === 0 && (
+        <h2 className="mb-[300px]">You have not purchased any courses.</h2>
+      )}
       <div className="flex flex-row flex-wrap justify-start">
         {courses?.map((course, index) => (
           <div className="mt-6 ml-4" key={index}>
