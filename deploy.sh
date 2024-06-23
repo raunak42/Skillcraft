@@ -7,7 +7,7 @@ cd ~/Skillcraft #The script runs at root of ec2 instance, hence cd into repo fir
 # git pull origin main
 yarn install
 cd ~/Skillcraft/apps/skillcraft-user
-yarn add --os=linux --cpu=x64 sharp --ignore-engines --include=optional
+sudo yarn add --os=linux --cpu=x64 sharp --ignore-engines --include=optional
 cd ~/Skillcraft
 yarn cache clean #every time "yarn install" runs, it builds up cache.
 sudo yarn build
