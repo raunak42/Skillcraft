@@ -1,12 +1,12 @@
-import { BASE_URL } from "@/lib/constants";
 import { CourseCardHz } from "../CourseCardHz/CourseCardHz";
-import { ApiResponseAttributes, PrismaCourseOutput } from "types";
+import { PrismaCourseOutput } from "types";
+import { blurUrlCreator } from "@/helpers/blurUrlCreator";
 
 interface VCarouselProps {
-  courses: PrismaCourseOutput<{ select: {}; include: {} }>[]
+  courses: PrismaCourseOutput<{ select: {}; include: {} }>[];
 }
 
-export const VCarousel: React.FC<VCarouselProps> = async ({courses}) => {
+export const VCarousel: React.FC<VCarouselProps> = async ({ courses }) => {
   const months = [
     "January",
     "February",
@@ -33,7 +33,8 @@ export const VCarousel: React.FC<VCarouselProps> = async ({courses}) => {
           {month} | {year}
         </h2>
       </div>
-      {courses.map((course) => {
+      {courses.map(async (course) => {
+        const base64 = await blurUrlCreator(course.imageLink as string);
         return (
           <CourseCardHz
             key={course.id}
@@ -42,6 +43,7 @@ export const VCarousel: React.FC<VCarouselProps> = async ({courses}) => {
             description={course.description as string}
             price={course.price as number}
             id={course.id as number}
+            base64={base64}
           />
         );
       })}
