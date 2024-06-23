@@ -104,6 +104,7 @@ export default async function Page({ params }: CourseParams) {
                     title={`Chapter ${index + 1}:-`}
                     content={
                       <div className="shadow-xl  flex flex-col items-center justify-center p-6 bg-zinc-300 rounded-full">
+                        {/* <img src="/lock.svg" className="size-8"></img> */}
                         <h1>No videos for this course.</h1>
                       </div>
                     }
