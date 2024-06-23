@@ -2,7 +2,6 @@
 
 import { useRecoilState } from "recoil";
 import { courseClickedState } from "state-store";
-import Image from "next/image";
 
 interface CourseCardHzProps {
   imageLink: string;
@@ -10,7 +9,6 @@ interface CourseCardHzProps {
   description: string;
   price: number;
   id: number;
-  base64?: string;
 }
 
 export const CourseCardHz: React.FC<CourseCardHzProps> = ({
@@ -19,26 +17,20 @@ export const CourseCardHz: React.FC<CourseCardHzProps> = ({
   description,
   price,
   id,
-  base64,
 }) => {
   const [courseClicked, setCourseClicked] = useRecoilState(courseClickedState);
+
   return (
     <div
       onClick={() => {
-        if (!courseClicked) window.location.assign(`/course/${id}`);
-        setCourseClicked(true);
+        if(!courseClicked)
+        window.location.assign(`/course/${id}`);
+        setCourseClicked(true)
       }}
-      className={`h-[110px] ${courseClicked && "animated-gradient-dark hover:cursor-not-allowed"} bg-[#ffffff] border-[1.5px] rounded-2xl overflow-hidden w-[96%] hover:w-[99%] ${!courseClicked && "hover:cursor-pointer"}  transition-all duration-300 ease-in-out mx-auto flex flex-row border-black`}
+      className={`${courseClicked && "animated-gradient-dark hover:cursor-not-allowed"} bg-[#ffffff] border-[1.5px] rounded-2xl overflow-hidden w-[96%] hover:w-[99%] ${!courseClicked&&"hover:cursor-pointer"}  transition-all duration-300 ease-in-out mx-auto flex flex-row border-black`}
     >
       <div className="relative w-[55%] sm:w-[40%] md:w-[30%] lg:w-[55%]">
-        <Image
-          alt={title}
-          placeholder="blur"
-          blurDataURL={base64}
-          fill
-          className="h-[110px] w-[full] object-cover"
-          src={imageLink}
-        />
+        <img className=" object-cover h-[110px] w-full" src={imageLink} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       </div>
       <div className="flex flex-col w-full px-2 pt-[4px]">
