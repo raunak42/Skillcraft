@@ -1,6 +1,8 @@
 import { BASE_URL } from "@/lib/constants";
 import { TheForm } from "../TheForm/TheForm";
 import { validateRequest } from "@/auth";
+// import { promises as fs } from "fs";
+// import { getPlaiceholder } from "plaiceholder";
 
 interface PaymentComponentProps {
   title: string;
@@ -16,6 +18,8 @@ export const PaymentComponent: React.FC<PaymentComponentProps> = async ({
   id,
 }) => {
   const { session, user } = await validateRequest();
+  // const file = await fs.readFile(process.cwd() + "/public/testCard.png");
+  // const { base64 } = await getPlaiceholder(file);
 
   const res = await fetch(`${BASE_URL}/api/checkoutSession`, {
     method: "POST",
