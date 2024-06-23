@@ -6,16 +6,12 @@ import { SessionButtons } from "./Buttons/SessionButtons";
 import { Buttons } from "./Buttons/Buttons";
 import { PrismaCourseOutput } from "types";
 import Accordion from "../Accordion/Accordion";
-import { blurUrlCreator } from "@/helpers/blurUrlCreator";
-import Image from "next/image";
-import { ImageComponent } from "./ImageComponent/ImageComponent";
 
 interface CourseInfoProps {
   course: PrismaCourseOutput<{ select: {}; include: { admin: true } }>;
 }
 export const CourseInfo: React.FC<CourseInfoProps> = async ({ course }) => {
   const { session, user } = await validateRequest();
-  const base64 = await blurUrlCreator(course.imageLink!);
 
   return (
     <div
@@ -40,19 +36,18 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({ course }) => {
                 <p className="font-semibold"> {course.admin?.username}</p>
               </h1>
             </div>
-            <div className=" w-full md:w-[90%] lg:w-[80%] flex flex-col ">
+            <div className=" w-full md:w-[90%] lg:w-[80%] flex flex-col">
               <div
-                className={`relative flex flex-row items-start justify-start shrink-0 w-full `}
+                className={`relative flex flex-row items-start justify-start shrink-0 w-full`}
               >
                 <div className="w-full ">
                   <div className="rounded-xl w-full  absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
 
-                  {/* <img
+                  <img
                     className="rounded-xl shrink-0 w-full"
                     src={course.imageLink as string}
                     alt={course.title as string}
-                  /> */}
-                  <ImageComponent base64={base64} course={course} />
+                  ></img>
                   <h1 className="absolute left-[0%] bottom-1 lg:left-2 lg:bottom-2 text-white flex flex-row justify-start ml-4 md:ml-0 mt-4 w-full text-2xl md:text-2xl font-bold">
                     ₹{course.price}/-
                   </h1>
@@ -65,7 +60,9 @@ export const CourseInfo: React.FC<CourseInfoProps> = async ({ course }) => {
                   courseId={course.id!}
                 />
               )}
-              {!session && <Buttons />}
+              {!session && (
+                <Buttons session={session} user={user} courseId={course.id!} />
+              )}
             </div>
           </div>
 
