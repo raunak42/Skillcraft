@@ -1,5 +1,4 @@
 import { withNextVideo } from "next-video/process";
-import withPlaiceholder from "@plaiceholder/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -25,4 +24,4 @@ const nextConfig = {
   },
 };
 
-export default withPlaiceholder(withNextVideo(nextConfig));
+export default withNextVideo(nextConfig);
