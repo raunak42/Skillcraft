@@ -9,6 +9,7 @@ yarn install
 yarn cache clean #every time "yarn install" runs, it builds up cache.
 sudo yarn build
 sudo pm2 kill
+pm2 kill #to kill the stipe listener before restarting. It was not started by sudo, hence cannot be killed by sudo.
 bash ~/Skillcraft/stripe_login.sh #This one does not work with sudo.
 sudo pm2 start yarn --name skillcraft -- start #sudo pm2 logs for logs
 cd ~/Skillcraft/apps/skillcraft-user
