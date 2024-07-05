@@ -2,6 +2,8 @@
 
 [Skillcraft](https://skillcraft.raunak42.in) is an online platform for publishing, selling and buying of online courses of all kinds.
 
+![Uploading Screenshot from 2024-07-04 14-14-15.png…]()
+
 ## Why I built it?
 
 I built Skillcraft purely for demonstative purposes, and to put my skills to the test. And it came out really good, this is the project that made me realize the power of learning by building. 
