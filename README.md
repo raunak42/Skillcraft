@@ -2,7 +2,7 @@
 
 [Skillcraft](https://skillcraft.raunak42.in) is an online platform for publishing, selling and buying of online courses of all kinds.
 
-![Uploading Screenshot from 2024-07-04 14-14-15.png…]()
+https://github.com/raunak42/Skillcraft/assets/112076541/584e28f1-cc60-4f52-b9f4-0989ad91122e
 
 ## Why I built it?
 
