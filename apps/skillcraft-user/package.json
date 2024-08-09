@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - && (next dev --port 3000 --hostname 0.0.0.0",
+    "dev": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - && next dev --port 3000 --hostname 0.0.0.0",
     "build": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - &&  next build",
     "start": "cd ../../packages/db/ && npx prisma generate --no-engine && cd - && next start --port 3000 --hostname 0.0.0.0",
     "start-stripe-listener": "stripe listen --forward-to https://skillcraft.raunak42.in/api/webhook",
