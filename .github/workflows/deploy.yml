@@ -1,15 +1,16 @@
 name: Deploy
 
-on:
-  push:
-    paths:
-      - "apps/**"
-      - "packages/**"
-      - "deploy.sh"
-      - "stripe_login.sh"
-      - ".github/**"
-    branches:
-      - main
+on: workflow_dispatch
+  # push:
+  #   paths:
+  #     - "apps/**"
+  #     - "packages/**"
+  #     - "deploy.sh"
+  #     - "stripe_login.sh"
+  #     - ".github/**"
+  #   branches:
+  #     - main
+    
 
 jobs:
   deploy:
